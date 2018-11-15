@@ -14,7 +14,7 @@ Below are some useful debugging tips:
 <br/>      
 <div style="text-align:center"><img src ="tips/ErrorStopPreviousConfig_Enlarged.png" width="400"/></div>
 <br/>
-Don't worry you just have to stop the previously made "Debug session" as the driver cannot access twice the target board. (Same error as if the board was disconnected or not well powered). Press the "Stop" or the "Disconnect" button as presented below.
+Don't worry you just have to stop the previously made "Debug session" as the driver cannot access twice the target board. (Same error as if the board was disconnected or not well powered). Press the "Stop" or the "Disconnect" button as shown below.
 <br/>      
 <div style="text-align:center"><img src ="tips/StopPreviousConfig.png" width="600"/></div>
 <br/>
@@ -27,7 +27,7 @@ And then you can proceed to deleting the old file and creating a new session.
 <div style="text-align:center"><img src ="tips/Debug_config_old_name.png" width="600"/></div>
 <br/>
 Consequently, building the project after renaming the project and performing these steps will result in an ELF file with the new project!
-* You can double-click just to the left of a line number to create a breakpoint_ at a particular line. When running the program in "Debug" mode, the execution will stop at this line and you can resume using one of the buttons on the toolbar.
+* You can double-click just to the left of a line number to create a breakpoint at a particular line. When running the program in "Debug" mode, the execution will stop at this line and you can resume using one of the buttons on the toolbar.
 <br/>      
 <div style="text-align:center"><img src ="../../3/blinking_led/create_project/24_resume.png" width="600"/></div>
 <br/>

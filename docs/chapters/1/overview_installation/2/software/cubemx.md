@@ -8,19 +8,19 @@ The following steps are the same for Windows, Linux, and MacOS as they simply co
 
 1. Navigate to the ST [site for the STM32CubeMX software](https://www.st.com/en/development-tools/stm32cubemx.html).
 2. At the bottom of the page, you should find a link to download the software. Press the button "Get Software".  
-![Download link](cubemx/1_get_software.PNG)
+![Download link](cubemx/1_get_software.png)
 3. A License Agreement should pop up. In order to download the software, it is required to accept the agreement.
 4. If you have an ST account and are logged in, the software should download automatically. Otherwise, a pop-up will appear asking for you to make an account. You can make an account by pressing the  "Login/Register" button. However, this process will take you to another page and ask you to provide additional details such as "Function", "Company", "Industry", "Country", and "Zip/Postcode".
 <br/>  
 _Alternatively_, you can just enter "First name", "Last name", and "Email" in the pop-up (see below). Accept the "Sales Terms & Conditions", "Privacy Policy" and "Terms of Use" and press the "Download" button.   
 <br/> 
-<div style="text-align:center"><img src ="cubemx/2_make_account.PNG" width="600"/></div>
+<div style="text-align:center"><img src ="cubemx/2_make_account.png" width="600"/></div>
 <br/>
 5. You should then receive an email (see below) with a link to both validate your email address and start the download. The download should be a ZIP file with a title similar to `"en.stm32cubemx.zip"`. Place the file in a desired location and unzip it.   
 <br/>
-<div style="text-align:center"><img src ="cubemx/3_confirm_download.PNG" width="600"/></div>
+<div style="text-align:center"><img src ="cubemx/3_confirm_download.png" width="600"/></div>
 <br/>
-6. Open the file called `"Readme.html"`. It should list all supported OS' and architectures, software requirements, and brief installation instructions, which we will complement with screenshots! Proceed to the appropriate subsection for your OS:
+6. Open the file called `"Readme.html"`. It should list all supported operating systems (OS) and architectures, software requirements, and brief installation instructions, which we will complement with screenshots! You can now proceed to the appropriate subsection for your OS:
     * [Windows](#windows)
     * [Linux](#linux)
     * [MacOS](#macos)

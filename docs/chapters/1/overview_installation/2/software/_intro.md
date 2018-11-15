@@ -7,7 +7,7 @@ In the following sections, we walkthrough the installation of the two software t
 <div style="text-align:center"><img src ="cubemx.png" /></div>
 <center>Screenshot of CubeMX.</center>
 <br/>
-* [**System Workbench for STM 32 (SW4STM32)**](https://www.st.com/en/development-tools/sw4stm32.html): an Eclipse-based IDE for programming STM32 microcontrollers. See [here](sw4stm32.md) for installation instructions.
+* [**System Workbench for STM32 (SW4STM32)**](https://www.st.com/en/development-tools/sw4stm32.html): an Eclipse-based IDE for programming STM32 microcontrollers. See [here](sw4stm32.md) for installation instructions.
 
 <div style="text-align:center"><img src ="sw4stm32.png" /></div>
 <center>Screenshot of SW4STM32.</center>

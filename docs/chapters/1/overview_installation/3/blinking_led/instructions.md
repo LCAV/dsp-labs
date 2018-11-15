@@ -60,12 +60,12 @@ The project should then appear in the left-hand column of the workspace under "P
 <br/>
 
 From the "Project Explorer", open the file `"Src/main.c"`  (see below). Throughout the file, you should see comments that read `USER CODE BEGIN` and `USER CODE END`; _it is only between these comments that you should write your code!_ All other lines of code have been created by CubeMX according to the configuration we specified before. If you decide to adjust any configuration through CubeMX by editing the IOC file within the _copied_ project inside your workspace, it may modify anything outside of `USER CODE BEGIN` and `USER CODE END`, which is why all your code should be between these two lines.      
-<div style="text-align:center"><img src ="create_project/18_workspace.png"/></div>
+<div style="text-align:center"><img src ="create_project/18_workspace.PNG"/></div>
 <br/>
 
 ### Blinking LED
 
-We will now try to program and build a simple example - a blinking LED! Inside the infinite-while loop between the comments `USER CODE BEGIN WHILE` and `USER CODE END WHILE`, add the following lines:
+We will now program the board with a simple example - a blinking LED! Inside the infinite-while loop between the comments `USER CODE BEGIN WHILE` and `USER CODE END WHILE`, add the following lines:
 ```C
 /* Infinite loop */
 /* USER CODE BEGIN WHILE */
@@ -81,14 +81,14 @@ while (1) {
 ```
 `HAL_GPIO_TogglePin` and `HAL_Delay` are commands provided by ST for toggling a pin and delaying respectively. You can see a function/variable definition by pressing "Ctrl +"" clicking the function/variable ("Command" on MacOS).
 
-Moreover, the first command toggles the value of the pin corresponding to the LED at pin "LD2"; it turns the LED _on_ for one iteration of the while loop, _off_ for the next iteration, etc. In order to actually observe the LED blinking with the "naked" eye, we must set a delay between each toggle operation. This is what the second command does by placing a delay of 1 second, as the function `HAL_Delay` accepts delays in milliseconds.
+The first command toggles the value of the pin corresponding to the LED at pin "LD2"; it turns the LED _on_ for one iteration of the while loop, _off_ for the next iteration, etc. In order to actually observe the LED blinking with the "naked" eye, we must set a delay between each toggle operation. This is what the second command does by placing a delay of 1 second, as the function `HAL_Delay` accepts delays in milliseconds.
 
-"HAL" is short for "Hardware Abstraction layer" and it is a library provided by ST to help developers produce _portable_ code, i.e. code that can be used across the whole family of STM32 boards. For more information on HAL, check out [this document](https://www.st.com/content/ccc/resource/technical/document/user_manual/2f/77/25/0f/5c/38/48/80/DM00122015.pdf/files/DM00122015.pdf/jcr:content/translations/en.DM00122015.pdf).
+"HAL" is short for "Hardware Abstraction Layer" and it is a library provided by ST to help developers produce _portable_ code, i.e. code that can be used across the whole family of STM32 boards. For more information on HAL, check out [this document](https://www.st.com/content/ccc/resource/technical/document/user_manual/2f/77/25/0f/5c/38/48/80/DM00122015.pdf/files/DM00122015.pdf/jcr:content/translations/en.DM00122015.pdf).
 
 Before plugging in the board, let's try building the project. This can be done by pressing the _hammer_ icon on the top toolbar, or by using the shortcut "Ctrl + B" ("Command + B" on MacOS). Make sure you are building for "Debug" and for the correct project.
 
 In the figure below, we can see two signs of a successful build:
-1.  A "Binaries" folder was created as can be seen in the "Project Explorer" and it contains an ELF file corresponding to our project. It should have the same name as your project. If this does not appear, it may be necessary to refresh the project by right-clicking the project directory and selecting "Refresh" (or using the shortcut F5).
+1. A "Binaries" folder was created as can be seen in the "Project Explorer" and it contains an ELF file corresponding to our project. It should have the same name as your project. If this does not appear, it may be necessary to refresh the project by right-clicking the project directory and selecting "Refresh" (or using the shortcut F5).
 2. There are no errors in the "Console" pane.
 <br/>      
 <div style="text-align:center"><img src ="create_project/19_successful_build.PNG"/></div>
@@ -96,7 +96,7 @@ In the figure below, we can see two signs of a successful build:
 
 Now we can program the board! Plug the board to your computer using the USB Type-A to Mini-B cable. A couple LEDs of the board should light up as it is being powered by your computer. 
 
-Click on the arrow next to the _bug_ icon from the toolbar and select "Debug As / Ac6 STM32 C/C++ Application" (see below).      
+Click on the arrow next to the _bug_ icon from the toolbar and select "Debug As > Ac6 STM32 C/C++ Application" (see below).      
 <div style="text-align:center"><img src ="create_project/20_debug.png"/></div>
 <br/>
 
@@ -114,7 +114,7 @@ A view similar to below should then appear. This is the typical "Debug perspecti
 <div style="text-align:center"><img src ="create_project/24_resume.png"/></div>
 <br/>
 
-Your program should be momentarily paused as is the case in figure above at Line 90. You can continue the program by pressing the _Resume_ button as pointed out above.
+Your program should be momentarily paused as is the case in the figure above at Line 90. You can continue the program by pressing the _Resume_ button as pointed out above.
 
 You should now observe the "LD2" LED (see below) blinking!       
 <div style="text-align:center"><img src ="create_project/24_led_blinking.png" width="400"/></div>

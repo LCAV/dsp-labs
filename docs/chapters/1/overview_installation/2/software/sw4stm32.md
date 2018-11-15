@@ -12,12 +12,8 @@ The following steps are the same for Windows, Linux, and MacOS as they simply co
 <div style="text-align:center"><img src ="sw4stm32/1_get_software.PNG"/></div>
 <br/>
 3. You should be redirected to [this site](http://www.openstm32.org/HomePage). In order to download the software, you will have to make an account. We recommend doing so as it this will give you access to the documentation and to posting in the forum. You can use [this link](http://www.openstm32.org/tiki-register.php) to make an account. You should receive an email to confirm your account.
-4. After making an account, you should be able to access the installation instructions and download links. There are two ways you can install SW4STM32: from Eclipse (as the tool is Eclipse-based) or with the GUI installer.   
-<br> 
-We recommend using the installer as it is a much cleaner process.  The following instructions will assume this option; navigate to [this link](http://www.openstm32.org/Downloading%2Bthe%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Binstaller) for downloading the appropriate GUI installer for your OS (need to be logged in to see instructions). _Note: it is also recommended to download the MD5 or SHA256 checksum to validate the integrity of your download. We selected the MD5 checksum._    
-<br> 
-If you would like to install SW4STM32 from Eclipse, please refer to [this link](http://www.openstm32.org/Installing%2BSystem%2BWorkbench%2Bfor%2BSTM32) (need to be logged in to see instructions).
-5. Go to [this link](http://www.openstm32.org/Installing%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Bwith%2Binstaller) for system requirements and detailed download/installation instructions for each OS. The instructions at the above link are quite detailed but we will complement this with some screenshots of the process:
+4. After making an account, you should be able to access the installation instructions and download links. There are two ways you can install SW4STM32: from Eclipse (as the tool is Eclipse-based) or with the GUI installer. We recommend using the installer as it is a much cleaner process.  The following instructions will assume this option; navigate to [this link](http://www.openstm32.org/Downloading%2Bthe%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Binstaller) for downloading the appropriate GUI installer for your OS (you need to be logged in to see instructions). _Note: it is also recommended to download the MD5 or SHA256 checksum to validate the integrity of your download. We selected the MD5 checksum._ If you would like to install SW4STM32 from Eclipse, please refer to [this link](http://www.openstm32.org/Installing%2BSystem%2BWorkbench%2Bfor%2BSTM32) (you need to be logged in to see instructions).
+5. Go to [this link](http://www.openstm32.org/Installing%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Bwith%2Binstaller) for system requirements and detailed download/installation instructions for each OS (you need to be logged in to see instructions). The instructions at the above link are quite detailed but we will complement this with some screenshots of the process:
     * [Windows](#windows)
     * [Linux](#linux)
     * [MacOS](#macos)
@@ -51,7 +47,7 @@ _Note: the instructions were tested using Windows 10 Pro Insider Preview, Versio
 <br/>
 <div style="text-align:center"><img src ="sw4stm32/windows/8_driver_setup_complete.PNG" width="600"/></div>
 <br/>
-6. You can then proceed to the final pane of the installation by pressing "Next" in the original Installation Wizard (see below). Finally, press ``Done'' to finish the installation!    
+6. You can then proceed to the final pane of the installation by pressing "Next" in the original Installation Wizard (see below). Finally, press "Done" to finish the installation!    
 <br/>
 <div style="text-align:center"><img src ="sw4stm32/windows/9_finish_installation.PNG" width="600"/></div>
 <br/>
@@ -90,7 +86,7 @@ The ```ls -l``` command should then show something like:
 ```bash
 >> -rwxrwxr-x install_sw4stm32_linux_64bits-vX.X.run
 ```
-2. Before running the installation file, please read the warnings for Linux at the bottom of [this page](http://www.openstm32.org/Downloading%2Bthe%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Binstaller#Linux). You may have to install a few libraries; we installed `gksudo`, `libc6:i386`, and `lib32ncurses5` and used Java 1.8.0_151 during our installation.
+2. Before running the installation file, please read the warnings for Linux at the bottom of [this page](http://www.openstm32.org/Downloading%2Bthe%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Binstaller#Linux) (you need to be logged in). You may have to install a few libraries; we installed `gksudo`, `libc6:i386`, and `lib32ncurses5` and used Java 1.8.0_151 during our installation.
 3. You can then run the installation file as so:
 ```bash
 $ ./install_sw4stm32_linux_64bits-vX.X.run
@@ -115,7 +111,7 @@ The checksum file will be used to check the download integrity which may take so
 <br/>
 <div style="text-align:center"><img src ="sw4stm32/linux/11_close_installer.png" width="600"/></div>
 <br/>
-_Note: you may have to enter your computer password for certain "rules" to be added to `"/etc/udev/rules.d"` during the installation (see below).    
+_Note: you may have to enter your computer password for certain "rules" to be added to `"/etc/udev/rules.d"` during the installation (see below)._    
 <br/>
 <div style="text-align:center"><img src ="sw4stm32/linux/10_enter_pwd_rules.png" width="600"/></div>
 <br/>
@@ -124,7 +120,7 @@ _Note: you may have to enter your computer password for certain "rules" to be ad
 $ ./eclipse
 ```
 The application is called `"eclipse"` since the software is based off of Eclipse.
-8. You will be prompted to select a workspace (see below); we recommend creating a workspace called ``COM303-Workspace'' for the exercises we will be doing.    
+8. You will be prompted to select a workspace (see below); we recommend creating a workspace called "COM303-Workspace" for the exercises we will be doing.    
 <br/>
 <div style="text-align:center"><img src ="sw4stm32/linux/12_select_workspace_1.png" width="600"/></div>
 <br/>
@@ -140,7 +136,7 @@ You can now proceed to creating [your first project](../../3/blinking_led/instru
 
 _Note: the instructions were tested using MacOS Sierra, Version 10.12.6 on February 7, 2018. There is also a requirement for (at least) Xcode 7; we tested with Xcode 8.3.3._
 
-If you face any complications, please refer to the [official instructions](http://www.openstm32.org/Installing%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Bwith%2Binstaller) (MacOS installation instructions are at the bottom) and/or to the forums. Below we provide the instructions that worked for our system setup. 
+If you face any complications, please refer to the [official instructions](http://www.openstm32.org/Installing%2BSystem%2BWorkbench%2Bfor%2BSTM32%2Bwith%2Binstaller) (MacOS installation instructions are at the bottom) and/or to the forums (you need to be logged in to see the instructions). Below we provide the instructions that worked for our system setup. 
 
 1. From a terminal, navigate to the directory where the downloaded RUN and checksum files are located. Check the permissions with the following command:
 ```bash
