@@ -90,6 +90,7 @@ Before plugging in the board, let's try building the project. This can be done b
 In the figure below, we can see two signs of a successful build:
 * A "Binaries" folder was created as can be seen in the "Project Explorer" and it contains an ELF file corresponding to our project. It should have the same name as your project. If this does not appear, it may be necessary to refresh the project by right-clicking the project directory and selecting "Refresh" (or using the shortcut F5).
 * There are no errors in the "Console" pane.
+
 <br/>      
 <div style="text-align:center"><img src ="create_project/19_successful_build.PNG"/></div>
 <br/>
