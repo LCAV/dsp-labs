@@ -11,9 +11,9 @@ Both the microphone and the DAC will rely on the I2S (Inter-IC Sound) bus specif
 
 The board we will be using comes from the STM32 Nucleo-64 family. In particular, we will be using the STM32 Nucleo-64 development board with the [STM32F072RB microcontroller unit](https://www.st.com/en/evaluation-tools/nucleo-f072rb.html). You can find more information about this family of boards by reading the [official documentation](https://www.st.com/content/ccc/resource/technical/document/data_brief/c8/3c/30/f7/d6/08/4a/26/DM00105918.pdf/files/DM00105918.pdf/jcr:content/translations/en.DM00105918.pdf).
 
-<br/>
 <figure>
 <div style="text-align:center"><img src ="figs/nucleo_board.jpg" /></div>
+<br/>
 <center><i>STM32 Nucleo development board. <a href="https://www.st.com/en/evaluation-tools/nucleo-f072rb.html" target="_blank">Picture source</a>.</i></center>
 </figure>
 

@@ -88,8 +88,8 @@ The first command toggles the value of the pin corresponding to the LED at pin "
 Before plugging in the board, let's try building the project. This can be done by pressing the _hammer_ icon on the top toolbar, or by using the shortcut "Ctrl + B" ("Command + B" on MacOS). Make sure you are building for "Debug" and for the correct project.
 
 In the figure below, we can see two signs of a successful build:
-1. A "Binaries" folder was created as can be seen in the "Project Explorer" and it contains an ELF file corresponding to our project. It should have the same name as your project. If this does not appear, it may be necessary to refresh the project by right-clicking the project directory and selecting "Refresh" (or using the shortcut F5).
-2. There are no errors in the "Console" pane.
+* A "Binaries" folder was created as can be seen in the "Project Explorer" and it contains an ELF file corresponding to our project. It should have the same name as your project. If this does not appear, it may be necessary to refresh the project by right-clicking the project directory and selecting "Refresh" (or using the shortcut F5).
+* There are no errors in the "Console" pane.
 <br/>      
 <div style="text-align:center"><img src ="create_project/19_successful_build.PNG"/></div>
 <br/>
