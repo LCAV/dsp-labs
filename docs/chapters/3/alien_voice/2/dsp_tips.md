@@ -94,7 +94,9 @@ plt.show()
 
 Below is the plot visualizing the samples from the lookup table for a modulation frequency of 400 Hz and a sampling frequency of 32 kHz.
 
+<br>
 <div style="text-align:center"><img src ="figs/sine_table.png" width="600"/></div>
+<br>
 
 ## <a id="state_var"></a>State variables
 
@@ -131,8 +133,9 @@ lead to *glitches* in the output audio, which have a very noticeable
 "clicking" sound.
 
 <div style="text-align:center"><img src ="figs/discontinuous_sine.png" width="600"/></div>
-<center><i>Discontinuous sinusoid estimate (blue, right-side up triangles) across consecutive buffers. For the new buffer, the discontinuous estimate simply starts at the beginning of the lookup table rather than continuing along the lookup table (green, upside-down triangles).</i></center>
 <br>
+
+_Figure: Discontinuous sinusoid estimate (blue, right-side up triangles) across consecutive buffers. For the new buffer, the discontinuous estimate simply starts at the beginning of the lookup table rather than continuing along the lookup table (green, upside-down triangles)._
 
 One solution would be to keep track of the number of buffers processed thus far so that we could multiply with the appropriate time index as such:
 
@@ -173,7 +176,7 @@ More about this tradeoff can be read [here](https://www.embedded.com/design/debu
 
 ## <a id="removing_dc"></a>Removing DC noise
 
-Up until now, we assumed that the signal from the microphone is centered around zero, i.e. that no signal corresponds to an amplitude of zero. However, this is not always the case! During audio capture, the internal circuitry in the microphone may add an offset, and sometimes different microphones will have different offsets. We typically call this shift in the waveform a [DC offset/noise/bias](https://en.wikipedia.org/wiki/DC_bias).
+Up until now, we assumed that the signal from the microphone is centered around zero, i.e. that no signal corresponds to an amplitude of zero. However, this is not always the case! During audio capture, the internal circuitry in the microphone may add an offset, and sometimes different microphones (of the same manufacturer) will have different offsets. We typically call this shift in the waveform a [DC offset/noise/bias](https://en.wikipedia.org/wiki/DC_bias).
 
 For our alien voice effect, a DC offset would result in a constant sinusoid (at our modulation frequency) present in the output signal. This is easy to see by adding the DC offset to the signal we saw [before](../1/effect_description.md#effect_eq):
 
@@ -212,22 +215,25 @@ $$
 From such an expression, we can create the standard [pole-zero plot](https://en.wikipedia.org/wiki/Pole%E2%80%93zero_plot) as seen below. With such a plot, we can extract a lot of useful information, such as stability and causality. 
 
 <div style="text-align:center"><img src ="figs/zplot_high_pass.png" width="600"/></div>
-<center><i>Pole-zero plot of our simple high pass filter. Thanks to <a href="https://www.dsprelated.com/showcode/244.php" target="_blank">this software</a> for the visualization function.</i></center>
 <br>
+
+_Figure: Pole-zero plot of our simple high pass filter. Thanks to_ <a href="https://www.dsprelated.com/showcode/244.php" target="_blank">this software</a> _for the visualization function._
 
 For certain system, we can also compute the Fourier Transform, which may be more intuitive to understand. For our simple high pass filter, the frequency response is shown below.    
 
 <div style="text-align:center"><img src ="figs/freq_resp_high_pass.png" width="600"/></div>
-<center><i>Frequency response of our simple high pass filter.</i></center>
 <br>
+
+_Figure: Frequency response of our simple high pass filter._
 
 In addition to its simplicity, another good property of this filter is that it has <a href="https://en.wikipedia.org/wiki/Linear_phase" target="_blank">linear phase</a>, which means that each frequency will be delayed by the same amount of time.
 
 It is actually more common to plot the frequency response with the x-axis (frequency) in log scale, as shown below.    
 
 <div style="text-align:center"><img src ="figs/freq_resp_high_pass_log.png" width="600"/></div>
-<center><i>Frequency response of our simple high pass filter (log scale).</i></center>
 <br>
+
+_Figure: Frequency response of our simple high pass filter (log scale)._
 
 With this perspective, we get a better idea of the [filter slope/roll-off](https://en.wikipedia.org/wiki/Roll-off). In this case we have a roll-off of 18 dB/decade, where a decade is 10x increase in frequency. In audio, it is sometime preferred to specify the roll-off in dB/octave, where an octave is 2x increase in frequency. Our simple high pass filter has a roll-off of 5.4 db/octave. See [here](http://www.audiomasterclass.com/newsletter/should-the-slope-of-your-filter-be-6-12-18-or-24-db-per-octave) for a discussion on audio roll-off values.
 

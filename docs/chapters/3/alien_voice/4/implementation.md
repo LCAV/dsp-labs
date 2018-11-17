@@ -1,6 +1,6 @@
 # 3.4 C Implementation with STM32
 
-Assuming you have successfully implemented a passthrough in the previous guide, we can simply copy and paste this project from within the SW4STM32 software. After pasting it, a pop-up will ask to give a name to the copied project. We recommend choosing a name with the current date and `"alien_voice"` in it. Remember to delete the binary (ELF) file of the original project inside the copied project!
+Assuming you have successfully implemented a passthrough in the previous guide, we can simply copy and paste this project from within the SW4STM32 software. After pasting it, a pop-up will ask to give a name to the copied project. We recommend choosing a name with the current date and `"alien_voice"` in it. Remember to delete the binary (ELF) file of the original project inside the copied project.
 
 ## <a id="timer"></a>Setting up timer for benchmarking
 
@@ -9,8 +9,10 @@ Open the CubeMX software to update the initialization code by opening the IOC fi
 For this exercise, we will only need to add the configuration of a _timer_ (to benchmark our implementation) as the rest of the system is already up and running. In order to activate a timer, you need to set a "Clock Source". This is done from the "Pinout" tab on the left-hand column as shown below:
 
 <div style="text-align:center"><img src ="figs/Activate_the_clock_for_TIM2.png" width="400"/></div>
-<center><i>Set the "Clock Source" to "Internal Clock" in order to enable "TIM2".</i></center>
 <br>
+
+_Figure: Set the "Clock Source" to "Internal Clock" in order to enable "TIM2"._
+
 
 Next, we need to configure the timer from the "Configuration" tab by pressing "TIM2" under "Control" (see below).
 
@@ -113,12 +115,14 @@ _Note: keep in mind the points made about using `float` or `int` variables (see 
 {% endhint %}
 
 You will notice that we used a `printf` function in order to output text on the debug console. To enable this function you need to make the following changes to your project:
-* In the Project Properties ("right-click" project > Properties), navigate to "C/C++ Build -> Settings" on the left-hand side (see the figure below). Under "MCU GCC Linker -> Miscellaneous", update the "Linker flags" field with:
+* In the Project Properties ("right-click" project > Properties), navigate to "C/C++ Build > Settings" on the left-hand side (see the figure below). Under "MCU GCC Linker -> Miscellaneous", update the "Linker flags" field with:
 ```
 -specs=nosys.specs -specs=nano.specs -specs=rdimon.specs -lc -lrdimon
 ```
+
 <div style="text-align:center"><img src ="figs/proj_prop.png"/></div>
 <br>
+
 * Add the following function prototype above the `main` function (e.g. between the `USER CODE BEGIN PFP` and `USER CODE END PFP` comments):
 ```C
 extern void initialise_monitor_handles(void);
@@ -259,5 +263,5 @@ for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
 
 Finally, you can try changing the modulation frequency and creating your lookup tables by running [this Python code](../2/dsp_tips.md#lookup_python) for modified values of `f_sine`.
 
-** Congrats implementing your (potentially) first voice effect! In the [next chapter](../../../4/granular_synthesis/_intro.md), we will build a more sophisticated voice effect that can alter the pitch so that you sound like a chipmunk or Darth Vader.**
+**Congrats on implementing your (perhaps) first voice effect! In the [next chapter](../../../4/granular_synthesis/_intro.md), we will build a more sophisticated voice effect that can alter the pitch so that you sound like a chipmunk or Darth Vader.**
 

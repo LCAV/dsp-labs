@@ -2,16 +2,10 @@
 
 The initialization code we generated in the [blinking LED example](../../../1/overview_installation/3/blinking_led/instructions.md) will need to be updated as it does not perform the setup for the two I2S buses we will need for the microphone and the DAC.
 
-***But first***, we will make a copy of our stable project. We want to
-keep tracks of old projects in order to go back when something is not
-working anymore. In order to do this, from the "Project Explorer" of the
-SW4STM32 software, copy and paste the blinking LED project from . When you paste it, a pop-up will ask you the name of
-the copied project. We recommend choosing a name with the current date
-and "passthrough" in it. To finish the copying process, make sure that
-the binary file of the original project is removed by deleting the file:
+***But first***, we will make a copy of our stable project. We want to keep tracks of old projects in order to go back when something is not working anymore. In order to do this, from the "Project Explorer" of the SW4STM32 software, copy and paste the blinking LED project that we made in the previous chapter. When you paste it, a pop-up will ask you the name of the copied project. We recommend choosing a name with the current date and "passthrough" in it. To finish the copying process, make sure that the binary file of the original project is removed by deleting the file:
 `"NewProjectName/Binaries/OldProjectName.elf"`.
 
-Now we are ready to update the initialization code! From the CubeMX
+Now we are ready to update the initialization code. From the CubeMX
 software, load the IOC file of the new copied project (which should be
 in your **SW4STM32 workspace**). This can be done by going to "File \>
 Load Project" on the toolbar, navigating to the appropriate project, and
@@ -25,9 +19,10 @@ When the IOC file has successfully loaded, you should see something similar to t
 <br>
 
 You should see several pins highlighted green. What we have done is enable two I2S buses (for the microphone and the DAC), and the highlighted pins are those that will be used to transmit with the I2S protocol. Each bus uses three pins according to the [I2S specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf):
-1.  Clock (CK).
-2.  Word select (WS).
-3.  Serial data (SD).
+
+1. Clock (CK).
+2. Word select (WS).
+3. Serial data (SD).
 
 Click on the "Configuration" tab where we will adjust the I2S and
 DMA settings. DMA ([direct memory access](https://en.wikipedia.org/wiki/Direct_memory_access)) is a feature of microcontrollers that allows certain hardware subsystems to access the main system memory independent of the CPU. This allows the CPU to worry about other tasks (such as processing the audio) while transferring data in and out of the memory can be handled by other systems.

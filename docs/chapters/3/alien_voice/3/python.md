@@ -1,6 +1,6 @@
 # 3.3 Real-time implementation with Python
 
-In the process of implementing an algorithm on an embedded system, it is sometimes worth testing it in a workspace with less constraints than on the final environment. Here we propose a Python framework that will help in this prototype/debugging state for the alien voice effect (and for future applications). In the [next chapter](../4/implementation.md) we will implement it on the STM32 board and set up a timer to benchmark our implementation.
+In the process of implementing an algorithm on an embedded system, it is sometimes worth testing it in a workspace with less constraints than on the final environment. Here we propose a Python framework that will help in this prototype/debugging state for the alien voice effect (and for future applications). In the [next section](../4/implementation.md) we will implement it on the STM32 board and set up a timer to benchmark our implementation.
 
 The whole idea of this framework is to code in the same way as it will be done in C. It probably means that the implementation will be very cumbersome in Python but very easy to port to C in the final stage. One big obstacle is to think in a block-based manner, as if buffers were filled and processed one after the other in real-time. The other obstacle of porting the code from Python to C is the definition of variables and to manage their sizes.
 
@@ -84,7 +84,7 @@ import numpy as np
 ```Python
 buffer_len = 256
 ```
-* **Test signal**: Here we load a WAV test signal with the [`scipy.io.wavfile.read`](https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.io.wavfile.read.html) function. We will parse the test signal one block at a time (according to `buffer_len`) in order to simulate a real-time operation.
+* **Test signal**: Here we load a WAV test signal with the [`scipy.io.wavfile.read`](https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.io.wavfile.read.html) function. We will parse the test signal one block at a time (according to `buffer_len`) in order to simulate a real-time operation. You can download a sample speech file [here](https://github.com/LCAV/dsp-labs/blob/fix_image_rendering/scripts/_templates/speech.wav).
 ```Python
 input_wav = "speech.wav"
 samp_freq, signal = wavfile.read(input_wav)
@@ -92,14 +92,14 @@ signal = signal[:,]  # get first channel
 n_buffers = len(signal)//buffer_len
 data_type = signal.dtype
 ```
-* **Allocation**: We do this to fix the length of our buffer, as needs to be done in C.
+* **Allocation**: We do this to fix the length of our buffer, as needs to be done in C. Note that we use the data type of the speech file; we try to use files that are 16-bit or 32-bit PCM.
 ```Python
 input_buffer = np.zeros(buffer_len, dtype=data_type)
 output_buffer = np.zeros(buffer_len, dtype=data_type)
 ```
 * **State variables**: The `init` function initializes all variables and should build all necessary lookup tables. We need the `global` definition for those variables used in other functions.
 * **`process` function**: This is the heart of the block-based processing. Please note that every time a global variable is touched in a function, you will need to define it as `global` otherwise it will use a local clone. Note that we process **_one sample at a time_** to replicate how we would have to code our STM32 board in C!
-* **Simulate block processing**: This last part slices the test signal into buffers, then calls the `process` function one buffer at a time. Finally, the modified output is written to a new WAV file.
+* **Simulate block processing**: This last part (after `Nothing to touch after this!`) slices the test signal into buffers, then calls the `process` function one buffer at a time. Finally, the modified output is written to a new WAV file.
 
 
 ## Alien voice effect
@@ -109,8 +109,16 @@ TASK 2: Copy the above script into an empty file called `"alien_voice_effect.py"
 {% endhint %}
 
 ```Python
-# define necessary utility functions
-def build_sine_table(f_sine, samp_freq, data_type):
+def build_sine_table(f_sine, samp_freq, data_type=16):
+    """
+    :param f_sine: Modulate frequency for voice effect in Hz.
+    :param samp_freq: Sampling frequency in Hz
+    :param data_type: Data type of sinusoid table. Must be either uint16 (default) or uint32.
+    :return:
+    """
+
+    if data_type!=16 and data_type!=32:
+        data_type = 16
 
     # periods
     samp_per = 1./samp_freq
@@ -122,8 +130,7 @@ def build_sine_table(f_sine, samp_freq, data_type):
     n_vals = np.arange(LOOKUP_SIZE)
 
     # compute the sine table
-    data_type = 16    # 16 or 32 signed integer
-    MAX_SINE = 2**(data_type-1)-1   # [-(2*data_type-1), 2**(data_type-1)]
+    MAX_SINE = 2**(data_type-1)-1
     w_mod = 2*np.pi*f_sine/samp_freq
     SINE_TABLE = np.sin(w_mod*n_vals) * MAX_SINE
 
@@ -136,10 +143,6 @@ In the above code, we can observe this use of the full range when creating the s
 ```Python
 SINE_TABLE = np.sin(w_mod*n_vals) * MAX_SINE
 ```
-<!-- and the modulation step maintains the precision while keeping the range of our sinus table from 0 to 1.
-```Python
-output_buffer[n] = output_buffer[n]*SINE_TABLE[sine_pointer] / MAX_SINE * GAIN
-``` -->
 
 {% hint style='working' %}
 TASK 3: Add the following code within the `init` function.
@@ -160,7 +163,7 @@ def init():
     sine_pointer = 0
 
     # compute SINE TABLE
-    vals = build_sine_table(f_sine, samp_freq, data_type)
+    vals = build_sine_table(f_sine, samp_freq, data_type=16)
     SINE_TABLE = vals[0]
     MAX_SINE = vals[1]
     LOOKUP_SIZE = vals[2]
@@ -198,7 +201,7 @@ You can test your implementation by running your script with the following line 
 ```Bash
 python alien_voice_effect.py
 ```
-Make sure that you have a WAV file called `"speech.wav"` in the same directory! Your alien voice effect will be applied to this file and saved into a (possibly new) file called `"speech_mod.wav"`.
+Make sure that you have a WAV file called `"speech.wav"` in the same directory! Your alien voice effect will be applied to this file and saved into a file called `"speech_mod.wav"` if it runs without error.
 
 When the output file sounds as expected (see/listen [here](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb#1---The-%22Robot-Voice%22) to verify with the robot voice effect), you can move on to implementing the effect on the STM32 board!
 

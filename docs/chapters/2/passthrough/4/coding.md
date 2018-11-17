@@ -1,11 +1,7 @@
 # 2.4 Coding the passthrough
 
 In this section, we will guide you through programming the
-microcontroller in order to implement the *passthrough*! In the previous
-section, you should have copied the blinking LED project before updating the
-IOC file with CubeMX. From the SW4STM32
-software, open the file `"Src/main.c"` in the new project; we will be
-making all of our modifications here.
+microcontroller in order to implement the passthrough! In the previous section, you should have copied the blinking LED project before updating the IOC file with CubeMX. From the SW4STM32 software, open the file `"Src/main.c"` in the new project; we will be making all of our modifications here.
 
 ## <a id="mute_macro"></a>Muting the DAC
 
@@ -41,10 +37,9 @@ meaningful names to pins configured with the CubeMX tool.
 If you press "Ctrl" ("Command" on MacOS) + click on `MUTE_GPIO_Port` or
 `MUTE_Pin` to see its definition, you should see how the values are
 defined according to the pin we selected for **MUTE**. In our case, we chose pin **PC0**
-which means that the *Pin 0* on the *GPIO C* port will be used. The
+which means that *Pin 0* on the *GPIO C* port will be used. The
 convenience of the CubeMX software is that we do not need to manually
-write these definitions for the constants! The same can be observed for
-the **LR_SEL**.
+write these definitions for the constants! The same can be observed for **LR_SEL**.
 
 ## <a id="channel_macro"></a> Setting microphone as _left_ or _right_ channel
 
@@ -106,7 +101,7 @@ might still be processing. The I2S peripheral of our microcontroller has
 the nice feature of sending *interruptions* at two critical state of its
 operation. The first is simply when the buffer is full. However they
 added a second interruption for when the buffer is half full. More on
-this is explained [below](#dma). 
+this is explained [below](#dma) in the "DMA callback functions" section. 
 
 In this way we will use an
 array that is *twice* the size of our application's buffer, i.e. the
@@ -151,20 +146,15 @@ void process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t size);
 ```
 
 Our `process` function will take as input:
-1.  Two pointers: one to the input buffer to process and one to the
-    output buffer to place the processed samples.
-2.  The number of samples to read/write.
+
+1. Two pointers: one to the input buffer to process and one to the output buffer to place the processed samples.
+2. The number of samples to read/write.
 
 #### <a id="dma"></a>DMA callback functions
 
-As previously mentioned, the STM32 board uses DMA (direct memory access)
-to offload the main chip from the tasks of transferring data in and out
-of memory. This is incredibly important for audio as we will have very
-frequent transfer from the I2S data line of the microphone to memory and
-from memory to the I2S data line of the DAC. With DMA, our main chip can
-focus on processing the audio!
+As previously mentioned, the STM32 board uses DMA (direct memory access) to offload the main chip from the tasks of transferring data in and out of memory. This is incredibly important for audio as we will have very frequent transfer from the I2S data line of the microphone to memory and from memory to the I2S data line of the DAC. With DMA, our main chip can focus on processing the audio!
 
-The HAL family of instructions allows us the define [callback functions](https://www.reddit.com/r/DSP/comments/53t2k3/whats_an_audio_callback_function/). In these functions we will take care of processing the audio! Add the following function definitions for the callbacks we will be using:
+The HAL family of instructions allows us the define [callback functions](https://www.reddit.com/r/DSP/comments/53t2k3/whats_an_audio_callback_function/). In these functions we will take care of processing the audio. Add the following function definitions for the callbacks we will be using:
 
 ```C
 void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
@@ -187,7 +177,7 @@ instead we will use our `process` function before transmitting, i.e.
 sending the data to the DAC. It is a way of synchronizing the input and
 the output peripheral. We can see here that if the `process` function is
 too long, the buffer will not be ready in time for the next callback and
-there will be audio losses. In the next guide, we will introduce a
+there will be audio losses. In the next chapter, we will introduce a
 mechanism to monitor this.
 
 You can read more about the HAL functions for DMA Input/Output for the
@@ -224,7 +214,7 @@ add his own code by customization of function pointer HAL_I2S_ErrorCallback
 
 Between the `USER CODE BEGIN 4` and `USER CODE END 4`
 comments, we will define our function `process` which will implement a
-simple passthrough!
+simple passthrough.
 
 ```C
 void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t size) {
@@ -293,4 +283,4 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t 
 }
 ```
 
-** Congrats on completeting the passthrough! This project will serve as an extremely useful starting point for the following (more interesting) applications. The first one we will build is an [_alien voice effect_](../../../3/alien_voice/_intro.md).**
+**Congrats on completeting the passthrough! This project will serve as an extremely useful starting point for the following (more interesting) applications. The first one we will build is an [_alien voice effect_](../../../3/alien_voice/_intro.md).**

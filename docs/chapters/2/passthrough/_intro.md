@@ -10,8 +10,10 @@ Highlighted boxes, as shown below, specify a task for **_you_** to determine the
 TASK: This is a task for you!
 {% endhint %}
 
-A passthrough is a great _sanity check_ when first beginning with an audio DSP system. Moreover, it serves as a useful starting point for new projects as we will see in the following chapters when we develop more complicated and more interesting programs!
+A passthrough is a great _sanity check_ when first beginning with an audio DSP system. Moreover, it serves as a useful starting point for new projects as we will see in the following chapters when we develop more complicated programs!
 
-<br/>
+<br>
 <div style="text-align:center"><img src ="final_wiring.jpg" width="600" /></div>
-<center><i>Final wiring.</i></center>
+<br>
+
+_Figure: Final wiring._

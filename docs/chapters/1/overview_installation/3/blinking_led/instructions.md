@@ -4,10 +4,13 @@ _Note: the following instructions and images were produced on February 9, 2018 u
 
 ## <a id="init_code"></a>Code generation with CubeMX
 
- Open STM32CubeMX; we will be using this graphical software to generate the initialization code for our board and its peripherals. Select "New Project" This may prompt a download as the software packages for certain boards may have available updates.    
+ Open STM32CubeMX; we will be using this graphical software to generate the initialization code for our board and its peripherals. Select "New Project" This may prompt a download as the software packages for certain boards may have available updates.   
+
+<br> 
 <div style="text-align:center"><img src ="create_project/0_opening.PNG"/></div>
-<center><i>CubeMX opening page.</i></center>
-<br/>
+<br>
+
+_Figure: CubeMX opening page._ 
 
 ### Board selection
 
@@ -119,8 +122,9 @@ Your program should be momentarily paused as is the case in the figure above at 
 
 You should now observe the "LD2" LED (see below) blinking!       
 <div style="text-align:center"><img src ="create_project/24_led_blinking.png" width="400"/></div>
-<center><i>Top view of a NUCLEO-XXXXRX board. Red arrow pointing out approximate location of "LD2" LED. <a href="https://www.st.com/content/ccc/resource/technical/document/data_brief/c8/3c/30/f7/d6/08/4a/26/DM00105918.pdf/files/DM00105918.pdf/jcr:content/translations/en.DM00105918.pdf" target="_blank">Picture source</a>.</i></center>
-<br/>
+<br>
+
+_Figure: Top view of a NUCLEO-XXXXRX board. Red arrow pointing out approximate location of "LD2" LED._ <a href="https://www.st.com/content/ccc/resource/technical/document/data_brief/c8/3c/30/f7/d6/08/4a/26/DM00105918.pdf/files/DM00105918.pdf/jcr:content/translations/en.DM00105918.pdf" target="_blank">Picture source</a>.
 
 
 ### Terminating program
@@ -131,6 +135,6 @@ In order to properly stop the program, it is also necessary to disconnect from t
 
 Finally, you can switch back to the "normal" perspective by pressing the button to the left of the _bug_ icon in the top-right corner (see below).       
 <div style="text-align:center"><img src ="create_project/26_switch_perspective_1.png"/></div>
-<br/>
+<br>
 
 **That's it for this introductory chapter! In the next chapter, we will dive into audio DSP by putting together a [_passthrough_](../../../../2/passthrough/_intro.md), the "hello world" equivalent of audio.**

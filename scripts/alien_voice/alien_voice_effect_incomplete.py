@@ -7,7 +7,16 @@ You need to complete the process function.
 from scipy.io import wavfile
 import numpy as np
 
-def build_sine_table(f_sine, samp_freq, data_type):
+def build_sine_table(f_sine, samp_freq, data_type=16):
+    """
+    :param f_sine: Modulate frequency for voice effect in Hz.
+    :param samp_freq: Sampling frequency in Hz
+    :param data_type: Data type of sinusoid table. Must be either uint16 (default) or uint32.
+    :return:
+    """
+
+    if data_type!=16 and data_type!=32:
+        data_type = 16
 
     # periods
     samp_per = 1./samp_freq
@@ -19,8 +28,7 @@ def build_sine_table(f_sine, samp_freq, data_type):
     n_vals = np.arange(LOOKUP_SIZE)
 
     # compute the sine table
-    data_type = 16    # 16 or 32 signed integer
-    MAX_SINE = 2**(data_type-1)-1   # [-(2*data_type-1), 2**(data_type-1)]
+    MAX_SINE = 2**(data_type-1)-1
     w_mod = 2*np.pi*f_sine/samp_freq
     SINE_TABLE = np.sin(w_mod*n_vals) * MAX_SINE
 
@@ -59,7 +67,7 @@ def init():
     sine_pointer = 0
 
     # compute SINE TABLE
-    vals = build_sine_table(f_sine, samp_freq, data_type)
+    vals = build_sine_table(f_sine, samp_freq, data_type=16)
     SINE_TABLE = vals[0]
     MAX_SINE = vals[1]
     LOOKUP_SIZE = vals[2]

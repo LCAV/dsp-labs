@@ -11,7 +11,9 @@ on the "Pinout" tab of our CubeMX project (further below).
 
 <div style="text-align:center"><img src ="stm32f072_extensions.png" width="600"/></div>
 <br>
+
 <div style="text-align:center"><img src ="pinout_tab.png" width="600"/></div>
+<br>
 
 ## <a id="microphone"></a>Adafruit I2S MEMS Microphone Breakout
 
@@ -46,13 +48,13 @@ side of the arrow):
 {% hint style='working' %}
 TASK 5: From the "Pinout" configuration on CubeMX, determine which pins of the STM32 board are used by I2S2. Using the card provided with the board (see PDF figure above), use the connector cables to wire the pins from the STM32 board to the appropriate pins on the microphone breakout board.
 
-*Hint: for example, from the "Pinout" tab we can see that **I2S2_SD** is outputted on pin **PC3**. From the card provided with the board, we see **PC3** is located in the bottom left corner of the board's pin header extensions. Therefore, we will use a wire to connect this pin to the **DOUT** pin of the microphone breakout board.
+_Hint: for example, from the "Pinout" tab we can see that **I2S2_SD** is outputted on pin **PC3**. From the card provided with the board, we see **PC3** is located in the bottom left corner of the board's pin header extensions. Therefore, we will use a wire to connect this pin to the **DOUT** pin of the microphone breakout board._
 {% endhint %}
 
 Finally, we configured an additional GPIO pin in order to select whether we would like the microphone to be assigned to the left or right channel.
 
 {% hint style='working' %}
-TASK 6; Connect the microphone's **SEL** pin to the pin on the STM32 board corresponding to **LR_SEL**.
+TASK 6: Connect the microphone's **SEL** pin to the pin on the STM32 board corresponding to **LR_SEL**.
 
 BONUS: do we have to connect the microphone's **SEL** pin for the passthrough to work? What would happen if we didn't?
 {% endhint %}

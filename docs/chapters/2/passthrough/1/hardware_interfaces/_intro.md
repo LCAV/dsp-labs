@@ -1,6 +1,7 @@
 # 2.1 Hardware interfaces
 
-Both the microphone and the DAC will rely on the I2S (Inter-IC Sound) bus specification for audio transfer. This is a 3-line serial bus consisting of:
+The microphone and DAC components we will be using rely on the I2S (Inter-IC Sound) bus specification for audio transfer. This is a 3-line serial bus consisting of:
+
 1. A **data** line for two time-multiplexed channels (usually denoted as _left_ and _right_).
 2. A **word select** line for indicating which of the two channels is being transmitted/received.
 3. A **clock** line for which each period will correspond to a unique bit of data.
