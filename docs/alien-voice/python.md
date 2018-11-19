@@ -214,7 +214,7 @@ python alien_voice_effect.py
 
 Make sure that you have a WAV file called `"speech.wav"` in the same directory! Your alien voice effect will be applied to this file and saved into a file called `"speech_mod.wav"` if it runs without error.
 
-When the output file sounds as expected \(see/listen [here](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb#1---The-"Robot-Voice") to verify with the robot voice effect\), you can move on to implementing the effect on the STM32 board!
+When the output file sounds as expected - see/listen [here](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb#1---The-"Robot-Voice") to verify with the robot voice effect - you can move on to implementing the effect on the STM32 board!
 
 {% hint style="info" %}
 BONUS: Implement the alien voice effect in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io) library.

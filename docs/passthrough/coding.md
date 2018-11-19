@@ -45,17 +45,9 @@ The following code should be placed between the `USER CODE BEGIN PV` and `USER C
 
 We will now define a few constants which will be useful in coding our application. Before defining them in our code, let's clarify some of the terminology we will be using:
 
-1. _Sample_: A single sample represents the value of a **single** 
-channel at a certain point in time.
+1. _Sample_: A single sample represents the value of a **single** channel at a certain point in time.
 2. _Frame_: A frame consists of exactly one sample per channel.
-3. _Buffer length_: This is a key parameter that often needs to be 
-tuned to one's application. DSP applications are typically performed 
-on multiple frames; this collection of frames is called a _buffer_. 
-A large buffer length \(the number of frames\) allows one to apply 
-more complex processing \(e.g. better frequency resolution by 
-applying a larger FFT\). However, a large buffer length comes with 
-the cost of more _latency_ as we need to wait for more samples for 
-each channel before we can begin processing.
+3. _Buffer length_: This is a key parameter that often needs to be tuned to one's application. DSP applications are typically performed on multiple frames; this collection of frames is called a _buffer_. A large buffer length \(the number of frames\) allows one to apply more complex processing \(e.g. better frequency resolution by applying a larger FFT\). However, a large buffer length comes with the cost of more _latency_ as we need to wait for more samples for each channel before we can begin processing.
 
 Add the following lines to define the frame length \(in terms of samples\) and the buffer length \(in terms of frames\):
 
@@ -186,10 +178,8 @@ _Hint: you just need to add one line! In C, you have to manipulate one element a
 Between the `USER CODE BEGIN 2` and `USER CODE END 2` comments, we need to initialize our STM32 board, namely:
 
 1. Un-muting the DAC using the macro defined [here](coding.md#mute_macro).
-2. Setting the microphone to either left or right channel using the 
-macro defined [here](coding.md#channel_macro).
-3. Instigating the receive and transmit DMAs with `HAL_I2S_Receive_DMA` 
-and `HAL_I2S_Transmit_DMA` respectively.
+2. Setting the microphone to either left or right channel using the macro defined [here](coding.md#channel_macro).
+3. Instigating the receive and transmit DMAs with `HAL_I2S_Receive_DMA` and `HAL_I2S_Transmit_DMA` respectively.
 
 Add the following lines:
 

@@ -5,7 +5,7 @@
 Below are some shortcuts we find particularly useful. For MacOs, replace `"Ctrl"` with `"Command"`.
 
 * `"Ctrl +"` click on function/variable for seeing its definition.
-* `"Ctrl + Space"` for getting function/variable auto-completion \(also `"Ctrl"` for MacOS since `"Command + Space"` opens the Spotlight application.\)
+* `"Ctrl + Space"` for getting function/variable auto-completion \(also `"Ctrl"` for MacOS since `"Command + Space"` opens the Spotlight application\).
 * `"Ctrl + B"` for building the _active_ project.
 * More shortcuts can be found [here](https://dzone.com/articles/effective-eclipse-shortcut-key).
 
