@@ -64,6 +64,19 @@ Add the following line to your `book.json` file:
     "plugins": ["mathjax"]
 }
 ```
+
+If you are exporting to PDF, you will find a bug when using this version of `mathjax` (as of 11 Dec 2018).
+[This fix](https://github.com/GitbookIO/gitbook/issues/1875) consists of using a forked version of `mathjax`, namely:
+```json
+{
+    "plugins": ["mathjax@https://github.com/OrgVue/gitbook-plugin-mathjax.git#speech-fix"]
+}
+```
+and installing the following package:
+```bash
+$ npm install svgexport -g
+```
+
 Install the plugin from within your gitbook directory
 ```bash
 $ gitbook install

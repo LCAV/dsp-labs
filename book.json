@@ -1,6 +1,7 @@
 {
     "root": "./docs",
-    "plugins": ["mathjax", "expandable-chapters", "hints", "simple-page-toc"],
+    "plugins": ["mathjax@https://github.com/OrgVue/gitbook-plugin-mathjax.git#speech-fix",
+        "expandable-chapters", "hints", "simple-page-toc"],
     "links": {
         "sidebar": {
             "Course info": "http://isa.epfl.ch/imoniteur_ISAP/!itffichecours.htm?ww_i_matiere=24007074&ww_x_anneeacad=1866893861&ww_i_section=944590&ww_i_niveau=6683147&ww_c_langue=fr",

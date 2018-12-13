@@ -263,5 +263,6 @@ for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
 
 Finally, you can try changing the modulation frequency and creating your lookup tables by running [this Python code](dsp_tips.md#lookup_python) for modified values of `f_sine`.
 
-**Congrats on implementing your \(perhaps\) first voice effect! In the** [**next chapter**](../granular-synthesis/)**, we will build a more sophisticated voice effect that can alter the pitch so that you sound like a chipmunk or Darth Vader.**
-
+**Congrats on implementing your \(perhaps\) first voice effect!
+In the** [**next chapter**](../filter-design/)**, we will implement a more sophisticated high-pass filter than the one
+used here. To this end, we will come across fundamental theory and practical skills in digital filter design.**

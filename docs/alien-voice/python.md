@@ -145,7 +145,9 @@ def build_sine_table(f_sine, samp_freq, data_type=16):
     return SINE_TABLE, MAX_SINE, LOOKUP_SIZE
 ```
 
-As you know, we try to use integer variables in order to save processing time. When using integer values though it is not possible, for example, to code a window that goes from 0 to 1 with 0.1 increments. In order to maximize our precision and to minimize the computation cost, we try to use the full range of our integer variables. For example, in the case of the window, instead of having it coded from 0 to 1 we will code it from 0 to the max value possible in the corresponding data type. For example 65'535 in the case of `unsigned int 16`. This scaling factor will need to be incorporated whenever using the window. With an intelligent use of operation priority \(for example multiply before dividing in order to perform integer arithmetic without losing precision\) it will not impact our precision and processing time. By convention we will use the maximum value relative to each type, thus we do not need to explicitly link the scaling factor with each variables.
+As you know, we try to use integer variables in order to save processing time.
+So for the sinusoid lookup table, we will code it from the minimum to the maximum value possible in the corresponding data type.
+This scaling factor will need to be incorporated whenever using the lookup table.
 
 In the above code, we can observe this use of the full range when creating the sinus table:
 
@@ -214,7 +216,7 @@ python alien_voice_effect.py
 
 Make sure that you have a WAV file called `"speech.wav"` in the same directory! Your alien voice effect will be applied to this file and saved into a file called `"speech_mod.wav"` if it runs without error.
 
-When the output file sounds as expected - see/listen [here](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb#1---The-"Robot-Voice") to verify with the robot voice effect - you can move on to implementing the effect on the STM32 board!
+When the output file sounds as expected - see/listen [here](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb) to verify with the robot voice effect - you can move on to implementing the effect on the STM32 board!
 
 {% hint style="info" %}
 BONUS: Implement the alien voice effect in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io) library.

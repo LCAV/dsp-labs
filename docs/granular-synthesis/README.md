@@ -1,4 +1,4 @@
-# 4. GRANULAR SYNTHESIS \(Python\)
+# 4. GRANULAR SYNTHESIS
 
 In this exercise, we will implement a more sophisticated voice transformation with 
 [granular synthesis](https://en.wikipedia.org/wiki/Granular_synthesis). Although the alien 
