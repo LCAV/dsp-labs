@@ -11,7 +11,7 @@ In this chapter, we approach this task in order to replace the simplistic
 filter used earlier. After all, no DSP module is complete without a section on
 filter design!
 
-As before, text contained in highlighed boxes, as shown below, are task for **you**!
+As before, text contained in highlighted boxes are tasks for **you**!
 {% hint style="info" %}
 TASK: This is a task for you!
 {% endhint %}
