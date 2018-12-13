@@ -96,17 +96,13 @@ placing the feedback portion first. [This article](http://www.earlevel.com/main/
 visual of how to get from Direct Form 1 to Direct Form 2.
 
 The difference equation for Direct Form 2 is given by:
-
 $$
 y[n] = b_0 w[n] + b_1 w[n-1] + b_2 w[n-2],
-$$ 
-
+$$
 where:
-
 $$
 w[n] = x[n] - a_1 w[n-1] - a_2 w[n-2].
 $$
-
 The corresponding block diagram is shown below.
 
 ![](figs/biquad_direct_2_wiki.png)
