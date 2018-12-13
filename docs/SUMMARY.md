@@ -21,7 +21,10 @@
   * [3.2 Real-time DSP tips](alien-voice/dsp_tips.md)
   * [3.3 Real-time with Python](alien-voice/python.md)
   * [3.4 C implementation](alien-voice/implementation.md)
-* [4. GRANULAR SYNTHESIS \(Python\)](granular-synthesis/README.md)
-  * [4.1 How it works](granular-synthesis/effect_description.md)
-  * [4.2 Implementation](granular-synthesis/implementation.md)
+* [4. DIGITAL FILTER DESIGN](filter-design/README.md)
+  * [4.1 Design approaches](filter-design/approaches.md)
+  * [4.2 Real-time implementation](filter-design/implementation.md)
+* [5. GRANULAR SYNTHESIS](granular-synthesis/README.md)
+  * [5.1 How it works](granular-synthesis/effect_description.md)
+  * [5.2 Implementation](granular-synthesis/implementation.md)
 
