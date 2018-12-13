@@ -3,7 +3,9 @@
 The alien voice effect that we will be creating is done by simply using _sinusoidal modulation_ to shift the voice spectrum up. In communications terminology, this is often called _amplitude modulation_ \(or AM for short\).
 
 Given a modulation frequency $$f_{mod}$$ \(in Hz\) and an input sample $$x[n]$$ we can compute each output sample $$y[n]$$ as such:
+
 $$y[n] = x[n] \cdot \sin(2 \pi \cdot (f_{mod} / f_s) \cdot n),$$
+
 where $$f_s$$ is the sampling frequency \(in Hz\) and $$n$$ is the time index of the samples that are taken at regular intervals of $$1/f_s$$. From now on, we will denote $$2 \pi \cdot (f_{mod} / f_s)$$ with $$\omega_{mod}$$, which represents the corresponding _normalized_ frequency for $$f_{mod}$$ given $$f_s$$.
 
 The modulation frequency must be kept small in order to preserve intelligibility as the resulting signal will be affected by _aliasing_ due to the process of shifting up the spectrum \(and maintaining the same sampling frequency\).
