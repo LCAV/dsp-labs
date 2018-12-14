@@ -1,4 +1,4 @@
-# 4.1 How it works
+# 5.1 How it works
 
 We will briefly describe the key components for pitch shifting with granular synthesis so 
 that it is clear what components we will have to implement. A more in-depth and intuitive 

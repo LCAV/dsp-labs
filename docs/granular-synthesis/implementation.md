@@ -1,4 +1,4 @@
-# 4.2 Implementation
+# 5.2 Implementation
 
 In the [IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb), we already have the code that implements pitch shifting via granular synthesis.
 
