@@ -1,8 +1,8 @@
 # 6.1 Theory behind LPC
 
-If you reach this point, your real-time granular synthesis pitch-shifter must be working, congrats !
+If you reach this point, your real-time granular synthesis pitch-shifter must be working, congrats!
 
-Still, you may not be completely satisfied by the results. Indeed, the output sounds a little bit *un-natural*,  like the voice of someone talking with a hot potatoe in his mouth !
+Still, you may not be completely satisfied by the results. Indeed, the output sounds a little bit *un-natural*,  like the voice of someone talking with a hot potatoe in his mouth!
  
 The origin of the problem is that the pitch shifter that you implemented **does not** preserve the energy envelope of the signal.
 
@@ -34,9 +34,9 @@ $$
 
 In this equation, $$p$$ is the number of sample representing the *lag* used to solve the equation.
 
-**Note** : The above equation is identical to the expression for the prediction error in a standard **AR linear prediction** problem.
+**Note**: The above equation is identical to the expression for the prediction error in a standard **AR linear prediction** problem.
 
-In practice, we solve this system by first defining the autocorrelation matrix $$R$$ of the input signal, where :
+In practice, we solve this system by first defining the autocorrelation matrix $$R$$ of the input signal, where:
 
 $$
 r_m = (\frac{1}{N})\sum_{k=0}^{N-m-1} x[k]x[k+m]
@@ -74,9 +74,9 @@ In order to do it properly, we need to perform the following operations on each 
 
 With this procedure, we can see that the output $$\hat{x}[n]$$ has the same energy envelope as the raw samples taken into account during the resampling step.
 
-If you want to learn more about LPC coefficients, you can look at :
+If you want to learn more about LPC coefficients, you can look at:
 - [This notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb)
 - [This website](https://www.dsprelated.com/freebooks/pasp/Linear_Predictive_Coding_Speech.html)
 
 
-### Now let's go to the [next chapter](implementation.md) to finally implement this feature !
+### Now let's go to the [next chapter](implementation.md) to finally implement this feature!

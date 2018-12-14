@@ -28,7 +28,7 @@ def ld(r, p):
     return np.r_[1, -a[::-1]]
 ```
 
-**Important : ** Be careful to the division by 0 !
+**Important: ** Be careful to the division by 0 !
 
 ```python
 def lpc(x, p):
@@ -45,9 +45,9 @@ Hints :
 - `x_hat_coefs = scipy.signal.lfilter([1], a_coefs, e_hat_coefs)`
 {% endhint %}
 
-**Important note : **
+**Important note: **
 - It is possible to use no additional global variable (*eg* $$grain$$ or $$resampled\_grain$$) to implement this LPC feature. If you do it this way, you have to make sure to store the last raw samples of your input **before** filtering it with LPC
-(remember that you need those raw samples for the next grain) 
+(remember that you need those raw samples for the next grain).
 
 ## Modifying the process function
 
@@ -100,9 +100,9 @@ def process(input_buffer, output_buffer, buffer_len):
 
 ```
 
-Once your implementation is done, the low-pitched output should sound much nicer !
+Once your implementation is done, the low-pitched output should sound much nicer!
 
-The overall effect of LPC can be seen on this picture :
+The overall effect of LPC can be seen on this picture:
 
 ![](figs/energy_comparison.png)
 
