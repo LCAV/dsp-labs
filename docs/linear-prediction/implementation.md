@@ -1,6 +1,7 @@
 # 6.2 Implementation
 
-Hereafter, we give you the functions to compute the autocorrelation and solve the system of equations
+Hereafter, we give you the functions to compute the autocorrelation and solve the system of equations.
+You can find those functions along with the previous utils functions for granular synthesis in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/lpc/utils.py).
 
 ```python
 def bac(x, p):
@@ -56,6 +57,8 @@ synthesis pitch-shifting.
 
 So let's assume that you have a boolean `use_LPC` set to `True` in our case.
 
+Below, we show the ***incomplete*** `process` function, which is provided to you in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/lpc/granular_synthesis_LPC_incomplete.py). In this same file you will also find the code to run LPC granular synthesis on an audio file.
+
 
 ```python
 def process(input_buffer, output_buffer, buffer_len):
@@ -99,6 +102,8 @@ def process(input_buffer, output_buffer, buffer_len):
             ...
 
 ```
+
+Finally, you will find [here](https://github.com/LCAV/dsp-labs/blob/master/scripts/lpc/granular_synthesis_LPC_sounddevice_incomplete.py) the code to run your pitch-shifter in real time through your webcam.
 
 Once your implementation is done, the low-pitched output should sound much nicer!
 

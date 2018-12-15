@@ -9,10 +9,8 @@ def ms2smp(ms, fs):
         Time in milliseconds
     fs: float
         Sampling rate in Hz.
-    """
-​
-    # return corresponding length in samples
-
+    
+    return int(fs*ms/1000.)
 
 def compute_stride(grain_len_samp, grain_over):
     return grain_len_samp - int(grain_len_samp * grain_over / 2) - 1
@@ -45,3 +43,4 @@ def build_linear_interp_table(n_samples, down_fact, data_type=np.int16):
     amp_vals = (amp_vals*MAX_VAL).astype(data_type)
 
     return samp_vals, amp_vals
+
