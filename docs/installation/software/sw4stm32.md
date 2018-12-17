@@ -32,7 +32,7 @@ _Note: the instructions were tested using Windows 10 Pro Insider Preview, Versio
 
 1\) Double-click the EXE file to launch the installation wizard.
 
-![](../../.gitbook/assets/1_initial.PNG)
+![](../../.gitbook/assets/1_initial_win.PNG)
 
 2\) You will have to accept two license agreements to proceed with the installation, after which you will be asked to specify the installation path \(see below\). If the path does not exist, you will be asked to create the directory.
 
@@ -106,7 +106,7 @@ $ ./install_sw4stm32_linux_64bits-vX.X.run
 
 The checksum file will be used to check the download integrity which may take some time. Eventually, a window pane similar to below should pop up.
 
-![](../../.gitbook/assets/1_initial.png)
+![](../../.gitbook/assets/1_initial_linux.png)
 
 4\) You will have to accept two license agreements to proceed with the installation, after which you will be asked to specify the installation path. If the path does not exist, you will be asked to create the directory. Take note of this directory because you will have to navigate here to run the software!
 

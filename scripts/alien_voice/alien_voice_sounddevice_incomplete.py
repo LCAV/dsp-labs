@@ -1,13 +1,14 @@
 """
-Incomplete alien voice effect. This file will simply perform passthrough.
+Incomplete alien voice effect with sounddevice library.
+
+Without any modification, this file will simply perform a passthrough with your laptop's soundcard.
 
 You need to complete the process function.
 """
 
-from scipy.io import wavfile
-import os
+import sounddevice as sd
 import numpy as np
-import os
+from utils import build_sine_table
 
 
 # parameters
@@ -15,16 +16,11 @@ buffer_len = 256
 f_sine = 200   # Hz, for modulation
 high_pass_on = False
 
-# test signal
-input_wav = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "_templates", "speech.wav")
-samp_freq, signal = wavfile.read(input_wav)
-if len(signal.shape) > 1:
-    signal = signal[:, ]  # get first channel
-n_buffers = len(signal)//buffer_len
-data_type = signal.dtype
+data_type = np.int16
+samp_freq = 16000
 
 print("Sampling frequency : %d Hz" % samp_freq)
-print("Data type          : %s" % signal.dtype)
+print("Data type          : %s" % data_type)
 
 # allocate input and output buffers
 input_buffer = np.zeros(buffer_len, dtype=data_type)
@@ -75,15 +71,21 @@ def process(input_buffer, output_buffer, buffer_len):
 """
 Nothing to touch after this!
 """
-init()
-# simulate block based processing
-signal_proc = np.zeros(n_buffers*buffer_len, dtype=data_type)
-for k in range(n_buffers):
+try:
+    sd.default.samplerate = samp_freq
+    sd.default.blocksize = buffer_len
+    sd.default.dtype = data_type
 
-    # index the appropriate samples
-    input_buffer = signal[k*buffer_len:(k+1)*buffer_len]
-    process(input_buffer, output_buffer, buffer_len)
-    signal_proc[k*buffer_len:(k+1)*buffer_len] = output_buffer
+    def callback(indata, outdata, frames, time, status):
+        if status:
+            print(status)
+        process(indata[:, 0], outdata[:, 0], frames)
 
-# write to WAV
-wavfile.write("alien_voice_effect.wav", samp_freq, signal_proc)
+    init()
+    with sd.Stream(channels=1, callback=callback):
+        print('#' * 80)
+        print('press Return to quit')
+        print('#' * 80)
+        input()
+except KeyboardInterrupt:
+    print('\nInterrupted by user')

@@ -4,8 +4,8 @@
         "expandable-chapters", "hints", "simple-page-toc"],
     "links": {
         "sidebar": {
-            "Course info": "http://isa.epfl.ch/imoniteur_ISAP/!itffichecours.htm?ww_i_matiere=24007074&ww_x_anneeacad=1866893861&ww_i_section=944590&ww_i_niveau=6683147&ww_c_langue=fr",
-            "Contact": "mailto:eric.bezzam@epfl.ch;adrien.hoffet@epfl.ch?subject=[DSP labs]"
+            "Course info": "http://isa.epfl.ch/imoniteur_ISAP/!itffichecours.htm?ww_i_matiere=24007074&ww_x_anneeacad=1866893861&ww_i_section=944590&ww_i_niveau=6683147&ww_c_langue=en",
+            "Contact": "mailto:ebezzam@gmail.com;adrien.hoffet@epfl.ch?subject=[DSP labs]"
         }
     }
 }

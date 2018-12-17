@@ -1,6 +1,8 @@
 import numpy as np
 from utils import ms2smp, compute_stride, win_taper, build_linear_interp_table
+from utils_lpc import ld_eff
 import sounddevice as sd
+
 
 """
 Real-time pitch shifting with granular synthesis for shift factors <=1.0
@@ -9,7 +11,12 @@ Real-time pitch shifting with granular synthesis for shift factors <=1.0
 """ User selected parameters """
 grain_len = 30
 grain_over = 0.2
-shift_factor = 0.7 
+shift_factor = 0.7
+LPC_ORDER = 25
+use_LPC = True
+GAIN = 0.5
+N_COEF = LPC_ORDER+1
+
 data_type = np.int16
 samp_freq = 16000
 
@@ -45,7 +52,7 @@ try:
     def callback(indata, outdata, frames, time, status):
         if status:
             print(status)
-        process(indata[:,0], outdata[:,0], frames)
+        process(indata[:, 0], outdata[:, 0], frames)
 
     init()
     with sd.Stream(channels=1, callback=callback):
@@ -55,7 +62,3 @@ try:
         input()
 except KeyboardInterrupt:
     print('\nInterrupted by user')
-
-
-
-

@@ -2,24 +2,32 @@
 
 In the process of implementing an algorithm on an embedded system, it is sometimes worth testing it in a workspace with less constraints than on the final environment. Here we propose a Python framework that will help in this prototype/debugging state for the alien voice effect \(and for future applications\). In the [next section](implementation.md) we will implement it on the STM32 board and set up a timer to benchmark our implementation.
 
-The whole idea of this framework is to code in the same way as it will be done in C. It probably means that the implementation will be very cumbersome in Python but very easy to port to C in the final stage. One big obstacle is to think in a block-based manner, as if buffers were filled and processed one after the other in real-time. The other obstacle of porting the code from Python to C is the definition of variables and to manage their sizes.
+The main idea of this framework is to code in the same way as it will be done in C.
+This probably means that the Python implementation will be very cumbersome.
+However, this will make the porting to C much easier.
+One big obstacle is to think in a block-based manner, as if buffers were filled and processed one after the other in real-time.
+The other obstacle of porting the code from Python to C is the definition of variables and to manage their sizes.
 
-_**Python requirements: Python 3, numpy, scipy.io**_
+***Python requirements: Python 3, numpy, scipy.io***
 
 ## Empty template
 
-We propose the following template for simulating real-time processing in C with Python. Note that the below code will not run as `...` is not valid syntax! Please note the use of block processing and the definition of the variables \(the `dtype` arguments\).
+We propose the following template for simulating real-time processing in C with Python.
+Please note the use of block processing and the definition of the variables with the `dtype` argument.
+You can find this code in the [repository](https://github.com/LCAV/dsp-labs) in the [`rt_simulated.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_simulated.py)
+script.
+
+We recommend cloning/downloading the repository so that you have all the necessary files in place, _i.e._ the `speech.wav`
+file for the code below and utility functions for the various voice effects we will be implementing.
 
 ```python
 from scipy.io import wavfile
 import numpy as np
 
 # define necessary utility functions
-...
 
 # parameters
 buffer_len = 256
-...
 
 # test signal
 input_wav = "speech.wav"
@@ -38,18 +46,19 @@ output_buffer = np.zeros(buffer_len, dtype=data_type)
 # state variables
 def init():
 
-    # declare variables used in process
-    global ...
+    # declare variables used in `process`
+    # global
 
-    # define variables
-    ...
+    # define variables, lookup tables
+
+    return
 
 
 # the process function!
 def process(input_buffer, output_buffer, buffer_len):
 
     # specify global variables modified here
-    global ...
+    # global
 
     # process one sample at a time
     for n in range(buffer_len):
@@ -89,7 +98,7 @@ In the above code, we can observe several key sections:
   buffer_len = 256
   ```
 
-* **Test signal**: Here we load a WAV test signal with the [`scipy.io.wavfile.read`](https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.io.wavfile.read.html) function. We will parse the test signal one block at a time \(according to `buffer_len`\) in order to simulate a real-time operation. You can download a sample speech file [here](https://github.com/LCAV/dsp-labs/blob/fix_image_rendering/scripts/_templates/speech.wav).
+* **Test signal**: Here we load a WAV test signal with the [`scipy.io.wavfile.read`](https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.io.wavfile.read.html) function. We will parse the test signal one block at a time \(according to `buffer_len`\) in order to simulate a real-time operation.
 
   ```python
   input_wav = "speech.wav"
@@ -112,21 +121,23 @@ In the above code, we can observe several key sections:
 
 ## Alien voice effect
 
-{% hint style="info" %}
-TASK 2: Copy the above script into an empty file called `"alien_voice_effect.py"` and add the following function under the comment about utility functions.
-{% endhint %}
+Below we provide you with the function that computes the sinusoid lookup table.
+This function is implemented in a [`utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/utils.py) file.
+
 
 ```python
-def build_sine_table(f_sine, samp_freq, data_type=16):
+def build_sine_table(f_sine, samp_freq, data_type):
     """
     :param f_sine: Modulate frequency for voice effect in Hz.
     :param samp_freq: Sampling frequency in Hz
-    :param data_type: Data type of sinusoid table. Must be either uint16 (default) or uint32.
+    :param data_type: Data type of sinusoid table. Must be signed integer type.
     :return:
     """
 
-    if data_type!=16 and data_type!=32:
-        data_type = 16
+    if data_type is np.int16 or np.int32:
+        MAX_SINE = np.iinfo(data_type).max
+    else:
+        raise ValueError("Data type must be signed integer.")
 
     # periods
     samp_per = 1./samp_freq
@@ -138,26 +149,25 @@ def build_sine_table(f_sine, samp_freq, data_type=16):
     n_vals = np.arange(LOOKUP_SIZE)
 
     # compute the sine table
-    MAX_SINE = 2**(data_type-1)-1
     w_mod = 2*np.pi*f_sine/samp_freq
     SINE_TABLE = np.sin(w_mod*n_vals) * MAX_SINE
 
     return SINE_TABLE, MAX_SINE, LOOKUP_SIZE
 ```
 
-As you know, we try to use integer variables in order to save processing time.
-So for the sinusoid lookup table, we will code it from the minimum to the maximum value possible in the corresponding data type.
+As previously mentioned, we try to use integer variables in order to save processing time.
+So for the sinusoid lookup table, we will code it from the minimum to the maximum value possible in the corresponding (typically integer) data type.
 This scaling factor will need to be incorporated whenever using the lookup table.
 
-In the above code, we can observe this use of the full range when creating the sinus table:
+In the above code, we can observe this use of the full range when creating the sinusoid table:
 
 ```python
 SINE_TABLE = np.sin(w_mod*n_vals) * MAX_SINE
 ```
 
-{% hint style="info" %}
-TASK 3: Add the following code within the `init` function.
-{% endhint %}
+In the repository, there is an ***incomplete*** script [`alien_voice_effect_incomplete.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_effect_incomplete.py)
+for you to complete. Notice that in the `init()` function we use the above `build_sine_table` function to create the sinusoid lookup table, and
+that the variables needed in the `process` function are declared as `global`.
 
 ```python
 # state variables
@@ -174,16 +184,16 @@ def init():
     sine_pointer = 0
 
     # compute SINE TABLE
-    vals = build_sine_table(f_sine, samp_freq, data_type=16)
+    vals = build_sine_table(f_sine, samp_freq, data_type)
     SINE_TABLE = vals[0]
     MAX_SINE = vals[1]
     LOOKUP_SIZE = vals[2]
 ```
 
-Now we come to the main processing for the alien voice effect! Below we provide the `process` function for you to complete.
+Now we come to the main processing for the alien voice effect. Notice that `x_prev` and `sine_pointer` are declared as
+`global` as their values will be modified within the `process` function.
 
 ```python
-# the process function!
 def process(input_buffer, output_buffer, buffer_len):
 
     global x_prev
@@ -192,51 +202,58 @@ def process(input_buffer, output_buffer, buffer_len):
     for n in range(buffer_len):
 
         # high pass filter
-        output_buffer[n] = input_buffer[n] - x_prev
+        if high_pass_on:
+            output_buffer[n] = input_buffer[n] - x_prev
+        else:
+            output_buffer[n] = input_buffer[n]
 
-        # modulation
-        output_buffer[n] = ...
+        # TODO: perform modulation for effect
+        output_buffer[n]
 
-        # update state variables
-        sine_pointer = ...
-        x_prev = ...
+        # TODO: update state variables
+        sine_pointer
+        x_prev
 ```
 
 {% hint style="info" %}
-TASK 4: Replace the lines with `...` with the appropriate content in order to implement the alien voice effect.
+TASK 2: Under the comments with `TODO`, fill in the appropriate code in order to implement the alien voice effect.
 
-_Note: normalize the sinusoid using the constant_ `MAX_SINE`_!_
+_Reminder: normalize the sinusoid using the constant_ `MAX_SINE`_!_
 {% endhint %}
 
-You can test your implementation by running your script with the following line on the command line:
+You can test your implementation by running your script with the following line from the command line (replacing `[script_name].py` with your script's name):
 
 ```bash
-python alien_voice_effect.py
+python [script_name].py
 ```
 
-Make sure that you have a WAV file called `"speech.wav"` in the same directory! Your alien voice effect will be applied to this file and saved into a file called `"speech_mod.wav"` if it runs without error.
+If your script runs without error, your alien voice effect will be applied to the [`speech.wav`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/speech.wav) file,
+and the processed speech will be saved into a file called `"alien_voice_effect.wav"`.
 
-When the output file sounds as expected - see/listen [here](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb) to verify with the robot voice effect - you can move on to implementing the effect on the STM32 board!
+When the output file sounds as expected - see/listen to [`alien_voice_effect_200Hz.wav`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_effect_200Hz.wav) in the repository - you can move on to implementing the effect in real-time!
 
-{% hint style="info" %}
-BONUS: Implement the alien voice effect in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io) library.
 
-_Hint: copy your_ `alien_voice_effect.py` _file and create a new one called_ `alien_voice_effect_sd.py`_. Replace the content after the_ `Nothing to touch after this!` _comment block with the code below._
-{% endhint %}
+##### Real-time with laptop's sound card
+
+Similar to the `rt_simulated.py` script we saw earlier, we also provide a template script for performing block-based
+processing with your laptop's sound card. The script, entitled [`rt_sounddevice.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_sounddevice.py),
+can also be found in the repository.
+
+The main difference is the setup code at the bottom of the script, which uses the [`sounddevice`](https://python-sounddevice.readthedocs.io) library:
 
 ```python
 """
 Nothing to touch after this!
 """
 try:
-    sd.default.samplerate = 16000
+    sd.default.samplerate = samp_freq
     sd.default.blocksize = buffer_len
     sd.default.dtype = data_type
 
     def callback(indata, outdata, frames, time, status):
         if status:
             print(status)
-        process(indata[:,0], outdata[:,0], frames)
+        process(indata[:, 0], outdata[:, 0], frames)
 
     init()
     with sd.Stream(channels=1, callback=callback):
@@ -245,12 +262,22 @@ try:
         print('#' * 80)
         input()
 except KeyboardInterrupt:
-    parser.exit('\nInterrupted by user')
+    print('\nInterrupted by user')
 ```
 
-Run the following command \(with headphones!\) to run your alien voice effect in real-time:
+Notice how we define a `callback` function that calls our `process` function and that before streaming audio
+we call the `init` function.
 
-```bash
-python alien_voice_effect_sd.py
-```
+{% hint style="info" %}
+TASK 3: Implement the alien voice effect in real-time using your laptop's sound card.
+
+_Hint: complete the `process` function in the script [`alien_voice_sounddevice_incomplete.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_sounddevice_incomplete.py),
+which can also be found in the repository._
+{% endhint %}
+
+As before, run your script from the command line to try out your alien voice effect in real-time. Use headphones so that
+you avoid feedback!
+
+**In the [next section](implementation.md), we guide you through implementing the alien voice effect on the microcontroller, as we also
+setup a timer to benchmark the implementation.**
 

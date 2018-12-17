@@ -21,7 +21,7 @@ A pop-up similar to below should appear.
 ![](../.gitbook/assets/setup_tim2_as_us_timebase_edited%20%281%29.png)
 
 {% hint style="info" %}
-TASK 5: We ask you to set the "Prescaler" value \(in the figure above\) in order to achieve a $$1\,[\mu s]$$ period for "TIM2", i.e. we want our timer to have a $$1\,[\mu s]$$ resolution.
+TASK 4: We ask you to set the "Prescaler" value \(in the figure above\) in order to achieve a $$1\,[\mu s]$$ period for "TIM2", i.e. we want our timer to have a $$1\,[\mu s]$$ resolution.
 
 _Hint: Go to the "Clock Configuration" tab \(from the main window pane\) to see what is the frequency of the input clock to "TIM2". From this calculate the prescaler value to increase the timer's period to_ $$1\,[\mu s]$$_._
 {% endhint %}
@@ -46,7 +46,7 @@ To use this macro, just call it in your code, then the variable `current_time_us
 We want to assess if the processing time is longer or shorter than what our chosen buffer length and sampling frequency allows us. To do this, we will define some additional variables and constants \(also between the `USER CODE BEGIN PV` and `USER CODE END PV` comments\).
 
 {% hint style="info" %}
-TASK 6: In the passthrough example, we set the buffer length \(the macro called `FRAME_PER_BUFFER`\) to just 32. Increase it to 512 and use this value and `FS` to calculate the maximum processing time allowed in microseconds. Replace the variable `USING_FRAME_PER_BUFFER_AND_FS` in the code snippet below with this expression for the maximum processing time.
+TASK 5: In the passthrough example, we set the buffer length \(the macro called `FRAME_PER_BUFFER`\) to just 32. Increase it to 512 and use this value and `FS` to calculate the maximum processing time allowed in microseconds. Replace the variable `USING_FRAME_PER_BUFFER_AND_FS` in the code snippet below with this expression for the maximum processing time.
 
 _Note: keep in mind the points made about using_ `float` _or_ `int` _variables \(see_ [_here_](dsp_tips.md#float)_\)._
 {% endhint %}
@@ -104,7 +104,7 @@ SET_MIC_LEFT
 ```
 
 {% hint style="info" %}
-TASK 7: Using the `current_time_us` and `MAX_PROCESS_TIME_ALLOWED_us`, compute the value of `processing_load` as a percentage in the code snippet above, i.e. replace `USING_CURRENT_TIME_US_AND_MAX_PROCESS_TIME_ALLOWED_US` with the appropriate expression.
+TASK 6: Using the `current_time_us` and `MAX_PROCESS_TIME_ALLOWED_us`, compute the value of `processing_load` as a percentage in the code snippet above, i.e. replace `USING_CURRENT_TIME_US_AND_MAX_PROCESS_TIME_ALLOWED_US` with the appropriate expression.
 
 _Note: keep in mind the points made about using_ `float` _or_ `int` _variables \(see_ [_here_](dsp_tips.md#float)_\)._
 {% endhint %}
@@ -184,7 +184,7 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
 ```
 
 {% hint style="info" %}
-TASK 8: Modify the code within the second `for` loop in order to compute the alien voice output and update the state variables.
+TASK 7: Modify the code within the second `for` loop in order to compute the alien voice output and update the state variables.
 
 _Note: normalize the sinusoid using the constant_ `SINE_MAX`_!_
 {% endhint %}
@@ -213,7 +213,7 @@ const int16_t sine_table[SINE_TABLE_SIZE] = {
 If you have some extra time, we propose to make a few improvements to the system!
 
 {% hint style="info" %}
-TASK 9: Put the robot voice signal on both output channels.
+TASK 8: Put the robot voice signal on both output channels.
 
 _Hint: edit the processing function, certainly near the end._
 {% endhint %}
@@ -261,7 +261,7 @@ for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
 }
 ```
 
-Finally, you can try changing the modulation frequency and creating your lookup tables by running [this Python code](dsp_tips.md#lookup_python) for modified values of `f_sine`.
+Finally, you can try changing the modulation frequency and creating your lookup tables by running [this Python script](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/compute_sinusoid_lookup.py) for modified values of `f_sine`.
 
 **Congrats on implementing your \(perhaps\) first voice effect!
 In the** [**next chapter**](../filter-design/)**, we will implement a more sophisticated high-pass filter than the one
