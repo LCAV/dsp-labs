@@ -22,6 +22,5 @@ _Figure: Shifting A3 in the frequency domain: to A4 (on the left) and to A2 (on 
 
 The challenge here is to process the signal in real time. The technique is similar to the granular synthesis: we process the signal with a delay corresponding to the analysis window size. 
 
-Solarized dark             |  Solarized Ocean
 :-------------------------:|:-------------------------:
 ![alt text](pianofreq1.png "Piano A3 shifted to A4")  |  ![alt text](pianofreq2.png "Piano A3 shifted to A2")
