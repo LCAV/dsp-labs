@@ -23,5 +23,37 @@ Piano A3 shifted to A4             |  Piano A3 shifted to A2
 
 _Figure: Shifting A3 in the frequency domain: to A4 (on the left) and to A2 (on the right). Partial frequencies remain multiples of the fundamental one._
 
+## Implementation
+
 The challenge here is to process the signal in real time. The technique is similar to the granular synthesis: we process the signal with a delay corresponding to the analysis window size. 
 
+In the [IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb), we already have the code that implements pitch shifting, but not in real time:
+
+```python
+def DFT_rescale(x, f):
+    X = np.fft.fft(x)
+    # separate even and odd lengths
+    parity = (len(X) % 2 == 0)
+    N = len(X) / 2 + 1 if parity else (len(X) + 1) / 2
+    Y = np.zeros(N, dtype=np.complex)
+    # work only in the first half of the DFT vector since input is real
+    for n in xrange(0, N):
+        # accumulate original frequency bins into rescaled bins
+        ix = int(n * f)
+        if ix < N:
+            Y[ix] += X[n]
+    # now rebuild a Hermitian-symmetric DFT
+    Y = np.r_[Y, np.conj(Y[-2:0:-1])] if parity else np.r_[Y, np.conj(Y[-1:0:-1])]
+    return np.real(np.fft.ifft(Y))
+```
+
+```python
+def DFT_pshift(x, f, G, overlap=0):
+    N = len(x)
+    y = np.zeros(N)
+    win, stride = win_taper(G, overlap)
+    for n in xrange(0, len(x) - G, stride):
+        w = DFT_rescale(x[n:n+G] * win, f)
+        y[n:n+G] += w * win
+    return y
+```
