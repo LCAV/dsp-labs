@@ -174,3 +174,5 @@ file_name = "output_pitch_synth_low.wav"
 print("Result written to: %s" % file_name)
 wavfile.write(file_name, samp_freq, signal_proc)
 ```
+
+**Congrats on implementing granular synthesis pitch shifting!**
