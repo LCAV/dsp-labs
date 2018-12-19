@@ -20,6 +20,7 @@ To keep the definite pitch characteristics, the shifted pitch should still have 
 Piano A3 shifted to A4             |  Piano A3 shifted to A2
 :-------------------------:|:-------------------------:
 ![alt text](pianofreq1.png "Piano A3 shifted to A4")  |  ![alt text](pianofreq2.png "Piano A3 shifted to A2")
+
 _Figure: Shifting A3 in the frequency domain: to A4 (on the left) and to A2 (on the right). Partial frequencies remain multiples of the fundamental one._
 
 The challenge here is to process the signal in real time. The technique is similar to the granular synthesis: we process the signal with a delay corresponding to the analysis window size. 
