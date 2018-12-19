@@ -24,4 +24,4 @@ The challenge here is to process the signal in real time. The technique is simil
 
 Solarized dark             |  Solarized Ocean
 :-------------------------:|:-------------------------:
-![](https://...Ocean.png)  |  ![](https://...Dark.png)
+![alt text](pianofreq1.png "Piano A3 shifted to A4")  |  ![alt text](pianofreq2.png "Piano A3 shifted to A2")
