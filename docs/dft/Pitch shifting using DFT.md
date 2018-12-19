@@ -64,7 +64,7 @@ First, create a new directory for the DFT pitch shifting, and copy there the `ut
 TASK 1: At the end of the file, add a new function `DFT_rescale`. You can copy it from the [IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb) above (don't forget to replace `xrange` with `range`). 
 {% endhint %}
 
-Now you can create a new .py file and implement the real-time DFT pitch shifting, using the function above.
+Now you can create a new .py file and implement the real-time DFT pitch shifting, using the function above. This task should be straightforward after the granular synthesis implementation.
 
 {% hint style="info" %}
 TASK 2: Complete the Python code below.
