@@ -27,7 +27,7 @@
 * [5. GRANULAR SYNTHESIS](granular-synthesis/README.md)
   * [5.1 How it works](granular-synthesis/effect_description.md)
   * [5.2 Implementation](granular-synthesis/implementation.md)
-* [6. DFT pitch shifting](dft/README.md)
+* [6. DFT PITCH SHIFTING](dft/README.md)
   * [6.1 How it works](dft/theory.md)
   * [6.2 Implementation](dft/implementation.md)
 
