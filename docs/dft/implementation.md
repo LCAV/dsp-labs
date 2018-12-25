@@ -44,7 +44,7 @@ Now you can create a new .py file and implement the real-time DFT pitch shifting
 The `init()` function is similar to the one in the granular synthesis. In the `process()`, the beginning and the end are again very similar; but you should figure out where and how to call the `DFT_rescale` function on your grain. 
 
 {% hint style="info" %}
-TASK 2: Complete the Python code below.
+TASK 2: Complete the Python code below. You can also download it in the [repository](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft).
 
 _Note: make sure that this file is saved in the same directory as_ `utils.py` _and_ `speech.wav`_._
 {% endhint %}
