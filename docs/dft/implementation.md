@@ -36,10 +36,12 @@ The challenge here is to process the signal in real time. The technique is simil
 First, create a new directory for the DFT pitch shifting, and copy there the `utils.py` file you've completed in the [previous chapter](https://lcav.gitbook.io/dsp-labs/granular-synthesis/). 
 
 {% hint style="info" %}
-TASK 1: At the end of the file, add a new function `DFT_rescale`. You can copy it from the [IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb) above (don't forget to replace `xrange` with `range`). 
+TASK 1: At the end of the file, add a new function `DFT_rescale`. You can copy it from the [IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb) above (don't forget to replace `xrange` with `range`). Make sure to understand how this code works!
 {% endhint %}
 
-Now you can create a new .py file and implement the real-time DFT pitch shifting, using the function above. This task should be straightforward after the granular synthesis implementation.
+Now you can create a new .py file and implement the real-time DFT pitch shifting, using the function above. This task should be straightforward after the granular synthesis implementation. You can fix the grain overlap to 0.99 this time.
+
+The `init()` function is similar to the one in the granular synthesis. In the `process()`, the beginning and the end are again very similar; but you should figure out where and how to call the `DFT_rescale` function on your grain. 
 
 {% hint style="info" %}
 TASK 2: Complete the Python code below.
@@ -53,7 +55,7 @@ from scipy.io import wavfile
 from utils import ms2smp, compute_stride, win_taper, dft_rescale
 
 """
-Pitch shifting with granular synthesis for shift factors <=1.0
+Pitch shifting with DFT for shift factors <=1.0
 """
 
 """ User selected parameters """
@@ -87,7 +89,6 @@ def init():
     # lookup table for linear interpolation
     global SAMP_VALS
     global AMP_VALS
-    #SAMP_VALS, AMP_VALS = build_linear_interp_table(GRAIN_LEN_SAMP, shift_factor, data_type)
 
     # create arrays to pass between buffers (state variables)
     global ...
@@ -106,8 +107,7 @@ def process(input_buffer, output_buffer, buffer_len):
         ...
 
     # rescale
-    #for n in range(int(GRAIN_LEN_SAMP)):
-        ...
+    ...
 
     # apply window
     for n in range(int(GRAIN_LEN_SAMP)):
