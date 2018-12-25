@@ -22,7 +22,7 @@ Nonetheless, having an implementation like the one above is still very useful be
 
 In this chapter, we will guide you through the buffer-based implementation of this pitch shifting algorithm. What we present is certainly not the only approach but one we hope will help you for this exercise and for future real-time implementations.
 
-Start off by copying the `utils.py` file from the [repository](https://github.com/LCAV/dsp-labs/tree/master/scripts/granular_synthesis) into a new directory for the granular synthesis effect. There are a few incomplete functions which we will complete down below.
+We recommending cloning/downloading [the repository](https://github.com/LCAV/dsp-labs) so that you have the necessary files in the correct place. In it, you can find a [`utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/utils.py) file, which we will complete below.
 
 ## Save the MIPS! <a id="mips"></a>
 
@@ -172,43 +172,16 @@ For a clean implementation, it is hopefully clear from the description above tha
 
 Now you should have enough information to implement the real-time version of downwards pitch shifting with granular synthesis.
 
-{% hint style="info" %}
-TASK 4: Complete the Python script below.
+Below, we provide the ***incomplete*** `init` and `process` functions, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_incomplete.py). In this same file, you will also find the code to run granular synthesis on a fixed audio file.
 
-_Note: make sure that the below script is saved in the same directory as_ `utils.py` _and_ `speech.wav`_._
+
+{% hint style="info" %}
+TASK 4: Complete the code below. The comments that have `TODO` mark where you will need to add code.
+
+_Note: as this script relies on `utils.py` and `speech.wav` being in the correct relative location, it is useful to clone/download [the repository](https://github.com/LCAV/dsp-labs) so that it is indeed so._ 
 {% endhint %}
 
 ```python
-import numpy as np
-from scipy.io import wavfile
-from utils import ms2smp, compute_stride, win_taper, build_linear_interp_table
-
-"""
-Pitch shifting with granular synthesis for shift factors <=1.0
-"""
-
-""" User selected parameters """
-input_wav = "speech.wav"
-grain_len = 20      # in milliseconds
-grain_over = 0.3    # grain overlap (0,1)
-shift_factor = 0.7  # <= 1.0
-
-# open WAV file
-samp_freq, signal = wavfile.read(input_wav)
-signal = signal[:,]  # get first channel
-data_type = signal.dtype
-MAX_VAL = np.iinfo(data_type).max
-
-# derived parameters
-GRAIN_LEN_SAMP = ms2smp(grain_len, samp_freq)
-STRIDE = compute_stride(GRAIN_LEN_SAMP, grain_over)
-OVERLAP_LEN = GRAIN_LEN_SAMP-STRIDE
-
-# allocate input and output buffers
-input_buffer = np.zeros(STRIDE, dtype=data_type)
-output_buffer = np.zeros(STRIDE, dtype=data_type)
-
-# state variables and constants
 def init():
 
     # lookup table for tapering window
@@ -220,32 +193,31 @@ def init():
     global AMP_VALS
     SAMP_VALS, AMP_VALS = build_linear_interp_table(GRAIN_LEN_SAMP, shift_factor, data_type)
 
-    # create arrays to pass between buffers (state variables)
+    # TODO: create arrays to pass between buffers (state variables)
     global ...
 
-    # create arrays for intermediate values
+    # TODO: create arrays for intermediate values
     global ...
 
 
-# the process function!
 def process(input_buffer, output_buffer, buffer_len):
 
-    # need to specify those global variables changing in this function (state variables and intermediate values)
+    # TODO: need to specify those global variables changing in this function (state variables and intermediate values)
     global ...
 
-    # append samples from previous buffer
+    # TODO: append samples from previous buffer
     for n in range(GRAIN_LEN_SAMP):
         ...
 
-    # resample
+    # TODO: resample grain
     for n in range(GRAIN_LEN_SAMP):
         ...
 
-    # apply window
+    # TODO: apply window
     for n in range(GRAIN_LEN_SAMP):
         ...
-
-    # write to output
+    
+    # TODO: write to output and update state variables
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part
         if n < OVERLAP_LEN:
@@ -256,96 +228,14 @@ def process(input_buffer, output_buffer, buffer_len):
         # update state variables
         else:
             ...
-
-
-"""
-Nothing to touch after this!
-"""
-init()
-# simulate block based processing
-n_buffers = len(signal)//STRIDE
-signal_proc = np.zeros(n_buffers*STRIDE, dtype=data_type)
-for k in range(n_buffers):
-
-    # sample indices
-    start_idx = k*STRIDE
-    end_idx = (k+1)*STRIDE
-
-    # index the appropriate samples
-    input_buffer = signal[start_idx:end_idx]
-    process(input_buffer, output_buffer, STRIDE)
-    signal_proc[start_idx:end_idx] = output_buffer
-
-# write to WAV
-file_name = "output_gran_synth.wav"
-print("Result written to: %s" % file_name)
-wavfile.write(file_name, samp_freq, signal_proc)
 ```
 
 {% hint style="info" %}
 TASK 5: Implement the granular synthesis pitch shifting in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io/en/0.3.11/) module.
 
-_Hint: copy-and-paste your_ `init` _and_ `process` _functions \(once they are working\) into the script below._
+_Hint: copy-and-paste your_ `init` _and_ `process` _functions \(once they are working\) into [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_sounddevice_incomplete.py)._
 {% endhint %}
 
-```python
-import numpy as np
-from utils import ms2smp, compute_stride, win_taper, build_linear_interp_table
-import sounddevice as sd
-
-"""
-Real-time pitch shifting with granular synthesis for shift factors <=1.0
-"""
-
-""" User selected parameters """
-grain_len = 30
-grain_over = 0.2
-shift_factor = 0.7 
-data_type = np.int16
-
-# derived parameters
-MAX_VAL = np.iinfo(data_type).max
-GRAIN_LEN_SAMP = ms2smp(grain_len, samp_freq)
-STRIDE = compute_stride(GRAIN_LEN_SAMP, grain_over)
-OVERLAP_LEN = GRAIN_LEN_SAMP-STRIDE
-
-# allocate input and output buffers
-input_buffer = np.zeros(STRIDE, dtype=data_type)
-output_buffer = np.zeros(STRIDE, dtype=data_type)
-
-
-# state variables and constants
-def init():
-    ...
-
-
-# the process function!
-def process(input_buffer, output_buffer, buffer_len):
-    ...
-
-
-"""
-# Nothing to touch after this!
-# """
-try:
-    sd.default.samplerate = 16000
-    sd.default.blocksize = STRIDE
-    sd.default.dtype = data_type
-
-    def callback(indata, outdata, frames, time, status):
-        if status:
-            print(status)
-        process(indata[:,0], outdata[:,0], frames)
-
-    init()
-    with sd.Stream(channels=1, callback=callback):
-        print('#' * 80)
-        print('press Return to quit')
-        print('#' * 80)
-        input()
-except KeyboardInterrupt:
-    parser.exit('\nInterrupted by user')
-```
 
 **Congrats on implementing granular synthesis pitch shifting! This is not a straightforward task, even in Python. But now that you have this code, the C implemention on the STM board should be much easier.**
 

@@ -81,7 +81,7 @@ As for `bac`, for our microcontroller implementation in `C`, we may wish to pre-
 
 In fact, it is possible to use the same function for "vanilla" and LPC granular synthesis pitch shifting. We can do this by introducing a boolean variable `use_LPC`.
 
-Below, we provide the ***incomplete*** `process` function, which is provided to you in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). In this same file, you will also find the code to run LPC granular synthesis on an audio file.
+Below, we provide the ***incomplete*** `process` function, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). In this same file, you will also find the code to run LPC granular synthesis on an audio file.
 
 
 ```python
