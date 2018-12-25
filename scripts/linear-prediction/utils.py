@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def ms2smp(ms, fs):
     """
     Parameters
@@ -8,8 +9,10 @@ def ms2smp(ms, fs):
         Time in milliseconds
     fs: float
         Sampling rate in Hz.
-    
-    return int(fs*ms/1000.)
+    """
+​
+    # return corresponding length in samples
+
 
 def compute_stride(grain_len_samp, grain_over):
     return grain_len_samp - int(grain_len_samp * grain_over / 2) - 1
@@ -42,34 +45,3 @@ def build_linear_interp_table(n_samples, down_fact, data_type=np.int16):
     amp_vals = (amp_vals*MAX_VAL).astype(data_type)
 
     return samp_vals, amp_vals
-
-
-# ===== Functions specific to LPC feature =====
-
-def bac(x, p):
-    # compute the biased autocorrelation for x up to lag p
-    L = len(x)
-    r = np.zeros(p+1)
-    for m in xrange(0, p+1):
-        for n in xrange(0, L-m):
-            r[m] += x[n] * x[n+m]
-        r[m] /= float(L)
-    return r
-
-
-def ld(r, p):
-    # solve the toeplitz system using the Levinson-Durbin algorithm
-    g = r[1] / r[0]
-    a = np.array([g])
-    v = (1. - g * g) * r[0];
-    for i in xrange(1, p):
-        g = (r[i+1] - np.dot(a, r[1:i+1])) / v
-        a = np.r_[ g,  a - g * a[i-1::-1] ]
-        v *= 1. - g*g
-    # return the coefficients of the A(z) filter
-    return np.r_[1, -a[::-1]]
-
-
-def lpc(x, p):
-    # compute p LPC coefficients for a speech segment
-    return ld(bac(x, p), p)

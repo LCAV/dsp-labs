@@ -11,6 +11,7 @@ grain_len = 30
 grain_over = 0.2
 shift_factor = 0.7 
 data_type = np.int16
+samp_freq = 16000
 
 # derived parameters
 MAX_VAL = np.iinfo(data_type).max
@@ -37,7 +38,7 @@ def process(input_buffer, output_buffer, buffer_len):
 # Nothing to touch after this!
 # """
 try:
-    sd.default.samplerate = 16000
+    sd.default.samplerate = samp_freq
     sd.default.blocksize = STRIDE
     sd.default.dtype = data_type
 

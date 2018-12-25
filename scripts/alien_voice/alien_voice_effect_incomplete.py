@@ -6,6 +6,7 @@ You need to complete the process function.
 
 from scipy.io import wavfile
 import numpy as np
+import os
 
 def build_sine_table(f_sine, samp_freq, data_type=16):
     """
@@ -40,7 +41,7 @@ f_sine = 100 # Hz, for modulation
 high_pass_on = False
 
 # test signal
-input_wav = "speech.wav"
+input_wav = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "_templates", "speech.wav")
 samp_freq, signal = wavfile.read(input_wav)
 signal = signal[:,]  # get first channel
 n_buffers = len(signal)//buffer_len

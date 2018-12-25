@@ -283,7 +283,7 @@ wavfile.write(file_name, samp_freq, signal_proc)
 ```
 
 {% hint style="info" %}
-BONUS: Implement the granular synthesis pitch shifting in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io/en/0.3.11/) module.
+TASK 5: Implement the granular synthesis pitch shifting in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io/en/0.3.11/) module.
 
 _Hint: copy-and-paste your_ `init` _and_ `process` _functions \(once they are working\) into the script below._
 {% endhint %}

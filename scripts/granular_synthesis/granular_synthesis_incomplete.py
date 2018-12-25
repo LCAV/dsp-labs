@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.io import wavfile
+import os
 from utils import ms2smp, compute_stride, win_taper, build_linear_interp_table
 
 """
@@ -7,14 +8,15 @@ Pitch shifting with granular synthesis for shift factors <=1.0
 """
 
 """ User selected parameters """
-input_wav = "speech.wav"
+input_wav = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "_templates", "speech.wav")
 grain_len = 20      # in milliseconds
 grain_over = 0.3    # grain overlap (0,1)
 shift_factor = 0.7  # <= 1.0
 
 # open WAV file
 samp_freq, signal = wavfile.read(input_wav)
-signal = signal[:,]  # get first channel
+if len(signal.shape)>1 :
+    signal = signal[:,0]  # get first channel
 data_type = signal.dtype
 MAX_VAL = np.iinfo(data_type).max
 
@@ -39,32 +41,32 @@ def init():
     global AMP_VALS
     SAMP_VALS, AMP_VALS = build_linear_interp_table(GRAIN_LEN_SAMP, shift_factor, data_type)
 
-    # create arrays to pass between buffers (state variables)
+    # TODO: create arrays to pass between buffers (state variables)
     global ...
 
-    # create arrays for intermediate values
+    # TODO: create arrays for intermediate values
     global ...
 
 
 # the process function!
 def process(input_buffer, output_buffer, buffer_len):
 
-    # need to specify those global variables changing in this function (state variables and intermediate values)
+    # TODO: need to specify those global variables changing in this function (state variables and intermediate values)
     global ...
 
-    # append samples from previous buffer
+    # TODO: append samples from previous buffer
     for n in range(GRAIN_LEN_SAMP):
         ...
 
-    # resample
+    # TODO: resample grain
     for n in range(GRAIN_LEN_SAMP):
         ...
 
-    # apply window
+    # TODO: apply window
     for n in range(GRAIN_LEN_SAMP):
         ...
     
-    # write to output
+    # TODO: write to output and update state variables
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part
         if n < OVERLAP_LEN:
