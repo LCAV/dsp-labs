@@ -18,8 +18,9 @@ Luckily, we’re only interested in shifting the definite pitches of an input si
 
 To keep the definite pitch characteristics, the shifted pitch should still have a fundamental frequency and its partials. It means that we can’t simply shift all frequencies of the pitch, but we should stretch or compress them, so that the partials are still multiples of the fundamental frequency. This is done in the frequency domain: we first chose the pitch we want to shift to, and then place the signal samples to all multiples of its fundamental frequency. We then go back to the time domain.
 
-Piano A3 shifted to A4             |  Piano A3 shifted to A2
-:-------------------------:|:-------------------------:
-![alt text](pianofreq1.png "Piano A3 shifted to A4")  |  ![alt text](pianofreq2.png "Piano A3 shifted to A2")
+
+![alt text](pianofreq1.png "Piano A3 shifted to A4")
+
+![alt text](pianofreq2.png "Piano A3 shifted to A2")
 
 _Figure: Shifting A3 in the frequency domain: to A4 (on the left) and to A2 (on the right). Partial frequencies remain multiples of the fundamental one._
