@@ -1,6 +1,8 @@
 import numpy as np
 from utils import ms2smp, compute_stride, win_taper, build_linear_interp_table
+from utils_lpc import ld_eff
 import sounddevice as sd
+
 
 """
 Real-time pitch shifting with granular synthesis for shift factors <=1.0
@@ -12,6 +14,8 @@ grain_over = 0.2
 shift_factor = 0.7 
 data_type = np.int16
 samp_freq = 16000
+P = 20
+use_LPC = True
 
 # derived parameters
 MAX_VAL = np.iinfo(data_type).max
@@ -54,7 +58,7 @@ try:
         print('#' * 80)
         input()
 except KeyboardInterrupt:
-    print('\nInterrupted by user')
+    parser.exit('\nInterrupted by user')
 
 
 

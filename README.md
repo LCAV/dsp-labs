@@ -24,5 +24,6 @@ Table of contents:
 3. [Alien voice effect](https://lcav.gitbook.io/dsp-labs/alien-voice)
 4. [Digital filter design](https://lcav.gitbook.io/dsp-labs/filter-design)
 5. [Granular synthesis pitch shifting](https://lcav.gitbook.io/dsp-labs/granular-synthesis)
+6. [Linear predictive coding](https://lcav.gitbook.io/dsp-labs/linear-prediction)
 
 To set up the book for local development or to suggest changes (more than welcome!), check out the [setup guide](https://github.com/LCAV/dsp-labs/blob/master/SETUP.md).
