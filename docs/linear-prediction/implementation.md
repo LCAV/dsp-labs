@@ -36,7 +36,7 @@ The function `bac` is sufficient from a real-time microcontroller "point of view
 
 The function `ld` (for performing the Levinson-Durbin recursion) is ***not suitable*** for a microcontroller C implementation, as we have array operations (`np.dot`) and memory is allocated on the fly (`np.r_` concatenates values into a new row vector).
 
-We will therefore re-implement the `ld` function so that porting it to C will be much more straightforward. Below we provide you an ***incomplete*** function `ld_eff` that is meant to implement Levinson-Durbin recursion in a C-"friendly" manner.
+We will therefore re-implement the `ld` function so that porting it to C will be much more straightforward. Below we provide you an ***incomplete*** function `ld_eff` that is meant to implement Levinson-Durbin recursion in a "C-friendly" manner.
 
 ```python
 def ld_eff(r, order):
@@ -67,21 +67,21 @@ def ld_eff(r, order):
 
 {% hint style="info" %}
 
-TASK 1: Complete the above function `ld_eff` so that it correctly implements the Levinson-Durbin recursion.
+TASK 1: Complete the above function `ld_eff` in the [`utils_lpc.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/utils_lpc.py) file so that it correctly implements Levinson-Durbin recursion.
 
 _Hint: we refer you to [**this document**](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-341-discrete-time-signal-processing-fall-2005/lecture-notes/lec13.pdf) (p. 5) in order to determine the correct expression for `k` and `a[j]`._
 {% endhint %}
 
-You can test your implementation of `ld_eff` by placing it in [`utils_lpc.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/utils_lpc.py) and running the script [`test_lpc_utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/test_lpc_utils.py). The script should print `CORRECT!` if you have successfully implemented the function; otherwise it will print `Something's wrong...` or error out if you have a bug in your implementation.
+You can test your implementation by running the script [`test_lpc_utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/test_lpc_utils.py). The script should print `CORRECT!` if you have successfully implemented the function; otherwise it will print `Something's wrong...` or error out if you have a bug in your implementation.
 
-As for `bac`, for our microcontroller implementation in `C`, we may wish to pre-allocate global arrays for `a` and `a_prev`.
+As for `bac`, for our microcontroller implementation of `ld_eff` in `C`, we may wish to pre-allocate global arrays for `a` and `a_prev`.
 
 
 ## Modifying the `process` function
 
 In fact, it is possible to use the same function for "vanilla" and LPC granular synthesis pitch shifting. We can do this by introducing a boolean variable `use_LPC`.
 
-Below, we provide the ***incomplete*** `process` function, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). In this same file, you will also find the code to run LPC granular synthesis on an audio file.
+Below, we provide the ***incomplete*** `process` function, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py).
 
 
 ```python
@@ -136,7 +136,9 @@ def process(input_buffer, output_buffer, buffer_len):
 ```
 {% hint style="info" %}
 
-TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). Run the file and make sure the output is the same as before!
+TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the above `process` function in the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). (Copy the appropriate lines under the comments `copy from granular synthesis`.)
+
+Run the file and make sure the output is the same as before!
 {% endhint %}
 
 We can now begin adding the code for LPC! Let's remind ourselves of the steps we mentioned in the previous section:
@@ -158,8 +160,8 @@ _Hint: use the function `lpc_eff` and cast the input raw samples to `np.float32`
 TASK 4: Complete the code after the comment `# estimate excitation`, namely filter the raw input samples with the "recently" obtained LPC coefficients.
 
 Hints: 
-- We are applying an ***FIR filter*** in this case; recall your implementation from the **Digital Filter Design** chapter, notably the code from [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/filter_design/biquad_direct_form_1_incomplete.py). In this case `input_buffer` should be the concatenated raw samples vector, `x` should be `lpc_prev_in`, and there is no equivalent to `y` since this is an FIR filter.
-- You can rewrite into the raw samples vector.
+- We are applying an ***FIR filter*** in this case; recall your implementation from the **Digital Filter Design** chapter, notably the code from [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/filter_design/biquad_direct_form_1_incomplete.py#L62). In this case `input_buffer` should be the concatenated raw samples vector, `x` should be `lpc_prev_in`, and there is no equivalent to `y` since this is an FIR filter.
+- You can rewrite into the concatenated raw samples vector, **NOT** `input_buffer`!
 - Don't forget to apply `GAIN`!
 {% endhint %}
 
@@ -174,12 +176,14 @@ This is already done with your code from the granular synthesis effect!
 TASK 5: Complete the code after the comment `# forward filter the resampled grain`, namely filter the resampled grain with the LPC coefficients.
 
 Hints: 
-- We are applying an ***IIR filter*** in this case; recall your implementation from the **Digital Filter Design** chapter, notably the code from [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/filter_design/biquad_direct_form_1_incomplete.py).
+- We are applying an ***IIR filter*** in this case.
 - You can rewrite into the resampled grain vector.
 - Use `lpc_prev_out` for the previous output samples.
 {% endhint %}
 
-And that's all the extra code needed for this LPC feature! Try out the script with the fixed WAV file. If you notice some strange output, make sure you are casting (when appropriate) to `int`; this is a common point for mistakes.
+And that's all the extra code needed for this LPC feature! Try out your completed [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py) script with the fixed WAV file (make sure `use_LPC=True`) and listen to the output to see if it sounds correct. 
+
+_If you notice some strange output, make sure you are casting (when appropriate) to `int`; this is a common point for mistakes._
 
 
 ## Real-time implementation

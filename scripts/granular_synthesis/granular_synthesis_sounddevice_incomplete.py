@@ -54,7 +54,7 @@ try:
         print('#' * 80)
         input()
 except KeyboardInterrupt:
-    parser.exit('\nInterrupted by user')
+    print('\nInterrupted by user')
 
 
 

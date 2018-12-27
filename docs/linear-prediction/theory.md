@@ -34,7 +34,7 @@ Our goal is to estimate the coefficients of the filter $$A(z)$$, which are calle
 
 ## Time domain equations
 
-In the time domain, we can express our produced speech as:
+In the time domain, we can express the produced speech as:
 
 $$
 x[n] = e[n] + \sum_{k=1}^{p} a_k x[n-k],
@@ -50,14 +50,14 @@ $$
 
 *Note: The above equation is identical to the expression for the prediction error in the standard **AR linear prediction** problem.*
 
-In practice, we solve this system by first defining the autocorrelation matrix $$R$$ of the input signal, where:
+In practice, we solve this system by first defining the (symmetric) autocorrelation matrix $$R$$ of the input signal, where:
 
 $$
 r_m = (\frac{1}{N})\sum_{k=0}^{N-m-1} x[k]x[k+m],
 $$
 
 
-where $$m$$ is the absolute difference between the row and column indices. This matrix $$R$$ has a Toeplitz structure, yielding the following system of equations (known as [Yule-Walker](https://en.wikipedia.org/wiki/Autoregressive_model#Yule%E2%80%93Walker_equations)) in order to minimize the energy of $$e[n]$$:
+where $$m$$ is the absolute difference between the row and column indices of $$R$$. This matrix $$R$$ has a Toeplitz structure, yielding the following system of equations (known as [Yule-Walker](https://en.wikipedia.org/wiki/Autoregressive_model#Yule%E2%80%93Walker_equations)) in order to minimize the energy of $$e[n]$$:
 
 ![](figs/equation_system.png)
 
