@@ -16,7 +16,7 @@ A computationally cheap alternative is to use a [lookup table](https://en.wikipe
 
 Lookup tables are extremely useful in DSP and can even be used to replace/approximate computationally expensive filters. However, they come with the cost of having to store them in memory so this tradeoff should always be carefully considered!
 
-Below is a Python script to compute a sinusoid lookup table given a particular sampling frequency and modulation frequency. The lookup table is then printed in the console for copy-and-pasting to a C program. The lookup table samples are also plotted.
+Below is a Python script, which you can also find [in the repository](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/compute_sinusoid_lookup.py), to compute a sinusoid lookup table given a particular sampling frequency and modulation frequency. The lookup table is then printed in the console for copy-and-pasting to a C program. The lookup table samples are also plotted.
 
 ```python
 from __future__ import print_function

@@ -1,4 +1,3 @@
-from scipy.io import wavfile
 import numpy as np
 import sounddevice as sd
 
@@ -6,16 +5,11 @@ import sounddevice as sd
 
 # parameters
 buffer_len = 256
-
-# test signal
-input_wav = "speech.wav"
-samp_freq, signal = wavfile.read(input_wav)
-signal = signal[:,]  # get first channel
-n_buffers = len(signal)//buffer_len
-data_type = signal.dtype
+data_type = np.int16
+samp_freq = 16000
 
 print("Sampling frequency : %d Hz" % samp_freq)
-print("Data type          : %s" % signal.dtype)
+print("Data type          : %s" % data_type)
 
 # allocate input and output buffers
 input_buffer = np.zeros(buffer_len, dtype=data_type)
@@ -47,18 +41,15 @@ def process(input_buffer, output_buffer, buffer_len):
 """
 Nothing to touch after this!
 """
-"""
-Nothing to touch after this!
-"""
 try:
-    sd.default.samplerate = 16000
+    sd.default.samplerate = samp_freq
     sd.default.blocksize = buffer_len
     sd.default.dtype = data_type
 
     def callback(indata, outdata, frames, time, status):
         if status:
             print(status)
-        process(indata[:,0], outdata[:,0], frames)
+        process(indata[:, 0], outdata[:, 0], frames)
 
     init()
     with sd.Stream(channels=1, callback=callback):
@@ -67,4 +58,4 @@ try:
         print('#' * 80)
         input()
 except KeyboardInterrupt:
-    parser.exit('\nInterrupted by user')
+    print('\nInterrupted by user')

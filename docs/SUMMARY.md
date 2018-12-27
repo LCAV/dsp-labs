@@ -27,7 +27,10 @@
 * [5. GRANULAR SYNTHESIS](granular-synthesis/README.md)
   * [5.1 How it works](granular-synthesis/effect_description.md)
   * [5.2 Implementation](granular-synthesis/implementation.md)
-* [6. DFT PITCH SHIFTING](dft/README.md)
-  * [6.1 How it works](dft/theory.md)
-  * [6.2 Implementation](dft/implementation.md)
+* [6. LINEAR PREDICTION](linear-prediction/README.md)
+  * [6.1 Theory behind LPC](linear-prediction/theory.md)
+  * [6.2 Implementation](linear-prediction/implementation.md)
+* [7. DFT PITCH SHIFTING](dft/README.md)
+  * [7.1 How it works](dft/theory.md)
+  * [7.2 Implementation](dft/implementation.md)
 
