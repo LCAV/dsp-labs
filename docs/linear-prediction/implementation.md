@@ -136,7 +136,7 @@ def process(input_buffer, output_buffer, buffer_len):
 ```
 {% hint style="info" %}
 
-TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the above `process` function in the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). (Copy the appropriate lines under the comments `copy from granular synthesis`.)
+TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the above `process` function in the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). (Copy the appropriate lines under the comments `# copy from granular synthesis`.)
 
 Run the file and make sure the output is the same as before!
 {% endhint %}
@@ -158,12 +158,13 @@ _Hint: use the function `lpc_eff` and cast the input raw samples to `np.float32`
 {% hint style="info" %}
 
 TASK 4: Complete the code after the comment `# estimate excitation`, namely filter the raw input samples with the "recently" obtained LPC coefficients.
+{% endhint %}
 
 Hints: 
 - We are applying an ***FIR filter*** in this case; recall your implementation from the **Digital Filter Design** chapter, notably the code from [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/filter_design/biquad_direct_form_1_incomplete.py#L62). In this case `input_buffer` should be the concatenated raw samples vector, `x` should be `lpc_prev_in`, and there is no equivalent to `y` since this is an FIR filter.
 - You can rewrite into the concatenated raw samples vector, **NOT** `input_buffer`!
 - Don't forget to apply `GAIN`!
-{% endhint %}
+
 
 ##### 3. Apply pitch-shifting on the excitation signal
 
@@ -174,12 +175,12 @@ This is already done with your code from the granular synthesis effect!
 {% hint style="info" %}
 
 TASK 5: Complete the code after the comment `# forward filter the resampled grain`, namely filter the resampled grain with the LPC coefficients.
+{% endhint %}
 
 Hints: 
 - We are applying an ***IIR filter*** in this case.
 - You can rewrite into the resampled grain vector.
 - Use `lpc_prev_out` for the previous output samples.
-{% endhint %}
 
 And that's all the extra code needed for this LPC feature! Try out your completed [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py) script with the fixed WAV file (make sure `use_LPC=True`) and listen to the output to see if it sounds correct. 
 

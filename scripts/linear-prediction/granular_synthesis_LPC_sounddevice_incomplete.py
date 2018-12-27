@@ -11,11 +11,14 @@ Real-time pitch shifting with granular synthesis for shift factors <=1.0
 """ User selected parameters """
 grain_len = 30
 grain_over = 0.2
-shift_factor = 0.7 
+shift_factor = 0.7
+LPC_ORDER = 25
+use_LPC = True
+GAIN = 0.5
+N_COEF = LPC_ORDER+1
+
 data_type = np.int16
 samp_freq = 16000
-P = 20
-use_LPC = True
 
 # derived parameters
 MAX_VAL = np.iinfo(data_type).max
@@ -49,7 +52,7 @@ try:
     def callback(indata, outdata, frames, time, status):
         if status:
             print(status)
-        process(indata[:,0], outdata[:,0], frames)
+        process(indata[:, 0], outdata[:, 0], frames)
 
     init()
     with sd.Stream(channels=1, callback=callback):
@@ -58,8 +61,4 @@ try:
         print('#' * 80)
         input()
 except KeyboardInterrupt:
-    parser.exit('\nInterrupted by user')
-
-
-
-
+    print('\nInterrupted by user')

@@ -47,14 +47,14 @@ def init():
     SAMP_VALS, AMP_VALS = build_linear_interp_table(GRAIN_LEN_SAMP, shift_factor, data_type)
 
     # TODO: create arrays to pass between buffers (state variables)
-    # copy from granulary synthesis
+    # copy from granular synthesis
     global ...
 
     # TODO: create arrays for intermediate values
     # copy from granular synthesis
     global ...
 
-    # state variabless for LPC
+    # state variables for LPC
     if use_LPC:
         global lpc_coef, lpc_prev_in, lpc_prev_out
         lpc_coef = np.zeros(N_COEF, dtype=np.float32)
