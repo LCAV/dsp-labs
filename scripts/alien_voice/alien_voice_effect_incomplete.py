@@ -7,7 +7,7 @@ You need to complete the process function.
 from scipy.io import wavfile
 import os
 import numpy as np
-import os
+from utils import build_sine_table
 
 
 # parameters

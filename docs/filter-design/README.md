@@ -12,6 +12,7 @@ filter used earlier. After all, no DSP module is complete without a section on
 filter design!
 
 As before, text contained in highlighted boxes are tasks for ***you***!
+
 {% hint style="info" %}
 TASK: This is a task for you!
 {% endhint %}
