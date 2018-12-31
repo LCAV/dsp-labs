@@ -30,4 +30,7 @@
 * [6. LINEAR PREDICTION](linear-prediction/README.md)
   * [6.1 Theory behind LPC](linear-prediction/theory.md)
   * [6.2 Implementation](linear-prediction/implementation.md)
+* [7. DFT PITCH SHIFTING](dft/README.md)
+  * [7.1 How it works](dft/theory.md)
+  * [7.2 Python implementation](dft/implementation.md)
 
