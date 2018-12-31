@@ -12,7 +12,7 @@ Python framework for simulating a real-time environment with your laptop's sound
 [`sounddevice`](http://python-sounddevice.readthedocs.io/) library. Finally, we will guide 
 you through the implementation on the STM32 board in [Section 3.4](implementation.md).
 
-As in the previous chapter, text contained in highlighted boxes, as shown below, will require _you_ to determine the appropriate solution and implementation.
+As in the previous chapter, text contained in highlighted boxes, as shown below, will require ***you*** to determine the appropriate solution and implementation.
 
 {% hint style="info" %}
 TASK: This is a task for you!

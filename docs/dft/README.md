@@ -1,11 +1,30 @@
-# Pitch shifting using DFT
+# 7. DFT PITCH SHIFTING
 
-This exercise shows the implementation of the pitch shifting technique in the frequency domain. As the pitch is strongly related to frequencies, it may become very clear what happens while shifting the pitch of a sound. Moreover, the implementation is easy to understand thanks to the existing functions of Fourier Transform and its inverse. 
+In this chapter, we consider pitch shifting in the **frequency domain** by performing the _Discrete Fourier Transform_ (DFT). As the pitch is strongly related to frequency, it is quite intuitive what operation needs to be done in this domain, namely shift the spectrum up or down. However, as mentioned in the previous chapter, we wish to preserve a certain structure in the spectrum.
 
-The [Section 6.1](theory.md) explains the theory behind this technique, and in [Section 6.2](implementation.md) you will be guided through the implementation of the DFT pitch shifting in Python which is similar to the [Granular Synthesis](granular-synthesis.md) implementation. This will give you an intuition for the implementation of the same code in C.
+[Section 7.1](theory.md) explains the operations that need to be performed for DFT pitch shifting and the motivation behind them, while [Section 7.2](implementation.md) guides you through implementing this approach in Python.
 
-As before, the highlighted boxes below mean that _you_ must find the appropriate solution and implementation.
+With this effect, we will be creating a chipmunk-like voice effect; so no need to inhale helium!
 
+Text contained in highlighted boxes, as shown below, are tasks for ***you***.
 {% hint style="info" %}
 TASK: This is a task for you!
 {% endhint %}
+
+
+```
+                              _
+                          .-'` `}
+                  _./)   /       }
+                .'o   \ |       }
+                '.___.'`.\    {`
+                /`\_/  , `.    }
+                \=' .-'   _`\  {
+                 `'`;/      `,  }
+                    _\       ;  }
+                   /__`;-...'--'
+
+```
+
+[Source](http://www.heartnsoul.com/ascii_art/squirrels.txt).
+

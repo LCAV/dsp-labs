@@ -15,7 +15,7 @@ transformation in C on an embedded device. We will guide you through the Python 
 in [Section 5.2](implementation.md).
 
 As in the previous chapter, text contained in highlighted boxes, as shown below, will require 
-_you_ to determine the appropriate solution and implementation.
+***you*** to determine the appropriate solution and implementation.
 
 {% hint style="info" %}
 TASK: This is a task for you!

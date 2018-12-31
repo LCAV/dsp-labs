@@ -1,27 +1,32 @@
-# Pitch shifting using DFT
+# 7.1 Pitch shifting in the frequency domain
 
-In this tutorial, we will implement a pitch shifting using DFT in real-time.
+The next pitch shifting technique that we will explore moves us to the frequency domain. 
 
-The relation between pitch and frequency is not straightforward: while the frequency is an objective value that can be measured, the pitch is a subjective perception of sound. However, a *definite* pitch, i.e. a pitch that can be easily discerned, has a harmonic frequency spectra: all present frequencies are multiples of the first one, which is called *fundamental* frequency. What we hear is the fundamental frequency; its multiples are called *partials*, and serve to color the tone. Here is an example of an A3 played on a synthesized piano:
+To set the stage, let's initially consider a simple pitched sound, _i.e._ a signal that appears, to the human ear, to have a discernible pitch. This could be a vowel sound in a speech signal or a note played by a musical instrument.
 
-![alt text](pianofreq.png "Piano frequencies - A3")
+Spectrally, a pitched sound possesses a ***harmonic*** structure, that is, as we scan the spectrum from left to right, we encounter a first clear spectral line (called the ***fundamental***) followed by other peaks (called the ***partials***) at exact multiples of the fundamental. The frequency of the fundamental is the perceived pitch of the sound and the regular pattern of spectral lines at precise multiples of the fundamental serve to "color" the tone. They allow us to distinguish the same note played by, _e.g._ a piano and a clarinet.
 
-_Figure: Fourier Transform of A3 on a synthesized piano._
+Below is the spectrum of a (synthesized) clarinet playing the note D4 ($$293.6$$ Hz). The spectrum shows the typical pattern of woodwinds, where only the even-numbered partials have significant energy.
 
-The fundamental frequency is 220 Hz which corresponds indeed to A3 (recall that A4 corresponds to 440 Hz, and one octave higher means doubling the frequency). Note that the actual first "frequency" is 0 and represents the energy of the signal; thus it can't be fundamental.
+![](figs/clarinet_spectrum.png)
 
-$$ 
-X(\omega = 0) = \sum_{n = -∞}^∞ x[n]e^{-i\omega n} \biggr\rvert_{\omega = 0} = \sum_{n = -∞}^∞ x[n]
-$$
+_Figure: Spectrum of D4 played by a (synthesized) clarinet. You can find the WAV file [here](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/clarinet_D4.wav)._
 
-Luckily, we’re only interested in shifting the definite pitches of an input signal, as they are the only ones we can perceive. In a signal, definite pitches are vowels and voiced consonants, so ideally we would like to shift their pitches and nothing else. However, it would be too complicated to extract them from the input signal; it is easier to shift the pitch of every phonetic one by one, as shifting the pitch of an unvoiced consonant wouldn’t change much. Instead of parsing the input speech to phonetics, we simply separate the signal into intervals small enough: this way, every processed part of signal contains no more than one consonant or vowel.
+If we now want to change the frequency content of a sound without altering its duration, we could take a Fourier transform, move the frequencies around, and perform the inverse Fourier transform to return to the time domain. As long as the conjugate symmetry of the modified spectrum is preserved, we would obtain a real-valued time-domain signal.
 
-To keep the definite pitch characteristics, the shifted pitch should still have a fundamental frequency and its partials. It means that we can’t simply shift all frequencies of the pitch, but we should stretch or compress them, so that the partials are still multiples of the fundamental frequency. This is done in the frequency domain: we first chose the pitch we want to shift to, and then place the signal samples to all multiples of its fundamental frequency. We then go back to the time domain.
+If we simply shift the spectrum up and down, we can move the position of the fundamental, but we will lose the harmonicity relation between the partials. In other words, the partials will no longer fall at multiples of the fundamental; this is why the "alien voice" sounds unnatural.
 
-![alt text](pianofreq1.png "Piano A3 shifted to A4")
+The proper way to change the pitch while keeping a natural sound is to instead ***stretch (or compress)*** the frequency axis with a scaling factor. This operation will preserve the proportionality relationship between the fundamental and partials.
 
-_Figure: Shifting A3 to A4 in the frequency domain. Partial frequencies remain multiples of the fundamental one._
+In the figure below, we stretch our D4 note from above in order to double its frequency, _i.e._ shift it by an octave to D5.
 
-![alt text](pianofreq2.png "Piano A3 shifted to A2")
+![](figs/shift_spectrum.png)
 
-_Figure: Shifting A3 to A2 in the frequency domain. Partial frequencies remain multiples of the fundamental one._
+_Figure: Spectrum of D4 played by a (synthesized) clarinet and its shifted version (to D5) by stretching the frequency axis. You can find the WAV file of the shifted note [here](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/clarinet_D5.wav) and the script [here](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/dft_shift_example.py)._
+
+
+However, if we want to apply the same approach to speech, we run into the problem that speech is a nonstationary signal where pitched sounds (the vowels) alternate with non-pitched sounds (the consonants). The ideal solution would be to segment the speech signal into portions that isolate individual sounds and then apply spectral shifting to the vowels. In practice, we can simply segment the incoming signal into small pieces and apply spectral shifting to each piece independently. Applying pitch shifting to the unvoiced portions doesn't affect their nature that much.
+
+The length of the segments over which we compute (and shift) the DFT should be short enough to encompass a single pitched event but long enough to allow for a good resolution in the DFT. Usually, a window between $$40$$ and $$100$$ milliseconds is sufficient. Again, we will use a tapering window to minimize border effects in the result.
+
+**In the [next section](implementation.md), we guide you through implementing DFT-based pitch shifting in a real-time, _i.e._ buffer-based, fashion with Python. The chosen segment/buffer/grain length dictates the latency of our voice effect.**

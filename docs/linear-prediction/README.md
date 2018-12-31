@@ -16,7 +16,7 @@ In [Section 6.2](implementation.md), we implement the code that solves the set o
 We then guide you on the use of this code in order to improve the quality of the granular synthesis effect from the previous chapter.
 
 As before, text contained in highlighted boxes, as shown below, will require 
-_you_ to determine the appropriate solution/implementation.
+***you*** to determine the appropriate solution/implementation.
 
 {% hint style="info" %}
 TASK: This is a task for you!

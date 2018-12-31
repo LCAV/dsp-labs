@@ -32,5 +32,5 @@
   * [6.2 Implementation](linear-prediction/implementation.md)
 * [7. DFT PITCH SHIFTING](dft/README.md)
   * [7.1 How it works](dft/theory.md)
-  * [7.2 Implementation](dft/implementation.md)
+  * [7.2 Python implementation](dft/implementation.md)
 

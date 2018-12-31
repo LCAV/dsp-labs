@@ -136,7 +136,9 @@ def process(input_buffer, output_buffer, buffer_len):
 ```
 {% hint style="info" %}
 
-TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the above `process` function in the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). (Copy the appropriate lines under the comments `# copy from granular synthesis`.)
+TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the above `process` function and the `init` function in the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). (Copy the appropriate lines under the comments `# copy from granular synthesis`.)
+
+Complete also the `ms2smp` function in [`utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/utils.py)
 
 Run the file and make sure the output is the same as before!
 {% endhint %}
@@ -194,3 +196,5 @@ TASK 6: When your implementaton works with the fixed WAV file, you can complete 
 {% endhint %}
 
 **Congrats on incorporating this LPC component to your granular synthesis pitch shifter! Given the Python implementation, the porting to C should be more straightforward. As noted earlier, it may be useful to pre-allocate memory for the LPC coefficients and their computation.**
+
+**In the [next chapter](../dft/README.md), we implement a DFT-based pitch shifter. With this effect, we will shift our speech up in order to create a chipmunk-like voice; no need to inhale helium!**
