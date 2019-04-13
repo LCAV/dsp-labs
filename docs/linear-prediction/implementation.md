@@ -67,12 +67,12 @@ def ld_eff(r, order):
 
 {% hint style="info" %}
 
-TASK 1: Complete the above function `ld_eff` in the [`utils_lpc.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/utils_lpc.py) file so that it correctly implements Levinson-Durbin recursion.
+TASK 1: Complete the above function `ld_eff` in the [`utils_lpc.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/utils_lpc.py) file so that it correctly implements Levinson-Durbin recursion.
 
 _Hint: we refer you to [**this document**](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-341-discrete-time-signal-processing-fall-2005/lecture-notes/lec13.pdf) (p. 5) in order to determine the correct expression for `k` and `a[j]`._
 {% endhint %}
 
-You can test your implementation by running the script [`test_lpc_utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/test_lpc_utils.py). The script should print `CORRECT!` if you have successfully implemented the function; otherwise it will print `Something's wrong...` or error out if you have a bug in your implementation.
+You can test your implementation by running the script [`test_lpc_utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/test_lpc_utils.py). The script should print `CORRECT!` if you have successfully implemented the function; otherwise it will print `Something's wrong...` or error out if you have a bug in your implementation.
 
 As for `bac`, for our microcontroller implementation of `ld_eff` in `C`, we may wish to pre-allocate global arrays for `a` and `a_prev`.
 
@@ -81,7 +81,7 @@ As for `bac`, for our microcontroller implementation of `ld_eff` in `C`, we may 
 
 In fact, it is possible to use the same function for "vanilla" and LPC granular synthesis pitch shifting. We can do this by introducing a boolean variable `use_LPC`.
 
-Below, we provide the ***incomplete*** `process` function, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py).
+Below, we provide the ***incomplete*** `process` function, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/granular_synthesis_LPC_incomplete.py).
 
 
 ```python
@@ -136,9 +136,7 @@ def process(input_buffer, output_buffer, buffer_len):
 ```
 {% hint style="info" %}
 
-TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the above `process` function and the `init` function in the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py). (Copy the appropriate lines under the comments `# copy from granular synthesis`.)
-
-Complete also the `ms2smp` function in [`utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/utils.py)
+TASK 2: As a sanity check, you can first copy your code from your granular synthesis implementation into the above `process` function and the `init` function in the script [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/granular_synthesis_LPC_incomplete.py). (Copy the appropriate lines under the comments `# copy from granular synthesis`.)
 
 Run the file and make sure the output is the same as before!
 {% endhint %}
@@ -184,7 +182,7 @@ Hints:
 - You can rewrite into the resampled grain vector.
 - Use `lpc_prev_out` for the previous output samples.
 
-And that's all the extra code needed for this LPC feature! Try out your completed [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_incomplete.py) script with the fixed WAV file (make sure `use_LPC=True`) and listen to the output to see if it sounds correct. 
+And that's all the extra code needed for this LPC feature! Try out your completed [granular_synthesis_LPC_incomplete.py](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/granular_synthesis_LPC_incomplete.py) script with the fixed WAV file (make sure `use_LPC=True`) and listen to the output to see if it sounds correct. 
 
 _If you notice some strange output, make sure you are casting (when appropriate) to `int`; this is a common point for mistakes._
 
@@ -192,7 +190,7 @@ _If you notice some strange output, make sure you are casting (when appropriate)
 ## Real-time implementation
 
 {% hint style="info" %}
-TASK 6: When your implementaton works with the fixed WAV file, you can complete the [`sounddevice` template](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/granular_synthesis_LPC_sounddevice_incomplete.py) in order to run the effect in real-time with your laptop's soundcard.
+TASK 6: When your implementaton works with the fixed WAV file, you can complete the [`sounddevice` template](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/granular_synthesis_LPC_sounddevice_incomplete.py) in order to run the effect in real-time with your laptop's soundcard.
 {% endhint %}
 
 **Congrats on incorporating this LPC component to your granular synthesis pitch shifter! Given the Python implementation, the porting to C should be more straightforward. As noted earlier, it may be useful to pre-allocate memory for the LPC coefficients and their computation.**

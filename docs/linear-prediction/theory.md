@@ -6,7 +6,7 @@ This unnatural sound is due to the fact that the pitch shifter we implemented ea
 
 ![](figs/energy_problem.png)
 
-In the figure above, generated with [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/compare_spectrum.py), we can see the energy envelope of a $$40$$ ms voiced speech snippet (orange) and that of the speech processed with the granular synthesis effect (green). As can be clearly seen, the granular synthesis effect does not preserve the original energy envelope. We can certainly see the spectrum shifting down; however, such a shift does not maintain the structure of harmonic signals, *i.e.* harmonics that are multiples of a fundamental frequency. In this section, we present a concrete method to preserve this energy envelope while still performing the desired pitch shift.
+In the figure above, generated with [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/compare_spectrum.py), we can see the energy envelope of a $$40$$ ms voiced speech snippet (orange) and that of the speech processed with the granular synthesis effect (green). As can be clearly seen, the granular synthesis effect does not preserve the original energy envelope. We can certainly see the spectrum shifting down; however, such a shift does not maintain the structure of harmonic signals, *i.e.* harmonics that are multiples of a fundamental frequency. In this section, we present a concrete method to preserve this energy envelope while still performing the desired pitch shift.
 
 
 ## Modeling speech production
@@ -73,7 +73,7 @@ In order to preserve the energy envelope with the granular synthesis effect, we 
 3. Apply pitch-shifting on the excitation signal (*i.e.* apply the resampling on $$e[n]$$) to obtain $$\tilde{e}[n]$$.
 4. Forward-filter the modified grain $$\tilde{e}[n]$$ with $$a_k$$ to obtain the pitched-shifted version of the input $$\tilde{x}[n]$$.
 
-With this procedure, we can see below that the pitch-shifted $$\tilde{x}[n]$$ has a more similar energy envelope to that of the original input samples. The figure below is generated with [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear-prediction/compare_spectrum_lpc.py).
+With this procedure, we can see below that the pitch-shifted $$\tilde{x}[n]$$ has a more similar energy envelope to that of the original input samples. The figure below is generated with [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/compare_spectrum_lpc.py).
 
 ![](figs/energy_gs_lpc.png)
 

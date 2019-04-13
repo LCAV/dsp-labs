@@ -24,6 +24,7 @@ def ld(r, p):
     # return the coefficients of the A(z) filter
     return np.r_[1, -a[::-1]]
 
+
 def lpc(x, p):
     # compute p LPC coefficients for a speech segment
     return ld(bac(x, p), p)

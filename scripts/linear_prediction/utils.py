@@ -10,8 +10,9 @@ def ms2smp(ms, fs):
     fs: float
         Sampling rate in Hz.
     """
-​
+
     # return corresponding length in samples
+    return int(float(fs) * float(ms) / 1000.0)
 
 
 def compute_stride(grain_len_samp, grain_over):
