@@ -10,8 +10,9 @@ def ms2smp(ms, fs):
     fs: float
         Sampling rate in Hz.
     """
-​
+
     # return corresponding length in samples
+    return int(float(fs) * float(ms) / 1000.0)
 
 
 def compute_stride(grain_len_samp, grain_over):
@@ -41,7 +42,7 @@ def build_linear_interp_table(n_samples, down_fact, data_type=np.int16):
         amp_vals.append(a)
 
     MAX_VAL = np.iinfo(data_type).max
-    amp_vals =  np.array(amp_vals)
+    amp_vals = np.array(amp_vals)
     amp_vals = (amp_vals*MAX_VAL).astype(data_type)
 
     return samp_vals, amp_vals

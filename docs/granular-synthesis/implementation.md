@@ -43,9 +43,7 @@ From the first two parameters and the sampling frequency, we need to determine:
 1. The grain length in samples.
 2. The stride length in samples.
 
-{% hint style="info" %}
-TASK 1: Inside `utils.py`, complete the function `ms2smp` \(below\) to convert a duration in milliseconds to a duration in samples, given a particular sampling frequency.
-{% endhint %}
+Inside `utils.py`, the function `ms2smp` \(below\) converts a duration in milliseconds to a duration in samples, given a particular sampling frequency.
 
 ```python
 def ms2smp(ms, fs):
@@ -59,6 +57,7 @@ def ms2smp(ms, fs):
     """
 
     # return corresponding length in samples
+    return int(float(fs) * float(ms) / 1000.0)
 ```
 
 ### Lookup tables
@@ -94,7 +93,7 @@ def win_taper(grain_len_samp, grain_over, data_type=np.int16):
 Notice how we set the data type for the lookup table. This is something we would like to do in our Python code to emulate as much as possible how we will be implementing this algorithm in C.
 
 {% hint style="info" %}
-TASK 2: In `utils.py`, complete the function \(below\) to compute the lookup tables for the interpolation times and amplitudes.
+TASK 1: In `utils.py`, complete the function \(below\) to compute the lookup tables for the interpolation times and amplitudes.
 
 _Hint: you need to complete the function at the beginning of the_ `for` _loop._
 {% endhint %}
@@ -137,7 +136,7 @@ $$
 which is the length between 0 and "buffer start" and between "overlap start" and "buffer end".
 
 {% hint style="info" %}
-TASK 3: How many arrays do we need to pass/store between consecutive buffers? And how many samples should each of them have?
+TASK 2: How many arrays do we need to pass/store between consecutive buffers? And how many samples should each of them have?
 
 _Hint: due to the resampling operation, the next buffer's grain can only be computed when it contains all of the necessary samples._
 {% endhint %}
@@ -176,7 +175,7 @@ Below, we provide the ***incomplete*** `init` and `process` functions, which you
 
 
 {% hint style="info" %}
-TASK 4: Complete the code below. The comments that have `TODO` mark where you will need to add code.
+TASK 3: Complete the code below. The comments that have `TODO` mark where you will need to add code.
 
 _Note: as this script relies on `utils.py` and `speech.wav` being in the correct relative location, it is useful to clone/download [the repository](https://github.com/LCAV/dsp-labs) so that it is indeed so._ 
 {% endhint %}
@@ -231,7 +230,7 @@ def process(input_buffer, output_buffer, buffer_len):
 ```
 
 {% hint style="info" %}
-TASK 5: Implement the granular synthesis pitch shifting in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io/en/0.3.11/) module.
+TASK 4: Implement the granular synthesis pitch shifting in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io/en/0.3.11/) module.
 
 _Hint: copy-and-paste your_ `init` _and_ `process` _functions \(once they are working\) into [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_sounddevice_incomplete.py)._
 {% endhint %}
