@@ -1,6 +1,6 @@
 # 7.2 Python implementation
 
-In the [IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb) (Section 4), we already have code that implements pitch shifting:
+In the [IPython notebook](https://nbviewer.jupyter.org/github/prandoni/COM303-Py3/blob/master/VoiceTransformer/VoiceTransformer.ipynb) (Section 4), we already have code that implements pitch shifting:
 
 ```python
 def DFT_rescale(x, f):

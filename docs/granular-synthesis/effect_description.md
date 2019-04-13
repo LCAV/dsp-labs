@@ -3,7 +3,7 @@
 We will briefly describe the key components for pitch shifting with granular synthesis so 
 that it is clear what components we will have to implement. A more in-depth and intuitive 
 explanation \(with audio examples and visuals\) can be found on Paolo Prandoni's 
-[IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb).
+[IPython notebook](https://github.com/prandoni/COM303-Py3/blob/master/VoiceTransformer/VoiceTransformer.ipynb).
 
 ## Resampling to alter pitch <a id="alter_pitch"></a>
 
@@ -107,6 +107,6 @@ time to process but increase the latency.
 Now that we know how to artificially increase the length of a signal with grains, we can 
 combine this with resampling so that our input and output signals have the same duration. 
 Thus, allowing us to perform pitch shifting! We recommend checking out the 
-[IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb) 
+[IPython notebook](https://nbviewer.jupyter.org/github/prandoni/COM303-Py3/blob/master/VoiceTransformer/VoiceTransformer.ipynb) 
 for a visual representation of the resampled grains and additional explanations.
 

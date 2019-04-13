@@ -1,6 +1,6 @@
 # 6.2 Implementation
 
-Below are the LPC utility functions provided in the [IPython notebook](http://nbviewer.jupyter.org/github/prandoni/COM303/blob/master/voice_transformer/voicetrans.ipynb).
+Below are the LPC utility functions provided in the [IPython notebook](https://nbviewer.jupyter.org/github/prandoni/COM303-Py3/blob/master/VoiceTransformer/VoiceTransformer.ipynb).
 
 ```python
 def bac(x, p):
