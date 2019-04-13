@@ -28,5 +28,4 @@ To set up the book for local development or to suggest changes (more than welcom
 
 If you use this material in your own work, please cite [our paper](https://infoscience.epfl.ch/record/258046/files/dsp_labs_icassp_2019.pdf).
 
-
-  E. Bezzam, A. Hoffet, P. Prandoni, *Teaching Practical DSP with Off-the-Shelf Hardware and Free Software*, Proc. IEEE ICASSP, Brighton, UK, 2019.
+> E. Bezzam, A. Hoffet, P. Prandoni, *Teaching Practical DSP with Off-the-Shelf Hardware and Free Software*, Proc. IEEE ICASSP, Brighton, UK, 2019.
