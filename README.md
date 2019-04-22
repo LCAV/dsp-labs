@@ -12,7 +12,13 @@ then in C with a microcontroller from ST Microelectronics.
 fun and intuitive audio applications***, while also using industry-level tools that are low-cost and accessible so that others
 around the world can try them out. 
 
-Even if the [hardware](https://lcav.gitbook.io/dsp-labs/bom) cannot be obtained, the main lessons in DSP can still be acquired in Python with your laptop! In this case, you can skip ahead to Chapter 3, but we do recommend reading [Section 2.1](https://lcav.gitbook.io/dsp-labs/passthrough/audio-io) on Audio I/O theory.
+Even if the [hardware](https://lcav.gitbook.io/dsp-labs/bom) cannot be obtained, the main lessons in DSP can still be 
+acquired in Python with your laptop! In this case, you can skip ahead to Chapter 3, but we do recommend reading 
+[Section 2.1](https://lcav.gitbook.io/dsp-labs/passthrough/audio-io) on Audio I/O theory. Moreover, you can implement
+the various voice effects without downloading this repository locally by checking out 
+[this Colaboratory notebook](https://colab.research.google.com/drive/1J9QtFfqmk_qMmO4Yjaq_6wUD5D0aWYyt). Note that you 
+will need a Gmail account to run the edit/run the cells in the cloud; otherwise, you can download the notebook and run
+it locally.
 
 Table of contents:
 
