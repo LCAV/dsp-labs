@@ -2,23 +2,15 @@
 
 In the process of implementing an algorithm on an embedded system, it is sometimes worth testing it in a workspace with less constraints than on the final environment. Here we propose a Python framework that will help in this prototype/debugging state for the alien voice effect \(and for future applications\). In the [next section](implementation.md) we will implement it on the STM32 board and set up a timer to benchmark our implementation.
 
-The main idea of this framework is to code in the same way as it will be done in C.
-This probably means that the Python implementation will be very cumbersome.
-However, this will make the porting to C much easier.
-One big obstacle is to think in a block-based manner, as if buffers were filled and processed one after the other in real-time.
-The other obstacle of porting the code from Python to C is the definition of variables and to manage their sizes.
+The main idea of this framework is to code in the same way as it will be done in C. This probably means that the Python implementation will be very cumbersome. However, this will make the porting to C much easier. One big obstacle is to think in a block-based manner, as if buffers were filled and processed one after the other in real-time. The other obstacle of porting the code from Python to C is the definition of variables and to manage their sizes.
 
-***Python requirements: Python 3, numpy, scipy.io***
+_**Python requirements: Python 3, numpy, scipy.io**_
 
 ## Empty template
 
-We propose the following template for simulating real-time processing in C with Python.
-Please note the use of block processing and the definition of the variables with the `dtype` argument.
-You can find this code in the [repository](https://github.com/LCAV/dsp-labs) in the [`rt_simulated.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_simulated.py)
-script.
+We propose the following template for simulating real-time processing in C with Python. Please note the use of block processing and the definition of the variables with the `dtype` argument. You can find this code in the [repository](https://github.com/LCAV/dsp-labs) in the [`rt_simulated.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_simulated.py) script.
 
-We recommend cloning/downloading the repository so that you have all the necessary files in place, _i.e._ the `speech.wav`
-file for the code below and utility functions for the various voice effects we will be implementing.
+We recommend cloning/downloading the repository so that you have all the necessary files in place, _i.e._ the `speech.wav` file for the code below and utility functions for the various voice effects we will be implementing.
 
 ```python
 from scipy.io import wavfile
@@ -121,9 +113,7 @@ In the above code, we can observe several key sections:
 
 ## Alien voice effect
 
-Below we provide you with the function that computes the sinusoid lookup table.
-This function is implemented in a [`utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/utils.py) file.
-
+Below we provide you with the function that computes the sinusoid lookup table. This function is implemented in a [`utils.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/utils.py) file.
 
 ```python
 def build_sine_table(f_sine, samp_freq, data_type):
@@ -155,9 +145,7 @@ def build_sine_table(f_sine, samp_freq, data_type):
     return SINE_TABLE, MAX_SINE, LOOKUP_SIZE
 ```
 
-As previously mentioned, we try to use integer variables in order to save processing time.
-So for the sinusoid lookup table, we will code it from the minimum to the maximum value possible in the corresponding (typically integer) data type.
-This scaling factor will need to be incorporated whenever using the lookup table.
+As previously mentioned, we try to use integer variables in order to save processing time. So for the sinusoid lookup table, we will code it from the minimum to the maximum value possible in the corresponding \(typically integer\) data type. This scaling factor will need to be incorporated whenever using the lookup table.
 
 In the above code, we can observe this use of the full range when creating the sinusoid table:
 
@@ -165,9 +153,7 @@ In the above code, we can observe this use of the full range when creating the s
 SINE_TABLE = np.sin(w_mod*n_vals) * MAX_SINE
 ```
 
-In the repository, there is an ***incomplete*** script [`alien_voice_effect_incomplete.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_effect_incomplete.py)
-for you to complete. Notice that in the `init()` function we use the above `build_sine_table` function to create the sinusoid lookup table, and
-that the variables needed in the `process` function are declared as `global`.
+In the repository, there is an _**incomplete**_ script [`alien_voice_effect_incomplete.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_effect_incomplete.py) for you to complete. Notice that in the `init()` function we use the above `build_sine_table` function to create the sinusoid lookup table, and that the variables needed in the `process` function are declared as `global`.
 
 ```python
 # state variables
@@ -190,8 +176,7 @@ def init():
     LOOKUP_SIZE = vals[2]
 ```
 
-Now we come to the main processing for the alien voice effect. Notice that `x_prev` and `sine_pointer` are declared as
-`global` as their values will be modified within the `process` function.
+Now we come to the main processing for the alien voice effect. Notice that `x_prev` and `sine_pointer` are declared as `global` as their values will be modified within the `process` function.
 
 ```python
 def process(input_buffer, output_buffer, buffer_len):
@@ -221,23 +206,19 @@ TASK 2: Under the comments with `TODO`, fill in the appropriate code in order to
 _Reminder: normalize the sinusoid using the constant_ `MAX_SINE`_!_
 {% endhint %}
 
-You can test your implementation by running your script with the following line from the command line (replacing `[script_name].py` with your script's name):
+You can test your implementation by running your script with the following line from the command line \(replacing `[script_name].py` with your script's name\):
 
 ```bash
 python [script_name].py
 ```
 
-If your script runs without error, your alien voice effect will be applied to the [`speech.wav`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/speech.wav) file,
-and the processed speech will be saved into a file called `"alien_voice_effect.wav"`.
+If your script runs without error, your alien voice effect will be applied to the [`speech.wav`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/speech.wav) file, and the processed speech will be saved into a file called `"alien_voice_effect.wav"`.
 
 When the output file sounds as expected - see/listen to [`alien_voice_effect_200Hz.wav`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_effect_200Hz.wav) in the repository - you can move on to implementing the effect in real-time!
 
+### Real-time with laptop's sound card
 
-##### Real-time with laptop's sound card
-
-Similar to the `rt_simulated.py` script we saw earlier, we also provide a template script for performing block-based
-processing with your laptop's sound card. The script, entitled [`rt_sounddevice.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_sounddevice.py),
-can also be found in the repository.
+Similar to the `rt_simulated.py` script we saw earlier, we also provide a template script for performing block-based processing with your laptop's sound card. The script, entitled [`rt_sounddevice.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_sounddevice.py), can also be found in the repository.
 
 The main difference is the setup code at the bottom of the script, which uses the [`sounddevice`](https://python-sounddevice.readthedocs.io) library:
 
@@ -265,19 +246,15 @@ except KeyboardInterrupt:
     print('\nInterrupted by user')
 ```
 
-Notice how we define a `callback` function that calls our `process` function and that before streaming audio
-we call the `init` function.
+Notice how we define a `callback` function that calls our `process` function and that before streaming audio we call the `init` function.
 
 {% hint style="info" %}
 TASK 3: Implement the alien voice effect in real-time using your laptop's sound card.
 
-_Hint: complete the `process` function in the script [`alien_voice_sounddevice_incomplete.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_sounddevice_incomplete.py),
-which can also be found in the repository._
+_Hint: complete the `process` function in the script_ [_`alien_voice_sounddevice_incomplete.py`_](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_sounddevice_incomplete.py)_, which can also be found in the repository._
 {% endhint %}
 
-As before, run your script from the command line to try out your alien voice effect in real-time. Use headphones so that
-you avoid feedback!
+As before, run your script from the command line to try out your alien voice effect in real-time. Use headphones so that you avoid feedback!
 
-**In the [next section](implementation.md), we guide you through implementing the alien voice effect on the microcontroller, as we also
-setup a timer to benchmark the implementation.**
+**In the** [**next section**](implementation.md)**, we guide you through implementing the alien voice effect on the microcontroller, as we also setup a timer to benchmark the implementation.**
 

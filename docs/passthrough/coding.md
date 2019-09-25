@@ -27,7 +27,7 @@ Note how the **MUTE** pin we configured before automatically generated two _cons
 
 If you press "Ctrl" \("Command" on MacOS\) + click on `MUTE_GPIO_Port` or `MUTE_Pin` to see its definition, you should see how the values are defined according to the pin we selected for **MUTE**. In our case, we chose pin **PC0** which means that _Pin 0_ on the _GPIO C_ port will be used. The convenience of the CubeMX software is that we do not need to manually write these definitions for the constants! The same can be observed for **LR\_SEL**.
 
-##  Setting microphone as _left_ or _right_ channel <a id="channel_macro"></a>
+## Setting microphone as _left_ or _right_ channel <a id="channel_macro"></a>
 
 We will now define two more macros in order to set the microphone to the left or right channel of the I2S bus, using the **LR\_SEL** pin we defined. As before, you should place these macros between the `USER CODE BEGIN Includes` and `USER CODE END Includes` comments.
 
@@ -214,8 +214,5 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t 
 }
 ```
 
-**Congrats on completeting the passthrough! This project will serve as 
-an extremely useful starting point for the following \(more interesting\) 
-applications. The first one we will build is an 
-**[_**alien voice effect**_](../alien-voice/)**.**
+**Congrats on completeting the passthrough! This project will serve as an extremely useful starting point for the following \(more interesting\) applications. The first one we will build is an** [_**alien voice effect**_](../alien-voice/)**.**
 

@@ -10,7 +10,7 @@ The following steps are the same for Windows, Linux, and MacOS as they simply co
 
 2\) At the bottom of the page, you should find a link to navigate to a third-party website to download the software; [AC6](http://www.ac6.fr/) develops the software SW4STM32. Press the button "GO TO SITE".
 
-![](../../.gitbook/assets/1_get_software%20%281%29.PNG)
+![](../../.gitbook/assets/1_get_software-1.PNG)
 
 3\) You should be redirected to [this site](http://www.openstm32.org/HomePage). In order to download the software, you will have to make an account. We recommend doing so as it this will give you access to the documentation and to posting in the forum. You can use [this link](http://www.openstm32.org/tiki-register.php) to make an account. You should receive an email to confirm your account.
 
@@ -192,9 +192,9 @@ The checksum file will be used to check the download integrity which may take so
 
 3\) Next, you can select which packs to install; leave as is. You will then be asked to confirm your installation path and packs to install. Pressing "Next" will start the installation \(see below\).
 
-![](../../.gitbook/assets/mac_install_6%20%281%29.png)
+![](../../.gitbook/assets/mac_install_6-1.png)
 
-![](../../.gitbook/assets/mac_install_7%20%281%29.png)
+![](../../.gitbook/assets/mac_install_7-1.png)
 
 4\) When the installation is done, the progress bars will appear as below. Click "Next" to finish the installation procedure and to proceed to the final pane of the installation wizard \(see below\). Press "Done" and the installation is complete!
 
@@ -204,10 +204,8 @@ The checksum file will be used to check the download integrity which may take so
 
 5\) You can run the software by navigating to the directory where SW4STM32 was installed and double-clicking the Application file called "SystemWorkbench" You will be prompted to select a workspace \(see below\); we recommend creating a workspace called "COM303-Workspace" for the exercises we will be doing.
 
-![](../../.gitbook/assets/mac_install_11.png)   
- After setting the workspace, you should see a window pane similar to below.  
-  
-
+![](../../.gitbook/assets/mac_install_11.png)  
+After setting the workspace, you should see a window pane similar to below.
 
 ![](../../.gitbook/assets/mac_install_12.png)
 
