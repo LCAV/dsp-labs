@@ -1,12 +1,14 @@
 # INTRODUCTION
 
-In this online book, we provide step-by-step instructions for the hands-on exercises of the EPFL course: [COM-303, Signal processing for communications](http://isa.epfl.ch/imoniteur_ISAP/!itffichecours.htm?ww_i_matiere=24007074&ww_x_anneeacad=1866893861&ww_i_section=944590&ww_i_niveau=6683147&ww_c_langue=en). The purpose of these exercises is to provide first-hand experience \(and valuable struggles\) in the practical sides of Digital Signal Processing \(DSP\). Enjoy.
+Hi, and welcome to this final module of the DSP course, in which we will learn how to implement real time algorithms on a general-purpose microcontroller unit. While the theory behind our algorithms will not change, the constraints imposed by a low-power CPU will demand that we pay particular attention to implementation details such as code efficiency, memory use and input/output routines. The skills and the experience needed to port a real-time signal processing algorithm to an embedded board are the province of the truly accomplished DSP engineers but in this module you will be able to get a first taste of the challenges and the struggles of the job, together with the priceless satisfaction of truly "making" a device come to life. 
 
-Working with hardware can often be frustrating and overwhelming with the numerous protocols, lengthy documentations, and seemingly competing components. With these exercises, we hope to ease you into the fun and exciting side of DSP!
 
-If you are not a student at EPFL, feel free to use the material from these exercises and let us know if you spot any points for improvement! You can do so by checking out the [repository](https://github.com/LCAV/dsp-labs) for this online book.
+In this online book we will provide you with step-by-step instructions and with link to videos that illustrate all the steps that will bring you to the "finished product", so to speak. Working with hardware can often prove overwhelming and the numerous protocols, lengthy documentations, and different components can be frustrating at times. In these notes and in the videos, you will be able to navigate around these issues and we hope to ease you into the fun and exciting side of practical DSP right away.
+ 
 
-Even if you can't get the [hardware](https://lcav.gitbook.io/dsp-labs/bom) for these exercises, the main lessons in DSP can still be acquired in Python with your laptop! In this case, you can skip ahead to [Chapter 3](alien-voice/), but we do recommend reading [Section 2.1](passthrough/audio-io/) on Audio I/O theory.
+Even if you don't have access to the recommended hardware, you will still be able to appreciate the main lessons simply using Python on your PC. In this case, you can skip ahead to [Chapter 3](alien-voice/), but we do recommend you read [Section 2.1](passthrough/audio-io/) on Audio I/O theory.
+
+We hope you'll find this tutorial instructive and entertaining!
 
 ![](.gitbook/assets/intro.jpg)
 
