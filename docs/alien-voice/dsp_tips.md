@@ -179,7 +179,7 @@ $$
 
 From such an expression, we can create the standard [pole-zero plot](https://en.wikipedia.org/wiki/Pole–zero_plot) as seen below. With such a plot, we can extract a lot of useful information, such as stability and causality.
 
-![](../.gitbook/assets/zplot_high_pass%20%281%29.png)
+![](../.gitbook/assets/zplot_high_pass-1.png)
 
 _Figure: Pole-zero plot of our simple high pass filter. Thanks to_ [this software](https://www.dsprelated.com/showcode/244.php) _for the visualization function._
 

@@ -14,7 +14,7 @@ _Figure: Set the "Clock Source" to "Internal Clock" in order to enable "TIM2"._
 
 Next, we need to configure the timer from the "Configuration" tab by pressing "TIM2" under "Control" \(see below\).
 
-![](../.gitbook/assets/config_tab-1.png)
+![](../.gitbook/assets/config_tab-1%20%281%29.png)
 
 A pop-up similar to below should appear.
 

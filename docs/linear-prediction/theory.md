@@ -4,7 +4,7 @@ If you have reached this point, your real-time granular synthesis pitch shifter 
 
 This unnatural sound is due to the fact that the pitch shifter we implemented earlier **does not** preserve the energy envelope of the signal.
 
-![](../.gitbook/assets/energy_problem.png)
+![](../.gitbook/assets/energy_problem%20%281%29.png)
 
 In the figure above, generated with [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/compare_spectrum.py), we can see the energy envelope of a $$40$$ ms voiced speech snippet \(orange\) and that of the speech processed with the granular synthesis effect \(green\). As can be clearly seen, the granular synthesis effect does not preserve the original energy envelope. We can certainly see the spectrum shifting down; however, such a shift does not maintain the structure of harmonic signals, _i.e._ harmonics that are multiples of a fundamental frequency. In this section, we present a concrete method to preserve this energy envelope while still performing the desired pitch shift.
 

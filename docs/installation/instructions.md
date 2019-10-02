@@ -1,34 +1,54 @@
 # 1.3 First project!
 
-_Note: the following instructions and images were produced on February 9, 2018 using Windows 10, STM32CubeMX Version 4.24.0, and SW4STM32 Version 2.4._
+## Open STM32CubeIDE and select a workspace <a id="init_code"></a>
+
+1\) Open STM32CubeIDE that you just installed in the previous step.
+
+2\) Select a workspace, it is the folder where all project are going to be stored. You can create multiple workspace, for example if you work on different projects.
+
+![Workspace selection](../.gitbook/assets/screenshot-2019-10-01-at-11.34.37.png)
+
+3\) Once you selected a valid folder you can Launch STM32CubeIDE.
+
+![](../.gitbook/assets/screenshot-2019-10-01-at-11.36.27.png)
+
+## Create a new project <a id="init_code"></a>
+
+The first time you open the software, you will be prompted with the following screen
+
+![](../.gitbook/assets/screenshot-2019-10-01-at-11.37.05.png)
+
+Press the _Start new STM32 project_ button in order to launch CubeMX and start initialising the project.
+
+If you have a workspace that already contains project, the _new project button_ is in the top left corner.
 
 ## Code generation with CubeMX <a id="init_code"></a>
 
-Open STM32CubeMX; we will be using this graphical software to generate the initialization code for our board and its peripherals. Select "New Project" This may prompt a download as the software packages for certain boards may have available updates.
-
-![](../.gitbook/assets/0_opening.PNG)
-
-_Figure: CubeMX opening page._
+We will be using this graphical software to generate the initialization code for our board and its peripherals. 
 
 ### Board selection
 
 When all necessary downloads are completed, you should eventually see something similar to below. Click on the "Board Selector" tab in the top toolbar to the left.
 
-![](../.gitbook/assets/1_new_proj.PNG)
+![](../.gitbook/assets/screenshot-2019-09-25-at-15.54.25-2%20%281%29.png)
 
 Filter by board on the left column; enter "NUCLEO-F072RB". Double-click the board in the search results. A pop-up may appear asking if you would like to initialize all peripherals with their default mode. Press "Yes".
 
-![](../.gitbook/assets/2_filter_board.PNG)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.37.16.png)
 
 When the board has loaded, you should see something similar to below.
 
-![](../.gitbook/assets/3_board_loaded_1.PNG)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.04.png)
+
+Open the central pane if it was hidden, you will later need to do configuration in this pane.
+
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.19.png)
 
 ### Generate initialization code
 
 When a Nucleo template is selected, the blue button and the "LD2" LED are already configured. This is sufficient for our first project!
 
-We are now ready to generate the initialization code! Save your project and then press the gear-looking button in the top left \(see above\).
+We are now ready to generate the initialisation code! Save your project by _Command + S_ or _ctrl + S_, depending on your OS. The project will be automatically generated.
 
 You should see a window similar to below pop up. Give your project a meaningful name and decide where to save it. We recommend _putting the date_ as part of the project name. **It is very important to set "Toolchain / IDE" to "SW4STM32".** Press "Ok" to generate the code. If prompted to download any firmware code, do so. Unfortunately, if you do not have an Internet connection, you will not be able to create the project.
 
@@ -40,25 +60,7 @@ When the code has been successfully generated, you should see a pop-up similar t
 
 ## Project development with SW4STM32 <a id="deploy"></a>
 
-### Import project created by CubeMX
 
-Open the SW4STM32 software using the workspace created during the installation phase. If you did not make a workspace, we recommend creating one called "COM303-Workspace".
-
-From the toolbar, select "File &gt; Import". A pop-up similar to below should appear.
-
-![](../.gitbook/assets/14_import.PNG)
-
-Under "General", select "Existing Projects into Workspace" and click "Next" \(see below\).
-
-![](../.gitbook/assets/15_existing_project.PNG)
-
-A view similar to below should appear. Browse for the project we created with CubeMX. **Most importantly, check the box "Copy projects into workspace"!** Press "Finish".
-
-![](../.gitbook/assets/17_select_project.PNG)
-
-The project should then appear in the left-hand column of the workspace under "Project Explorer" If you still see the "Welcome Page" as seen below, you go to the workbench by pressing the "Workbench" in the top-right corner. If you would like to skip the "Welcome Page" whenever you start up SW4STM32, you can uncheck the box in the bottom-left corner.
-
-![](../.gitbook/assets/welcome_page.PNG)
 
 From the "Project Explorer", open the file `"Src/main.c"` \(see below\). Throughout the file, you should see comments that read `USER CODE BEGIN` and `USER CODE END`; _it is only between these comments that you should write your code!_ All other lines of code have been created by CubeMX according to the configuration we specified before. If you decide to adjust any configuration through CubeMX by editing the IOC file within the _copied_ project inside your workspace, it may modify anything outside of `USER CODE BEGIN` and `USER CODE END`, which is why all your code should be between these two lines.
 

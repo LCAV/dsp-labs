@@ -14,7 +14,7 @@ $$
 
 The corresponding block diagram is shown below.
 
-![](../.gitbook/assets/biquad_direct_1_wiki.png)
+![](../.gitbook/assets/biquad_direct_1_wiki%20%281%29.png)
 
 _Figure: Block diagram of biquad, Direct Form 1._ [Source](https://en.wikipedia.org/wiki/Digital_biquad_filter#/media/File:Biquad_filter_DF-I.svg).
 
@@ -70,7 +70,7 @@ TASK 3: In the final `for` loop, update the state variables, that is the previou
 
 Running the incomplete script will yield the following plot, in which only a gain \(less than one\) is applied to the input signal.
 
-![](../.gitbook/assets/direct_form_1_incomplete.png)
+![](../.gitbook/assets/direct_form_1_incomplete%20%281%29.png)
 
 If you successfully complete the `process` function, you should obtain the following plot.
 
@@ -94,7 +94,7 @@ $$
 
 The corresponding block diagram is shown below.
 
-![](../.gitbook/assets/biquad_direct_2_wiki.png)
+![](../.gitbook/assets/biquad_direct_2_wiki%20%281%29.png)
 
 _Figure: Block diagram of biquad, Direct Form 2._ [Source](https://en.wikipedia.org/wiki/Digital_biquad_filter#/media/File:Biquad_filter_DF-II.svg).
 
@@ -161,7 +161,7 @@ TASK 6: Complete the final `for` loop in order to update the values of `w`.
 
 Running the incomplete script will yield the following plot, where the output is all-zeros.
 
-![](../.gitbook/assets/direct_form_2_incomplete.png)
+![](../.gitbook/assets/direct_form_2_incomplete%20%281%29.png)
 
 If you successfully complete the `process` function, you should obtain the following plot.
 
