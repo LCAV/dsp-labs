@@ -10,7 +10,7 @@ STMicroelectronics has provided a complete IDE that includes a code generation s
 
 * [**CubeMX**](https://www.st.com/en/development-tools/stm32cubemx.html): a graphical software configuration tool, included in STM32CubeIDE, that simplifies the process of generating the C initialization code for STM32 microcontrollers.
 
-![](../../.gitbook/assets/screenshot-2019-09-25-at-17.51.49.png)
+![](../../.gitbook/assets/screenshot-2019-09-25-at-17.51.49%20%281%29.png)
 
 \_\_
 

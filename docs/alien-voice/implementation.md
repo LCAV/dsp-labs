@@ -1,24 +1,20 @@
 # 3.4 C implementation
 
-Assuming you have successfully implemented a passthrough in the previous guide, we can simply copy and paste this project from within the SW4STM32 software. After pasting it, a pop-up will ask to give a name to the copied project. We recommend choosing a name with the current date and `"alien_voice"` in it. Remember to delete the binary \(ELF\) file of the original project inside the copied project.
+Assuming you have successfully implemented a passthrough in the previous guide, we can simply copy and paste this project from within the STM32CubeIDE software. After pasting it, a pop-up will ask to give a name to the copied project. We recommend choosing a name with the current date and `"alien_voice"` in it. Remember to delete the binary \(ELF\) file of the original project inside the copied project.
 
 ## Setting up timer for benchmarking <a id="timer"></a>
 
-Open the CubeMX software to update the initialization code by opening the IOC file of the copied project.
+Open the CubeMX file by double clicking the .ioc file of the copied project it in the IDE project explorer in order to update the initialization code.
 
-For this exercise, we will only need to add the configuration of a _timer_ \(to benchmark our implementation\) as the rest of the system is already up and running. In order to activate a timer, you need to set a "Clock Source". This is done from the "Pinout" tab on the left-hand column as shown below:
+For this exercise, we will only need to add the configuration of a _timer_ \(to benchmark our implementation\) as the rest of the system is already up and running. In order to activate a timer, you need to set a "Clock Source". Open _TIM2_ in the Timers menu and activate it's clock:
 
-![](../.gitbook/assets/activate_the_clock_for_tim2.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.42.23.png)
 
 _Figure: Set the "Clock Source" to "Internal Clock" in order to enable "TIM2"._
 
-Next, we need to configure the timer from the "Configuration" tab by pressing "TIM2" under "Control" \(see below\).
+Next, we need to configure the timer.
 
-![](../.gitbook/assets/config_tab-1%20%281%29.png)
-
-A pop-up similar to below should appear.
-
-![](../.gitbook/assets/setup_tim2_as_us_timebase_edited-1.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.43.06.png)
 
 {% hint style="info" %}
 TASK 4: We ask you to set the "Prescaler" value \(in the figure above\) in order to achieve a $$1\,[\mu s]$$ period for "TIM2", i.e. we want our timer to have a $$1\,[\mu s]$$ resolution.
@@ -26,9 +22,9 @@ TASK 4: We ask you to set the "Prescaler" value \(in the figure above\) in order
 _Hint: Go to the "Clock Configuration" tab \(from the main window pane\) to see what is the frequency of the input clock to "TIM2". From this calculate the prescaler value to increase the timer's period to_ $$1\,[\mu s]$$_._
 {% endhint %}
 
-You can leave the rest of the parameters as is for "TIM2". Finally, you can update the initialization code by pressing the _gear_ button in the toolbar. As before, do not open the project when prompted to do; select "Close".
+You can leave the rest of the parameters as is for "TIM2". Finally, you can update the initialization code by saving the file.
 
-You can now open the SW4STM32 software. In order to use the timer we configured, we will need to define a variable to keep track of the time and a macro to reset the timer. Between the `USER CODE BEGIN PV` and `USER CODE END PV` comments, add the following lines in the `main.c` file.
+In order to use the timer we configured, we will need to define a variable to keep track of the time and a macro to reset the timer. Between the `USER CODE BEGIN PV` and `USER CODE END PV` comments, add the following lines in the `main.c` file.
 
 ```c
 /* USER CODE BEGIN PV */
@@ -111,13 +107,13 @@ _Note: keep in mind the points made about using_ `float` _or_ `int` _variables \
 
 You will notice that we used a `printf` function in order to output text on the debug console. To enable this function you need to make the following changes to your project:
 
-* In the Project Properties \("right-click" project &gt; Properties\), navigate to "C/C++ Build &gt; Settings" on the left-hand side \(see the figure below\). Under "MCU GCC Linker -&gt; Miscellaneous", update the "Linker flags" field with:
+* In the Project Properties \("right-click" project &gt; Properties\), navigate to "C/C++ Build &gt; Settings" on the left-hand side \(see the figure below\). Under "Tools Settings -&gt; MCU GCC Linker -&gt; Miscellaneous", add "Linker flags" field by pressing the "+" button. The necessary flags are the following:
 
   ```text
   -specs=nosys.specs -specs=nano.specs -specs=rdimon.specs -lc -lrdimon
   ```
 
-![](../.gitbook/assets/proj_prop-1.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.46.31.png)
 
 * Add the following function prototype above the `main` function \(e.g. between the `USER CODE BEGIN PFP` and `USER CODE END PFP` comments\):
 

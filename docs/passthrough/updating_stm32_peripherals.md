@@ -10,7 +10,7 @@ Now we are ready to update the initialization code. From the CubeMX software, lo
 
 When the IOC file has successfully loaded, you should see something similar to the figure below. On the left-hand column, enable **I2S1** and **I2S2** by selecting the "Mode" to be "Half-Duplex Master".
 
-![](../.gitbook/assets/4_enable_i2s.PNG)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.49.png)
 
 You should see several pins highlighted green. What we have done is enable two I2S buses \(for the microphone and the DAC\), and the highlighted pins are those that will be used to transmit with the I2S protocol. Each bus uses three pins according to the [I2S specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf):
 
@@ -22,7 +22,7 @@ Click on the "Configuration" tab where we will adjust the I2S and DMA settings. 
 
 From the "Configuration" tab you should see a view similar to below.
 
-![](../.gitbook/assets/5_config_tab.PNG)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.53.06.png)
 
 {% hint style="info" %}
 TASK 1: We would like you to set up I2S1 for the DAC and I2S2 for the microphone. You will have to check the datasheets \([DAC](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) and [microphone](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF)\) in order to find the correct parameters \(sampling frequency, data and frame format\) to set.
@@ -32,7 +32,7 @@ Click on "I2S1" under "Multimedia" to adjust its settings. **Under the "Paramete
 
 Under the "DMA Settings" tab, press "Add". Adjust the settings so that they match the figure below, namely "DMA Request" set to "SPI1\_TX" for the DAC; "Mode" set to "Circular"; and "Data Width" set to "Half Word". Press "Apply" then "Ok" to confirm the changes.
 
-![](../.gitbook/assets/7_i2s1_dma_settings.PNG)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.53.06%20%281%29.png)
 
 {% hint style="info" %}
 TASK 2: Click on "I2S2" under "Multimedia" to adjust its settings. **Under the "Parameter Settings" tab, set the fields under "Generic Parameters" so that I2S2 can be used for the microphone.**
@@ -42,11 +42,11 @@ _Hint: make sure that the DAC and the microphone have the same "Selected Audio F
 
 Under the "DMA Settings" tab, press "Add". Adjust the settings so that they match the figure below, namely "DMA Request" set to "SPI2\_RX" for the microphone; "Mode" set to "Circular"; and "Data Width" set to "Half Word". Press "Apply" then "Ok" to confirm the changes.
 
-![](../.gitbook/assets/9_i2s2_dma_settings.PNG)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.54.24.png)
 
 Click on "NVIC" under "System" from the "Configuration" tab of CubeMX. Ensure that the interrupts are enabled for the selected DMA channels, as below.
 
-![](../.gitbook/assets/10_nvic_dmas_enabled_1.png)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.54.49%20%281%29.png)
 
 ## Configure GPIO pins <a id="gpio"></a>
 
@@ -73,9 +73,9 @@ Just like giving meaningful names to variables when programming, we would like t
 
 ## Update initialization code <a id="init_code"></a>
 
-We can now update our source code by pressing the _gear_ button in the toolbar \(see below\). As before, do not open the project when prompted to do; select "Close".
+We can now update our source code, it will be done if you save the _.ioc_ file or when changing perspective.
 
-![](../.gitbook/assets/firmware_5.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.36.36.png)
 
 If you have any of the source files open on SW4STM32, they should update automatically according to any settings you changed from CubeMX. This is why you should not enter any code outside of the `USER CODE BEGIN` and `USER CODE END` comments as it could be replaced by the new configuration code.
 
