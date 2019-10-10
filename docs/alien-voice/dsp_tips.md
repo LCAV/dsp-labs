@@ -226,3 +226,15 @@ Timers always have an input clock with one of the timebases of the microcontroll
 
 One thing that you might have noticed from the passthrough example is that the output signal is not very loud. To correct this, we will add a small gain to the `process`function by just multiplying the signal with a constant. In order to take advantage of the architecture of the microcontroller's internal multiplier, it is recommended to use factors that are a multiple of 2 as it is faster to compute. In fact a multiplication by 2 is simply a shift to the left in the "binary world"; similar to how a multiplication by 10 in the "decimal world" is simply adding a 0 at the end.
 
+
+
+
+
+## Tasks solutions
+
+{% tabs %}
+{% tab title="Task 1" %}
+
+{% endtab %}
+{% endtabs %}
+

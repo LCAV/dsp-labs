@@ -216,3 +216,103 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t 
 
 **Congrats on completeting the passthrough! This project will serve as an extremely useful starting point for the following \(more interesting\) applications. The first one we will build is an** [_**alien voice effect**_](../alien-voice/)**.**
 
+
+
+## Tasks solutions
+
+{% tabs %}
+{% tab title="Task 9" %}
+Here you are asked to modify the macros and change the string
+
+```c
+GPIO_PIN_SET_OR_RESET
+```
+
+to be either 
+
+```c
+GPIO_PIN_SET
+```
+
+or 
+
+```c
+GPIO_PIN_RESET
+```
+
+The table 6 section 8.6.3 of the DAC [datasheet](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) sais: LOW  = mute off, HIGH = mute on.  
+We will thus define the following macros:
+
+```c
+/* USER CODE BEGIN Includes */
+
+#define MUTE HAL_GPIO_WritePin(MUTE_GPIO_Port, MUTE_Pin, GPIO_PIN_SET);
+#define UNMUTE HAL_GPIO_WritePin(MUTE_GPIO_Port, MUTE_Pin, GPIO_PIN_RESET);
+
+/* USER CODE END Includes */
+```
+{% endtab %}
+
+{% tab title="Task 10" %}
+In the same way as we did for the DAC, we will look in the microphone datasheet. the information we are looking for in on page 6 of the datasheet: _The Tri-state Control \(gray\) uses the state of the WS and SELECT inputs to determine if the DATA pin is driven or tri-stated. This allows 2 microphones to operate on a single I2S port. When SELECT =HIGH the DATA pin drives the SDIN bus when WS=HIGH otherwise DATA= tri-state. When SELECT =LOW the DATA pin drives the SDIN bus when WS=LOW otherwise DATA= tri-state._ As the WS pin is LOW when the left signal is transmitted \(cf. fig. 5 of the DAC datasheet\), we will define the macro as following:
+
+```c
+/* USER CODE BEGIN Includes */
+
+#define MUTE HAL_GPIO_WritePin(MUTE_GPIO_Port, MUTE_Pin, GPIO_PIN_SET);
+#define UNMUTE HAL_GPIO_WritePin(MUTE_GPIO_Port, MUTE_Pin, GPIO_PIN_RESET);
+
+#define SET_MIC_RIGHT HAL_GPIO_WritePin(LR_SEL_GPIO_Port, LR_SEL_Pin, GPIO_PIN_SET);
+#define SET_MIC_LEFT HAL_GPIO_WritePin(LR_SEL_GPIO_Port, LR_SEL_Pin, GPIO_PIN_RESET);
+
+/* USER CODE END Includes */
+```
+{% endtab %}
+
+{% tab title="Task 11" %}
+The calculus is quite trivial here, we will make a quick recap:  
+A sample is "a value at a certain time for one channel"  
+A frame is "the package of a left and a right sample"  
+Thus the buffer has in our case the length SAMPLE\_PER\_FRAME x FRAME\_PER\_BUFFER, as every sample has 16 bits \(1 half-word\) a buffer will be 32x2 half-words long.
+
+The double buffer size is then 128 values.
+
+```c
+/* USER CODE BEGIN PV */
+#define SAMPLE_PER_FRAME 2      // L+R
+#define FRAME_PER_BUFFER 32     // user-choice, depends on application
+#define BUFFER_SIZE (FRAME_PER_BUFFER*SAMPLE_PER_FRAME)
+#define DOUBLE_BUFFER_I2S (2*BUFFER_SIZE)
+```
+{% endtab %}
+
+{% tab title="Task 12" %}
+The pass-through is made by copying the input buffer on the output buffer. This is done so:
+
+```c
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t size) {
+    for (uint16_t i = 0; i < size; i++) {
+        bufferOutStereo[i] = bufferInStereo[i];
+    }
+}
+```
+{% endtab %}
+
+{% tab title="" %}
+There is alway several way to the same goal in C, however we propose you the following solution:
+
+```c
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t size) {
+    for (uint16_t i = 0; i < size; i+=2) {
+        bufferOutStereo[i] = bufferInStereo[i];
+        bufferOutStereo[i+1] = bufferInStereo[i];
+    }
+}
+```
+
+In this way the value of the microphone, that is only on one side \(every second channel\) will be copied to both side of the output buffer. 
+
+Be careful that it will only work of you set your microphone on the left channel, you might imagine a more elaborated code if you want to adapt to the SET\_MIC\_LEFT/SET\_MIC\_RIGHT macro.
+{% endtab %}
+{% endtabs %}
+

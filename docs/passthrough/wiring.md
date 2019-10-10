@@ -74,3 +74,11 @@ _Hint: see the_ [_DAC chip explanation_](audio-io/dac.md) _and_ [_Adafruit's sit
 
 With everything correctly wired up, we can proceed to [coding](coding.md) the passthrough on the SW4STM32 software!
 
+
+
+## Tasks solutions
+
+Sadly we cannot connect all the wires for you or double check your connections. However we did our best to help you with this wiring by making a step-by-step video accessible at this **address**.
+
+
+
