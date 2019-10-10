@@ -261,3 +261,72 @@ Finally, you can try changing the modulation frequency and creating your lookup 
 
 **Congrats on implementing your \(perhaps\) first voice effect! In the** [**next chapter**](../filter-design/)**, we will implement a more sophisticated high-pass filter than the one used here. To this end, we will come across fundamental theory and practical skills in digital filter design.**
 
+\*\*\*\*
+
+\*\*\*\*
+
+## Tasks solutions
+
+{% tabs %}
+{% tab title="Anti-spoiler tab" %}
+Are you sure you are ready to see the solution? ;\)
+{% endtab %}
+
+{% tab title="Task 4" %}
+As proposed in the hint, if you go to the tab _Clock Configuration_ of CubeMX, you will see the following graph:
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.57.46.png)
+
+Note the last block on the right column _APB1 Timer clocks \(MHz\):_ 48. It means that your timer are "run" with a base tick frequency of 48MHz. in order to reduce this to $$1[\mu s]$$or in other word $$1[MHz]$$, you will have to divide it by 48. This number is thus your prescaller. This lead to the following timer configuration:
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.58.09.png)
+
+Note the _Counter Period_, it is the value at where the interrupt is triggered, here the maximum value.
+{% endtab %}
+
+{% tab title="Task 5" %}
+The maximum processing time allowed it an important information for us to know how far we are from our micro-controller's ressource limits. 
+
+We know that the maximum time the micro-controller can take to process the data is the time between two consecutive buffers. The calculation is then just dividing the number of sample in a buffer by the sampling frequency. We add a factor in order to get a int. This will fasten the calculation.
+
+```c
+#define MAX_PROCESS_TIME_ALLOWED_us 	(int32_t)(BUFFER_SIZE*1000000.0/FS)
+```
+{% endtab %}
+
+{% tab title="Task 6" %}
+Here we will use the value calculated in the previous task in order to get a real number reflecting the processing load.
+
+The result is trivial,  you just have to care about variable types.
+
+```c
+// Display the results
+printf("-- Processing time assert -- fs = %ld[Hz]\n", FS);
+
+processing_load = (int8_t) ((float) current_time_us * 100.0	/ (float) MAX_PROCESS_TIME_ALLOWED_us );
+
+if (current_time_us < MAX_PROCESS_TIME_ALLOWED_us) {
+	printf("Processing time shorter than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
+} else {
+	printf("Processing time longer than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
+}
+```
+{% endtab %}
+
+{% tab title="Task 7" %}
+Placeholder
+
+```c
+Placeholder
+```
+{% endtab %}
+
+{% tab title="Task 8" %}
+Placeholder
+
+```c
+Placeholder
+```
+{% endtab %}
+{% endtabs %}
+

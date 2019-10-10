@@ -258,3 +258,31 @@ As before, run your script from the command line to try out your alien voice eff
 
 **In the** [**next section**](implementation.md)**, we guide you through implementing the alien voice effect on the microcontroller, as we also setup a timer to benchmark the implementation.**
 
+
+
+\*\*\*\*
+
+## Tasks solutions
+
+{% tabs %}
+{% tab title="Anti-spoiler tab" %}
+Are you sure you are ready to see the solution? ;\)
+{% endtab %}
+
+{% tab title="Task 2" %}
+ Placeholder
+
+```c
+Placeholder
+```
+{% endtab %}
+
+{% tab title="Task 3" %}
+Placeholder
+
+```c
+Placeholder
+```
+{% endtab %}
+{% endtabs %}
+
