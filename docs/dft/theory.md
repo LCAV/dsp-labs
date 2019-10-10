@@ -8,7 +8,7 @@ Spectrally, a pitched sound possesses a _**harmonic**_ structure, that is, as we
 
 Below is the spectrum of a \(synthesized\) clarinet playing the note D4 \($$293.6$$ Hz\). The spectrum shows the typical pattern of woodwinds, where only the even-numbered partials have significant energy.
 
-![](../.gitbook/assets/clarinet_spectrum%20%281%29.png)
+![](../.gitbook/assets/clarinet_spectrum-1.png)
 
 _Figure: Spectrum of D4 played by a \(synthesized\) clarinet. You can find the WAV file_ [_here_](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/clarinet_D4.wav)_._
 

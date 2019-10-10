@@ -32,7 +32,7 @@ Click on "I2S1" under "Multimedia" to adjust its settings. **Under the "Paramete
 
 Under the "DMA Settings" tab, press "Add". Adjust the settings so that they match the figure below, namely "DMA Request" set to "SPI1\_TX" for the DAC; "Mode" set to "Circular"; and "Data Width" set to "Half Word". Press "Apply" then "Ok" to confirm the changes.
 
-![](../.gitbook/assets/screenshot-2019-09-25-at-17.53.06%20%281%29.png)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.53.06-1.png)
 
 {% hint style="info" %}
 TASK 2: Click on "I2S2" under "Multimedia" to adjust its settings. **Under the "Parameter Settings" tab, set the fields under "Generic Parameters" so that I2S2 can be used for the microphone.**
@@ -46,7 +46,7 @@ Under the "DMA Settings" tab, press "Add". Adjust the settings so that they matc
 
 Click on "NVIC" under "System" from the "Configuration" tab of CubeMX. Ensure that the interrupts are enabled for the selected DMA channels, as below.
 
-![](../.gitbook/assets/screenshot-2019-09-25-at-17.54.49%20%281%29.png)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.54.49-1.png)
 
 ## Configure GPIO pins <a id="gpio"></a>
 
@@ -84,6 +84,10 @@ With the peripherals and initialization code updated, we can proceed to [wiring 
 ## Tasks solutions
 
 {% tabs %}
+{% tab title="Anti-spoiler tab" %}
+Are you sure you are ready to see the solution? ;\)
+{% endtab %}
+
 {% tab title="Task 1" %}
 The **transmission mode** is defined by the fact that the peripheral is a DAC, thus the I2S internal peripheral of the micro-controller will have to transmit data to the DAC. The mode to select is then "Master transmit".
 
@@ -91,7 +95,7 @@ The **communication standard** can be either "I2S" or "LSB-justified" as shown i
 
 Second paragraph of section 3 of the datasheet sais: _The UDA1334ATS supports the I2S-bus data format with word lengths of up to 24 bits and the LSB-justified serial data format with word lengths of 16, 20 and 24 bits._ Here we would have the choice. However as it is much easier to work with 16 bits in term of processing load, we will chose this option for **Data and Frame format**. CubeMX let's us two 16 bits data possibilities: "16 Bits Data on 16 Bits Fram" or "16 Bits Data on 32 Bits Fram". It is not clear in the datasheet, however as it is _up to 24 bits_ we have to make an assumption that the frame is 32 bits; otherwise all data format could not be chosen. You could also test both parameter and control with a logic analyser what is the frame length. Such type of missing information is often encountered when reading a datasheet.
 
-Lastly, the **Audio frequency** have to be defined. It is important to keep in mind that a faster sampling frequency implies less time for the micro-controller to process each buffer. A slower sampling frequency also impact the quality of the signal as it reduces the reproductible spectrum.   
+Lastly, the **Audio frequency** have to be defined. It is important to keep in mind that a faster sampling frequency implies less time for the micro-controller to process each buffer. A slower sampling frequency also impact the quality of the signal as it reduces the reproductible spectrum.  
 The pin called "PLL0" is set to 0 by default \(according to the [schematic](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-i2s-stereo-decoder-uda1334a.pdf?timestamp=1570708179)\), it means that the chip is in _audio mode._ Section 8.1.1, explains that in this mode the pin "PLL1" selects for audio frequency from 16 to 50 kHz \(PLL1 = LOW\) or from 50 to 100 kHz \(PLL1 = HIGH\). In this breakout, PLL1 is set to LOW according to the [schematic](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-i2s-stereo-decoder-uda1334a.pdf?timestamp=1570708179). In order to make our final choice we will chose 32 kHz, this choice will be confirmed by task 2.
 {% endtab %}
 
@@ -105,6 +109,4 @@ This datasheet gives more information about the **Data and Frame format**. We wi
 The **Audio frequency** have to be defined. This device is a bit more restrictive that the DAC. Indeed in page 7 of the datasheet we can read the following: _Clock frequencies from 2.048Mhz to 4.096MHz are supported so sampling rates from 32KHz to 64KHz can be had by changing the clock frequency._ In this case we clearly see that a frequency slower than 32kHz will not work properly.
 {% endtab %}
 {% endtabs %}
-
-
 

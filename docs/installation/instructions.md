@@ -26,15 +26,15 @@ If you have a workspace that already contains project, the _new project button_ 
 
 ## Code generation with CubeMX <a id="init_code"></a>
 
-We will be using this graphical software to generate the initialization code for our board and its peripherals. 
+We will be using this graphical software to generate the initialization code for our board and its peripherals.
 
 ### Board selection
 
 When all necessary downloads are completed, you should eventually see something similar to below. Click on the _Board Selector_ tab in the top toolbar to the left.
 
-![](../.gitbook/assets/screenshot-2019-09-25-at-15.54.25-2%20%281%29.png)
+![](../.gitbook/assets/screenshot-2019-09-25-at-15.54.25-2-1.png)
 
-Filter by board on the left column; enter "NUCLEO-F072RB". Double-click the board in the search results. 
+Filter by board on the left column; enter "NUCLEO-F072RB". Double-click the board in the search results.
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-13.36.57.png)
 
@@ -58,7 +58,7 @@ Extend the central pane if it was hidden, you will later need to do configuratio
 
 When a Nucleo template is selected and all peripheral initialised with default values, the blue button _B1_ and the LED _LD2_ are already configured. This is sufficient for our first project!
 
-We are now ready to generate the initialisation code! Save your project by _Command + S_ or _ctrl + S_, depending on your OS. The project will be automatically generated if a modification was made. At this stage, _CubeMX_ will write down in _C_, using _HAL_ libraries everything that was selected through it's GUI. 
+We are now ready to generate the initialisation code! Save your project by _Command + S_ or _ctrl + S_, depending on your OS. The project will be automatically generated if a modification was made. At this stage, _CubeMX_ will write down in _C_, using _HAL_ libraries everything that was selected through it's GUI.
 
 _HAL_ is short for _Hardware Abstraction Layer_ and it is a library provided by ST to help developers produce _portable_ code, i.e. code that can be used across the whole family of STM32 boards. For more information on HAL, check out [this document](https://www.st.com/content/ccc/resource/technical/document/user_manual/2f/77/25/0f/5c/38/48/80/DM00122015.pdf/files/DM00122015.pdf/jcr:content/translations/en.DM00122015.pdf).
 
@@ -66,7 +66,7 @@ _HAL_ is short for _Hardware Abstraction Layer_ and it is a library provided by 
 
 ## Project development with SW4STM32 <a id="deploy"></a>
 
-From the "Project Explorer", open the file `"Src/main.c"` \(see below\). Throughout the file, you should see comments that read `USER CODE BEGIN` and `USER CODE END`; _**it is only between these comments that you should write your code!**_ ****All other lines of code have been created by _CubeMX_ according to the configuration we specified before. If you decide to adjust any configuration through _CubeMX_ by editing the IOC file within the _copied_ project inside your workspace, it may modify anything outside of `USER CODE BEGIN` and `USER CODE END`, which is why all your code should be between these two lines.
+From the "Project Explorer", open the file `"Src/main.c"` \(see below\). Throughout the file, you should see comments that read `USER CODE BEGIN` and `USER CODE END`; _**it is only between these comments that you should write your code!**_ _\*\*_All other lines of code have been created by _CubeMX_ according to the configuration we specified before. If you decide to adjust any configuration through _CubeMX_ by editing the IOC file within the _copied_ project inside your workspace, it may modify anything outside of `USER CODE BEGIN` and `USER CODE END`, which is why all your code should be between these two lines.
 
 ![](../.gitbook/assets/18_workspace.PNG)
 
@@ -107,7 +107,7 @@ Now we can program the board! Plug the board to your computer using the USB Type
 
 ### Debugging the code
 
-Click on the _bug_ icon from the toolbar and select _Debug As &gt; STM32_  MCU _C/C++ Application_ \(see below\).
+Click on the _bug_ icon from the toolbar and select _Debug As &gt; STM32_ MCU _C/C++ Application_ \(see below\).
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-14.52.49.png)
 

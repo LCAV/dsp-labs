@@ -10,5 +10,5 @@ The following materials are needed:
 
 You might find those articles online as they are available at most large electronics reseller.
 
-In principle, any board that host an STM32 can be used for these exercises, as long as it is has at least two I2S buses. 
+In principle, any board that host an STM32 can be used for these exercises, as long as it is has at least two I2S buses.
 

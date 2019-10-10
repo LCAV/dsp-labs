@@ -216,11 +216,13 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t 
 
 **Congrats on completeting the passthrough! This project will serve as an extremely useful starting point for the following \(more interesting\) applications. The first one we will build is an** [_**alien voice effect**_](../alien-voice/)**.**
 
-
-
 ## Tasks solutions
 
 {% tabs %}
+{% tab title="Anti-spoiler tab" %}
+Are you sure you are ready to see the solution? ;\)
+{% endtab %}
+
 {% tab title="Task 9" %}
 Here you are asked to modify the macros and change the string
 
@@ -228,19 +230,19 @@ Here you are asked to modify the macros and change the string
 GPIO_PIN_SET_OR_RESET
 ```
 
-to be either 
+to be either
 
 ```c
 GPIO_PIN_SET
 ```
 
-or 
+or
 
 ```c
 GPIO_PIN_RESET
 ```
 
-The table 6 section 8.6.3 of the DAC [datasheet](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) sais: LOW  = mute off, HIGH = mute on.  
+The table 6 section 8.6.3 of the DAC [datasheet](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) sais: LOW = mute off, HIGH = mute on.  
 We will thus define the following macros:
 
 ```c
@@ -298,7 +300,7 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t 
 ```
 {% endtab %}
 
-{% tab title="" %}
+{% tab title="Bonus" %}
 There is alway several way to the same goal in C, however we propose you the following solution:
 
 ```c
@@ -310,7 +312,7 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t 
 }
 ```
 
-In this way the value of the microphone, that is only on one side \(every second channel\) will be copied to both side of the output buffer. 
+In this way the value of the microphone, that is only on one side \(every second channel\) will be copied to both side of the output buffer.
 
 Be careful that it will only work of you set your microphone on the left channel, you might imagine a more elaborated code if you want to adapt to the SET\_MIC\_LEFT/SET\_MIC\_RIGHT macro.
 {% endtab %}
