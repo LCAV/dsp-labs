@@ -57,12 +57,12 @@ output_buffer[n] = int(b_coef[0] * x[0] / HALF_MAX_VAL)
 computes the contribution of the top branch \(in the above block diagram\) towards the output $$y[n]$$.
 
 {% hint style="info" %}
-TASK 2: In the `for` loop that immediately follows, determine the code in order to add the contribution from the remaining branches. This should include a previous input _and_ a previous output sample weighted by the appropriate coefficients.
+TASK 2: In the `for` dedicated to computing the filter output, determine the code in order to add the contribution from the remaining branches. This should include a previous input _and_ output sample weighted by the appropriate coefficients.
 
-_Hint: remember to use `HALF_MAX_VAL` and to cast to `int`._
+_Hint: remember to use `HALF_MAX_VAL` and to cast to `int.`_
 {% endhint %}
 
-Note that we write a `for` in order to accommodate filters with more than two poles/zeros. However, due to stability issues it may be better to cascade multiple biquads instead of creating a filter with more than two poles/zeros.
+Note that we write a `for` in order to accommodate filters with more than two poles/zeros without changing the code. However, due to stability issues it may be better to cascade multiple biquads instead of creating a filter with more than two poles/zeros.
 
 {% hint style="info" %}
 TASK 3: In the final `for` loop, update the state variables, that is the previous input and output sample values.
@@ -178,4 +178,157 @@ _Hint: for the C implementation, start off with the passthrough example._
 {% endhint %}
 
 **Congrats on implementing the biquad filter! This is a fundamental tool in the arsenal of a DSP engineer. In the** [**next chapter**](../granular-synthesis/)**, we will build a more sophisticated voice effect that can alter the pitch so that you sound like a chipmunk or Darth Vader.**
+
+## Tasks solutions
+
+{% tabs %}
+{% tab title="Anti-spoiler tab" %}
+Are you sure you are ready to see the solution? ;\)
+{% endtab %}
+
+{% tab title="Task 2" %}
+You need to implement the filter as presented in the figure for the direct form. To do this you need to use the coeficients _a\_coef\[i\]_, _b\_coef\[i\]_ and the input and output _x\[i\]_ and _y\[i\]._ As always in the micro-controller environment, you have to be careful to respect the variable type, range, and to scale down your variables as needed for example with the look-up table. The result is shown in line 15 below.
+
+\_\_
+
+```python
+def process(input_buffer, output_buffer, buffer_len):
+    # specify global variables modified here
+    global y, x
+    
+    # process one sample at a time
+    for n in range(buffer_len):
+    
+        # apply input gain
+        x[0] = int(GAIN * input_buffer[n])
+    
+        # compute filter output
+        output_buffer[n] = int(b_coef[0] * x[0] / HALF_MAX_VAL)
+        for i in range(1, N_COEF):
+    
+            output_buffer[n] += int((b_coef[i] * x[i] / HALF_MAX_VAL) - (a_coef[i] * y[i] / HALF_MAX_VAL))
+```
+{% endtab %}
+
+{% tab title="Task 3" %}
+In this task you just have to update the value of the state variables. An other way to understand the state variable concept is just to understand that they are the static ones that can be used the the next call of the function to recall the former values.
+
+```c
+def process(input_buffer, output_buffer, buffer_len):
+    # specify global variables modified here
+    global y, x
+    
+    # process one sample at a time
+    for n in range(buffer_len):
+    
+        # apply input gain
+        x[0] = int(GAIN * input_buffer[n])
+    
+        # compute filter output
+        output_buffer[n] = int(b_coef[0] * x[0] / HALF_MAX_VAL)
+        for i in range(1, N_COEF):
+    
+            output_buffer[n] += int((b_coef[i] * x[i] / HALF_MAX_VAL) - (a_coef[i] * y[i] / HALF_MAX_VAL))
+    
+        # update state variables
+        y[0] = output_buffer[n]
+        for i in reversed(range(1, N_COEF)):
+            x[i] = x[i-1]
+            y[i] = y[i-1
+```
+{% endtab %}
+
+{% tab title="Task 4" %}
+Placeholder
+
+```c
+# the process function!
+def process(input_buffer, output_buffer, buffer_len):
+
+    # specify global variables modified here
+    global w
+
+    # process one sample at a time
+    for n in range(buffer_len):
+
+        # apply input gain
+        w[0] = int(GAIN * input_buffer[n])
+
+        # compute contribution from state variables
+        for i in range(1, N_COEF):
+            w[0] -= int(a_coef[i]/HALF_MAX_VAL*w[i])
+
+
+```
+{% endtab %}
+
+{% tab title="Task 5" %}
+Placeholder
+
+```c
+# the process function!
+def process(input_buffer, output_buffer, buffer_len):
+
+    # specify global variables modified here
+    global w
+
+    # process one sample at a time
+    for n in range(buffer_len):
+
+        # apply input gain
+        w[0] = int(GAIN * input_buffer[n])
+
+        # compute contribution from state variables
+        for i in range(1, N_COEF):
+            w[0] -= int(a_coef[i]/HALF_MAX_VAL*w[i])
+
+        # compute output
+        output_buffer[n] = 0
+        for i in range(N_COEF):
+            output_buffer[n] += int(b_coef[i]/HALF_MAX_VAL*w[i])
+```
+{% endtab %}
+
+{% tab title="Task 6" %}
+Placeholder
+
+```c
+# the process function!
+def process(input_buffer, output_buffer, buffer_len):
+
+    # specify global variables modified here
+    global w
+
+    # process one sample at a time
+    for n in range(buffer_len):
+
+        # apply input gain
+        w[0] = int(GAIN * input_buffer[n])
+
+        # compute contribution from state variables
+        for i in range(1, N_COEF):
+            w[0] -= int(a_coef[i]/HALF_MAX_VAL*w[i])
+
+        # compute output
+        output_buffer[n] = 0
+        for i in range(N_COEF):
+            output_buffer[n] += int(b_coef[i]/HALF_MAX_VAL*w[i])
+
+        # update state variables
+        for i in reversed(range(1, N_COEF)):
+            w[i] = w[i-1]
+```
+{% endtab %}
+
+{% tab title="Task 7" %}
+Placeholder
+
+```c
+# the process function!
+
+```
+{% endtab %}
+{% endtabs %}
+
+
 
