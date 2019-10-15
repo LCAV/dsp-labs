@@ -208,13 +208,7 @@ const int16_t sine_table[SINE_TABLE_SIZE] = {
 
 If you have some extra time, we propose to make a few improvements to the system!
 
-{% hint style="info" %}
-TASK 8: Put the robot voice signal on both output channels.
-
-_Hint: edit the processing function, certainly near the end._
-{% endhint %}
-
-We will now program one of the on-board buttons - the blue button called "B1" - to toggle the alien voice effect. Copy the following code between the `USER CODE BEGIN PV` and `USER CODE END PV` comments.
+First extra feature: will now program one of the on-board buttons - the blue button called "B1" - to toggle the alien voice effect. Copy the following code between the `USER CODE BEGIN PV` and `USER CODE END PV` comments.
 
 ```c
 /* USER CODE BEGIN PV */
@@ -236,7 +230,15 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 }
 ```
 
-In the above code snippet, you will find the state variable we propose for the FX \(effects\) state and the callback that is needed to react to the button. To activate the callback, you need to go into CubeMX and enable "EXTI line 4 to 15" from the Configuration tab under "System &gt; NVIC". Then modify your `process` function using a condition as proposed in the code snippet below.
+In the above code snippet, you will find the state variable we propose for the FX \(effects\) state and the callback that is needed to react to the button. **To activate the callback, you need to go into CubeMX and enable "EXTI line 4 to 15" from the Configuration tab under "System &gt; NVIC".** 
+
+
+
+{% hint style="info" %}
+TASK 8: Modify your `process` function using a condition as proposed in the code snippet below.
+
+_Hint: This will not be enough if you used the optimised version of the process function proposed in task 7, if it is the case, you will also have to test the FX value in the signal initialisation._
+{% endhint %}
 
 ```c
 for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
@@ -260,10 +262,6 @@ for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
 Finally, you can try changing the modulation frequency and creating your lookup tables by running [this Python script](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/compute_sinusoid_lookup.py) for modified values of `f_sine`.
 
 **Congrats on implementing your \(perhaps\) first voice effect! In the** [**next chapter**](../filter-design/)**, we will implement a more sophisticated high-pass filter than the one used here. To this end, we will come across fundamental theory and practical skills in digital filter design.**
-
-\*\*\*\*
-
-\*\*\*\*
 
 ## Tasks solutions
 
@@ -314,18 +312,152 @@ if (current_time_us < MAX_PROCESS_TIME_ALLOWED_us) {
 {% endtab %}
 
 {% tab title="Task 7" %}
-Placeholder
+Here comes the moment when you can rely on your former python implementation in order to code the C version of the alien voice. Indeed as we already coded the python version in a block version and very close to C programming, it is just a matter of porting the code.
 
 ```c
-Placeholder
+/* USER CODE BEGIN 4 */
+
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
+        uint16_t size) {
+
+    int16_t static x_1 = 0;
+    int16_t x[FRAME_PER_BUFFER];
+    int16_t y[FRAME_PER_BUFFER];
+
+#define GAIN 8      // We lose 1us processing time if we use a value that is not a power of 2
+
+    static uint16_t pointer_sine = 0;
+
+    // Take signal from left side
+    for (uint16_t i = 0; i < size; i += 2) {
+        x[i / 2] = bufferInStereo[i];
+    }
+
+    for (uint16_t i = 0; i < FRAME_PER_BUFFER; i++) {
+
+        // High pass filter
+        y[i] = x[i] - x_1;
+
+        // Apply alien voice effect and gain
+        y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+
+        // Update state variables
+        pointer_sine %= SINE_TABLE_SIZE; 
+        x_1 = x[FRAME_PER_BUFFER - 1];
+    }
+
+    // Interleaved left and right
+    for (uint16_t i = 0; i < size; i += 2) {
+        bufferOutStereo[i] = (int16_t) y[i / 2];
+        bufferOutStereo[i + 1] = 0;
+    }
+```
+
+Note that an optimisation could be done. The line _x\_1 = x\[FRAME\_PER\_BUFFER - 1\];_ is executed on every single passage through the _for_ loop. In fact we only need to backup x\_1 \(as a static variable\) during the transition from one buffer to the next. With some modification we can arrive to the following function that will use slightly less of CPU usage:
+
+
+
+```c
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
+		uint16_t size) {
+
+    int16_t static x_1 = 0;
+    int16_t x[FRAME_PER_BUFFER];
+    int16_t y[FRAME_PER_BUFFER];
+
+	static uint16_t pointer_sine = 0;
+
+    #define GAIN 8      // We lose 1us processing time if we use a value that is not a power of 2
+
+	// Take signal from left side
+	for (uint16_t i = 0; i < size; i += 2) {
+		x[i / 2] = bufferInStereo[i];
+	}
+
+	// High pass filtering initialization
+	y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
+	// Signal initialization
+	y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+	pointer_sine %= SINE_TABLE_SIZE;
+
+	for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
+		// High pass filtering
+		y[i] = x[i] - x[i - 1];
+
+		// Robot voice modulation and gain
+		y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+		pointer_sine %= SINE_TABLE_SIZE;
+	}
+
+	// Backup last sample for next buffer -> ONLY ONCE per buffer, otherwise we use x[i-1] that is available "locally"
+	x_1 = x[FRAME_PER_BUFFER - 1];
+
+	// Interleaved left and right
+	for (uint16_t i = 0; i < size; i += 2) {
+		bufferOutStereo[i] = (int16_t) y[i / 2];
+		// Put signal on both side
+		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+	}
+}
 ```
 {% endtab %}
 
 {% tab title="Task 8" %}
-Placeholder
+The final process function in its optimised form will look like this:
 
 ```c
-Placeholder
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
+		uint16_t size) {
+
+    int16_t static x_1 = 0;
+    int16_t x[FRAME_PER_BUFFER];
+    int16_t y[FRAME_PER_BUFFER];
+
+#define GAIN 8 		// We loose 1us if we use 10 in stead of 8
+
+	static uint16_t pointer_sine = 0;
+
+	// Take signal from left side
+	for (uint16_t i = 0; i < size; i += 2) {
+		x[i / 2] = bufferInStereo[i];
+	}
+
+	// High pass filtering initialization
+	y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
+	
+	// Signal initialization
+	if (FX == FX_ON) {
+		y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+		pointer_sine %= SINE_TABLE_SIZE;
+	} else {
+		// Gain
+		y[0] *= GAIN;
+	}
+		
+	for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
+
+		// High pass filtering
+		y[i] = x[i] - x[i - 1];
+		if (FX == FX_ON) {
+			// Robot voice modulation and gain
+			y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+			pointer_sine %= SINE_TABLE_SIZE;
+		} else {
+			// Gain
+			y[i] *= GAIN;
+		}
+	}
+
+	// Backup last sample for next buffer
+	x_1 = x[FRAME_PER_BUFFER - 1];
+
+	// Interleaved left and right
+	for (uint16_t i = 0; i < size; i += 2) {
+		bufferOutStereo[i] = (int16_t) y[i / 2];
+		// Put signal on both side
+		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+	}
+}
 ```
 {% endtab %}
 {% endtabs %}
