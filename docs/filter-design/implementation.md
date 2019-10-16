@@ -171,6 +171,22 @@ If you successfully complete the `process` function, you should obtain the follo
 
 With the above implementation\(s\) working in the simulated environments with a fixed WAV file, you can now try your implementation in a real-time scenario.
 
+There we give you the variable initialisation that you could use:
+
+```c
+#define num_coefs 3
+
+int16_t coefs_b[] = { half_MAX_INT16, -2*half_MAX_INT16, half_MAX_INT16};
+int16_t coefs_a[] = { 0*half_MAX_INT16, 1.96*half_MAX_INT16, -0.9604*half_MAX_INT16};
+
+int16_t x_old[num_coefs] = {0, 0, 0};
+int16_t y_old[num_coefs] = {0, 0, 0};
+int16_t ix = 0;
+int16_t iy = 0;
+```
+
+
+
 {% hint style="info" %}
 TASK 7: Try your biquad filter implementation with the [`sounddevice` template](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_sounddevice.py) and then implement it in C on the microcontroller!
 
@@ -192,6 +208,7 @@ You need to implement the filter as presented in the figure for the direct form.
 \_\_
 
 ```python
+# the process function!
 def process(input_buffer, output_buffer, buffer_len):
     # specify global variables modified here
     global y, x
@@ -213,7 +230,8 @@ def process(input_buffer, output_buffer, buffer_len):
 {% tab title="Task 3" %}
 In this task you just have to update the value of the state variables. An other way to understand the state variable concept is just to understand that they are the static ones that can be used the the next call of the function to recall the former values.
 
-```c
+```python
+# the process function!
 def process(input_buffer, output_buffer, buffer_len):
     # specify global variables modified here
     global y, x
@@ -239,9 +257,9 @@ def process(input_buffer, output_buffer, buffer_len):
 {% endtab %}
 
 {% tab title="Task 4" %}
-Placeholder
+The first task is to compute the contribution made from the past input variables to the intermediate signal called $$w[n]$$.
 
-```c
+```python
 # the process function!
 def process(input_buffer, output_buffer, buffer_len):
 
@@ -263,9 +281,9 @@ def process(input_buffer, output_buffer, buffer_len):
 {% endtab %}
 
 {% tab title="Task 5" %}
-Placeholder
+The second step is to compute the output signal from $$w[n]$$ that we just computed.
 
-```c
+```python
 # the process function!
 def process(input_buffer, output_buffer, buffer_len):
 
@@ -290,9 +308,9 @@ def process(input_buffer, output_buffer, buffer_len):
 {% endtab %}
 
 {% tab title="Task 6" %}
-Placeholder
+Lastly we can update the state variable.
 
-```c
+```python
 # the process function!
 def process(input_buffer, output_buffer, buffer_len):
 
@@ -321,10 +339,52 @@ def process(input_buffer, output_buffer, buffer_len):
 {% endtab %}
 
 {% tab title="Task 7" %}
-Placeholder
+To test the biquad implementation withe the sounddevice template, you just have to use the same process function that was made in the previous steps and use the sounddevice template.
+
+We propose you a _C_ version of the direct form 1 of the filter. There is some variable changes but it is the same process:
 
 ```c
 # the process function!
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t size) {
+
+	int16_t x[FRAME_PER_BUFFER];
+	int16_t y[FRAME_PER_BUFFER];
+	int32_t ACC;
+
+	for(int i = 0; i<FRAME_PER_BUFFER;i++){
+		y[i] = 0;
+	}
+
+#define GAIN 8 		// We loose 1us if we use 10 in stead of 8
+
+	// Take signal from left side
+	for (uint16_t i = 0; i < size; i += 2) {
+		x[i / 2] = bufferInStereo[i];
+	}
+
+	// High pass filtering
+	for (uint i = 0; i < FRAME_PER_BUFFER; i++) {
+
+		x_old[ix++] = x[i];
+		ix %= num_coefs;
+
+		ACC = 0;
+		for(int j = 0; j < num_coefs; j++){
+			ACC += ((int32_t)x_old[(ix+j) % num_coefs] * coefs_b[num_coefs-j-1]) / half_MAX_INT16;
+			ACC += ((int32_t)y_old[(iy+j+1) % num_coefs] * coefs_a[num_coefs-j-1]) / half_MAX_INT16;
+		}
+		y[i] = y_old[iy++] = (int32_t) ACC;
+		iy %= num_coefs;
+		y[i] *= GAIN;
+	}
+
+	// Interleaved left and right
+	for (uint16_t i = 0; i < size; i += 2) {
+		bufferOutStereo[i] = (int16_t) y[i / 2];
+		// Put signal on both side
+		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+	}
+}
 
 ```
 {% endtab %}
