@@ -344,7 +344,7 @@ To test the biquad implementation withe the sounddevice template, you just have 
 We propose you a _C_ version of the direct form 1 of the filter. There is some variable changes but it is the same process:
 
 ```c
-# the process function!
+// the process function!
 void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t size) {
 
 	int16_t x[FRAME_PER_BUFFER];

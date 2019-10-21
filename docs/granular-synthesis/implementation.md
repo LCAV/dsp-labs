@@ -234,7 +234,7 @@ TASK 4: Implement the granular synthesis pitch shifting in real-time using your 
 _Hint: copy-and-paste your_ `init` _and_ `process` _functions \(once they are working\) into_ [_this script_](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_sounddevice_incomplete.py)_._
 {% endhint %}
 
-**Congrats on implementing granular synthesis pitch shifting! This is not a straightforward task, even in Python. But now that you have this code, the C implemention on the STM board should be much easier.**
+**Congrats on implementing granular synthesis pitch shifting! This is not a straightforward task, even in Python. But now that you have this code, the C implementation on the STM board should be much easier.**
 
 \*\*\*\*
 
@@ -246,6 +246,8 @@ Are you sure you are ready to see the solution? ;\)
 {% endtab %}
 
 {% tab title="Task 1" %}
+According to the previously given equation the following three variables can be computed.
+
 ```python
 def build_linear_interp_table(n_samples, down_fact,
     data_type=np.int16):
@@ -261,15 +263,39 @@ def build_linear_interp_table(n_samples, down_fact,
     MAX_VAL = np.iinfo(data_type).max
     amp_vals =  np.array(amp_vals)
     amp_vals = (amp_vals*MAX_VAL).astype(data_type)
-    return samp_vals, amp_vals
+    return samp_vals, amp_valsFr
 ```
 {% endtab %}
 
 {% tab title="Task 2" %}
-Placeholder
+From one buffer to the next, we need to store two different arrays, the first is the input variables that need to be used to blend into the next tampering window, the length of this array is the number of the overlapping samples between two buffers.
+
+We also need to blend the output buffer to the next buffer so we will add a second array of the same length. The length is calculated below.
+
+Two initial definitions:
+
+$$
+grain\_length = 20[ms] = 640 [sample @ 32kHz]\newline
+grain\_overlap = 0.3
+$$
+
+Which gives the following length:
+
+$$
+grain\_stride = ( grain\_length - (int)(grain\_length * grain\_overlap / 2) - 1 )\newline
+overlap\_length = ( grain\_length - grain\_stride )
+$$
+
+The numerical application of that gives an overlap length of 97 samples at 32kHz sampling rate and 20ms of grains \(suited for voice\).
 {% endtab %}
 
 {% tab title="Task 3" %}
+First thing to be done is to declare the variables x\_overlap, y\_overlap, grain and input\_concat. The first two are our state variables and the other are for intermediate calculations.
+
+You then need to populate the process function according to our indications in the comments and the equation in this chapter.
+
+The code is given below.
+
 ```python
 # state variables and constants
 def init():
@@ -337,7 +363,7 @@ def process(input_buffer, output_buffer, buffer_len):
 {% endtab %}
 
 {% tab title="Task 4" %}
-There is the whole code for this part of the tutorial:
+Taking the results from the previous task and integrating them in the sounddevice template gives the following code:
 
 {% code-tabs %}
 {% code-tabs-item title="granular\_synthesis\_sounddevice\_complete.py" %}
