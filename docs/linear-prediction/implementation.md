@@ -89,7 +89,7 @@ def process(input_buffer, output_buffer, buffer_len):
     global ...
 
     if USE_LPC:
-        global lpc_coef, lpc_prev_in, lpc_prev_out
+        global lpc_coef
 
     # TODO: append samples from previous buffer
     # copy from granular synthesis
@@ -102,7 +102,7 @@ def process(input_buffer, output_buffer, buffer_len):
         lpc_coef
 
         # estimate excitation
-        lpc_prev_in
+        input_concat
 
     # TODO: resample grain
     # copy from granular synthesis
@@ -111,7 +111,7 @@ def process(input_buffer, output_buffer, buffer_len):
 
     # TODO: forward filter the resampled grain
     if use_LPC:
-       lpc_prev_out
+       grain
 
     # TODO: apply window
     # copy from granular synthesis
@@ -155,7 +155,7 @@ TASK 4: Complete the code after the comment `# estimate excitation`, namely filt
 
 _Hints:_
 
-* _We are applying an **FIR filter** in this case; recall your implementation from the **Digital Filter Design** chapter, notably the code from_ [_this script_](https://github.com/LCAV/dsp-labs/blob/master/scripts/filter_design/biquad_direct_form_1_incomplete.py#L62)_. In this case `input_buffer` should be the concatenated raw samples vector, `x` should be `lpc_prev_in`, and there is no equivalent to `y` since this is an FIR filter._
+* _We are applying an **FIR filter** in this case; recall your implementation from the **Digital Filter Design** chapter, notably the code from section 4.2 of this tutorial. In this case `input_buffer` should be the concatenated raw samples vector, `x` should be `lpc_prev_in`, and there is no equivalent to `y` since this is an FIR filter. However if you want a quick result, use sp.filter\(\) \(imported from: import scipy.signal as sp_
 * _You can rewrite into the concatenated raw samples vector, **NOT** `input_buffer`!_
 * _Don't forget to apply `GAIN`!_
 {% endhint %}
@@ -198,9 +198,7 @@ Are you sure you are ready to see the solution? ;\)
 {% endtab %}
 
 {% tab title="Task 1" %}
-
-
-
+A solution for the matrix operation is given below.
 
 ```python
 def ld(r, p):
@@ -218,7 +216,7 @@ def ld(r, p):
 {% endtab %}
 
 {% tab title="Task 2" %}
-As a reminder there is the granula synthesis process function:
+As a reminder there is the granular synthesis process function:
 
 ```python
 # the process function!
@@ -264,7 +262,17 @@ def process(input_buffer, output_buffer, buffer_len):
 {% endtab %}
 
 {% tab title="Task 3" %}
+Here we use the function LPC to compute coefficients to tune the filter.
 
+```python
+# compute LPC coefficients
+if USE_LPC:
+    a = lpc(np.float32(input_concat), P) # Compute coefs
+```
+{% endtab %}
+
+{% tab title="Task 4" %}
+Here we will use a simple filtering method. However you can definitely use the one created in the digital filter design chapter.
 
 ```python
 # compute LPC coefficients
@@ -272,10 +280,6 @@ if USE_LPC:
     a = lpc(np.float32(input_concat), P) # Compute coefs 
     input_concat = sp.lfilter(a, [1.], input_concat) # Modify the grain so that it contains the excitation signal
 ```
-{% endtab %}
-
-{% tab title="Task 4" %}
-?
 {% endtab %}
 
 {% tab title="Task 5" %}
