@@ -4,13 +4,13 @@
 
 _Note: these instruction and images were produced on February 6, 2018 and last verified on July 23, 2018._
 
-The following steps are the same for Windows, Linux, and MacOS as they simply consist of downloading the installation files. For the actual installation, please refer to the corresponding subsection **after these instructions**.
+The following steps are the same for Windows, Linux, and MacOS as they simply consist of downloading the installation files. For the actual installation process, please refer to the corresponding subsection **after performing the following six steps:**
 
 1\) Navigate to the ST [site for the STM32CubeMX software](https://www.st.com/en/development-tools/stm32cubemx.html).
 
 2\) At the bottom of the page, you should find a link to download the software. Press the button "Get Software".
 
-![](https://github.com/LCAV/dsp-labs/tree/4716f91d18323239f759c649d6c2e80c56a0faba/docs/.gitbook/assets/1_get_software.png)
+![](../../.gitbook/assets/1_get_software-1.PNG)
 
 3\) A License Agreement should pop up. In order to download the software, it is required to accept the agreement.
 

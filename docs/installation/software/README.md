@@ -1,6 +1,6 @@
 # 1.2 Software
 
-In the following sections, we walkthrough the installation of the two software tools that will be essential in our workflow:
+We will now walk through the installation of the two software tools that will be essential in our workflow:
 
 * [**CubeMX**](https://www.st.com/en/development-tools/stm32cubemx.html): a graphical software configuration tool that simplifies the process of generating the C initialization code for STM32 microcontrollers. See [here](cubemx.md) for installation instructions.
 
