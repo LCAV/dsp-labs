@@ -1,72 +1,68 @@
-# Microphone
+# 2.1.1 Digital Microphone
 
-The microphone part we will be using is the [I2S MEMS Microphone Breakout](https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/overview) by Adafruit. In the following subsections, we will explain the important inputs/outputs of a MEMS microphone, the I2S input protocol for the microphone we will be using, and what is meant by "breakout".
+For the input we will use is the [I2S MEMS Microphone Breakout](https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/overview) by Adafruit; in the following we will refer to this part simply as the _Adafruit mic_. In the following subsections, we will explain the key inputs and outputs of the circuit, the I2S input protocol for the data transfer, and what is meant by a "breakout board".
 
-## Overview of MEMS microphone pins
+## Overview of the MEMS microphone pins
 
-For portable devices, digital MEMS microphone are the popular choice for audio capture. They are small, cheap, and easy to integrate into one's desired application. MEMS microphone usually have the following inputs:
+For portable devices, digital MEMS microphones are the popular choice for audio capture since they integrate both the analog microphone and the analog-to-digital converter that samples and quantizes the audio. MEMS is short for Microelectromechanical systems, a process technology used to create tiny integrated devices or systems that combine mechanical and electrical components; MEMS are small, cheap, and easy to integrate into one's desired application. 
 
-* **VDD**: \(usually\) 3.3V to power the device.
-* **GND**: ground.
-* **CLK**: "clock" signal which is directly related to the sampling frequency. Typically the sampling frequency $$f_s = f_{CLK}/64$$, or in other words the input clock is $$64 \times$$ the desired audio sampling frequency.
-* **SEL**: "select" signal to specify whether the microphone data should be responsible for the _left_ or _right_ channel data. For this reason, **SEL** can also be called **LR** on datasheets. Typically, **SEL**=0 for the left channel and **SEL**=1 for the right channel.
-
-A MEMS microphone typically returns a PDM \(Pulse-Density Modulation\) signal. This is essentially a 1-bit oversampled \(usually $$64 \times$$ normal audio sampling frequencies\) signal that requires downsampling and filtering in order to obtain a multi-bit PCM \(Pulse-Code Modulation\) signal. PCM is the format typically used for storing and processing audio and the format we will want to use in our applications. You can read more about PDM and PCM [here](http://users.ece.utexas.edu/~bevans/courses/rtdsp/lectures/10_Data_Conversion/AP_Understanding_PDM_Digital_Audio.pdf) and [here](https://en.wikipedia.org/wiki/Pulse-density_modulation). Luckily, we do not need to perform this conversion if we use a MEMS microphone that outputs an I2S signal. These microphones contain a decimator and a low-pass filter in its circuitry and output the multi-bit audio in a serial manner via the [I2S format](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf). However, this convenience requires us to provide at least one additional input to an I2S MEMS microphone:
-
-* **WS**: "word select" signal for specifying whether we expect the left \(**WS**=0\) or right channel \(**WS**=1\) data. Typically, the frequency of **WS** is $$f_{WS} = f_{CLK}/64$$, thus requiring the two signals \(**WS** and **CLK**\) to be synchronized.
-
-As I2S microphones perform the downsampling and low-pass filtering internally to produce the multi-bit audio, we need a "smart" way of transmitting this audio rather than having multiple output lines for each bit. A separate line for each bit would require up to 24 output lines! The **WS** input is our solution as it denotes:
-
-* which channel's data we are expecting \(left or right\);
-* the start of a particular channel's transfer, typically on the next rising edge of the **CLK** signal after **WS** has changed values \(which is why it is important that **CLK** and **WS** are properly synchronized\).
-
-With one input signal, we replace the need for several output lines! Both the PDM and the I2S MEMS microphones output a 1-bit signal, often called **DOUT** or **DATA** on datasheets. Moreover, it is common for left and right channel microphones to share the same **DATA** line to further reduce the number of connections.
+The connectors on a MEMS microphone are the following:
 
 ![](../../.gitbook/assets/sph0645lm4h_pins.png)
 
-_Figure: Adafruit I2S MEMS microphone pins,_ p. 9 of [datasheet](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF).
+The basic input pins are:
+
+* **VDD**: \(usually\) 3.3V to power the device.
+* **GND**: ground.
+* **CLK**: an external "clock" signal that drives the sampler in the A/D circuit. The sampling frequency for the Adafruit mic is $$f_s = f_{CLK}/64$$, that is, the input clock should be 64 times the desired audio sampling frequency.
+* **SEL**: a "select" signal used to specify whether the microphone captures the _left_ or the _right_ channel in a stereo signal. For this reason, **SEL** can also be called **LR** on datasheets. Typically, **SEL**=0 for the left channel and **SEL**=1 for the right channel.
+
+A standard MEMS microphone typically returns a PDM \(Pulse-Density Modulation\) signal. This is essentially a 1-bit, 64-oversampled signal that requires downsampling and filtering in order to obtain a PCM \(Pulse-Code Modulation\) signal. PCM is the format typically used for storing and processing audio and it is indeed the format that we want to provide to the microcontroller. You can read more about PDM and PCM [here](http://users.ece.utexas.edu/~bevans/courses/rtdsp/lectures/10_Data_Conversion/AP_Understanding_PDM_Digital_Audio.pdf) and [here](https://en.wikipedia.org/wiki/Pulse-density_modulation) and you can play with one-bit, oversampled signals [here](https://github.com/prandoni/COM303/tree/master/OneBitMusic).
+
+Luckily for us, the Adafruit mic already provides us with a PCM signal \(the circuit implements a decimator and a low-pass filter\), which it outputs in the [I2S format](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf) that we have seen in the previous section. Each sample is encoded over 32 nominal bits \(that is, the binary words is 32-bit long\) and word synchronization requires an additional input signal:
+
+* **WS**: a "word select" signal whose level transitions mark the beginning of a binary word; since there will be a data word per audio sample, the frequency for the **WS** signal must be equal to the sampling frequency, that is, equal to the **CLK** frequency divided by 64. Since two Adafruit microphones can be connected in parallel to provide an interleaved stereo signal, the following convention is used: when **WS** goes _HIGH_, the Adafruit whose **SEL** signal is HIGH will start to transmit while the Adafruit whose **SEL** is LOW will remain in a tri-state output \(essentially disconnected\); conversely, when **WS** goes _LOW_, the Adafruit whose **SEL** is low will start to transmit. Note that, because of the interleaving, the sampling frequency will need to be twice the nominal value.
 
 ## I2S timing diagram example
 
-Let's look at an example timing diagram from the IS2 microphone we will be using.
+Let's look at an example timing diagram from the single Adafruit microphone we will be using. We assume we have configured our microphone to be the the left channel \(that is, we set **SEL**=0\).
 
-![](../../.gitbook/assets/sph0645lm4h_mic_timing.png)
+![](../../.gitbook/assets/words-mono.png)
 
-_Figure: I2S MEMS microphone output timing diagram. The output data format is I2S, 24 bit, 2's compliment, MSB first._ p. 7 of [datasheet](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF).
+_Figure: I2S MEMS microphone output timing diagram. The output data format is I2S, 24 bit, 2's complement, MSB first._ p. 7 of [datasheet](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF).
 
-From the figure above, we can make several interesting observations:
+From the figure above, we can make several observations:
 
-1. After **WS** switches to LOW/0 for the left channel, we receive the first bit of information on the **DATA** line from the microphone whose **SEL**=0. The same is true for when **WS** switches to HIGH/1 for the right channel and the microphone whose **SEL**=1.
+1. After **WS** switches to LOW, we receive the first bit of information on the **DATA** line from the microphone, since **SEL**=0. When **WS** switches to HIGH \(meaning a word is expected from the right channel microphone\) the left channel microphone stays disconnected from the data bus.
 2. Each new bit is received at a _rising_ edge and held for an _entire_ period of **CLK**.
-3. _For this microphone_: the first 18 bits after a rising or falling edge of the **WS** signal corresponds to actual audio data, starting with the Most-Significant Bit \(MSB\) and finishing with the Least-Significant Bit \(LSB\).
-4. _For this microphone_: bits 19-24 are set to 0 so our data precision is essentially 18 bits. Nonetheless, this zero-padding is required as the output format chosen by the manufacturer is: I2S, 24 bit, 2's compliment, MSB first \(p. 7 of [datasheet](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF)\).
-5. _For this microphone_: bits 25-32 are set to _tri-state_, which is a high impedance mode that essentially removes an output port from the circuit in order to avoid a _short circuit_. As we may share the **DATA** line between the left and right channel, this is desired when one microphone is done transmitting data and while the other microphone is transmitting. See [here](https://en.wikipedia.org/wiki/Three-state_logic) for more information on tri-state.
+3. The first 18 bits after a rising or falling edge of the **WS** signal corresponds to actual audio data, starting with the Most-Significant Bit \(MSB\) and finishing with the Least-Significant Bit \(LSB\).
+4. Bits 19-24 are set to 0 so our data precision is essentially 18 bits. Nonetheless, this zero-padding is required as the output format chosen by the manufacturer is: I2S, 24 bit, 2's complement, MSB first \(p. 7 of [datasheet](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF)\).
+5. Bits 25-32 are set to tri-state, effectively disconnecting the circuit from the data bus; it will stay disconnected until a new transition of **WS** to LOW is detected in order not to corrupt the signal from the microphone from the other channel. 
 
 ## I2S wiring example
 
-Now that we are familiar with the various inputs and output of a MEMS microphone, let's see how we would wire up an I2S MEMS microphone, in particular the one we will be using.
+In general, two MEMS microphones are usually connected in parallel according to the following diagram; the component called "IS2 Master" would be our microcontroller. The terms "master" and "slave" are quite common in electronics to describe the device which acts as the controller and the devices\(s\) that are being controlled. See [here](https://www.techopedia.com/definition/2235/masterslave) for more information on the terminology.
 
 ![](../../.gitbook/assets/sph0645lm4h_wiring.png)
 
 _Figure: I2S MEMS microphone wiring for stereo use. Note that in our exercises we will be using a mono, i.e. one channel, setup._ p. 7 of [datasheet](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF).
 
-From the figure above, we can observe how _two_ I2S microphones would be connected for stereo use. Some important observations that can be made:
+Some important observations that can be made:
 
-* The component called "IS2 Master" would be our microcontroller. The terms "master" and "slave" are quite common in electronics to describe the device which acts as the controller and the devices\(s\) that are being controlled. See [here](https://www.techopedia.com/definition/2235/masterslave) for more information on the terminology.
 * The **DATA** lines for the two microphones are connected to each other and are supplied as a single input to the I2S Master.
-* The **SEL** input for each microphone is set differently: **SEL**=**VDD** for the top microphone and **SEL**=**GND** for the bottom microphone. This is absolutely essential if two microphones will be sharing the same **DATA** line!
+* The **SEL** input for each microphone is set differently: **SEL**=**VDD** for the right-channel microphone and **SEL**=**GND** for the left-channel microphone. This is absolutely essential if two microphones are to share the same **DATA** line, as we explained before. 
 * The two microphones use the same **BCLK** \(aka **CLK**\) and **WS** signal. This is also necessary for microphones using the same **DATA** line for synchronization purposes.
+
+In this module, we will only use a single microphone, but the wiring from the microcontroller to the MEMS is identical.
 
 ## Adafruit breakout
 
-From the figure above, we can observe that a MEMS microphone requires several additional components \(capacitors and resistors\) in addition to the multiple inter-connecting wires. We could use a [breadboard](https://en.wikipedia.org/wiki/Breadboard) to wire up all the necessary components, but this is far from convenient when we start to incorporate more parts.
-
-To simplify this task of wiring, it is common to use _breakout_ boards. With a breakout board, we can bundle all the necessary components and simply provide connections for the signals/ports that need to interact with our microcontroller. In the case of our microphone, all the components \(microphone, resistors, capacitors\) can be soldered on a compact board and convenient access can be given to the following signals:
+From the diagram above, we can observe that a MEMS microphone requires several additional components \(capacitors and resistors\) on top of the several inter-connecting wires. Instead of taking care of this part ourselves we can simply use a pre-made _breakout_ board. With a breakout board, all the necessary components are pre-installed and we simply provide the connections for the signals/ports that need to interact with our microcontroller. In the case of our microphone, all the components \(microphone, resistors, capacitors\) are soldered on a compact board and convenient access can be given to the following signals:
 
 1. **VDD** and **GND**: provided by the microcontroller to power the microphone.
 2. **WS** and **BCLK**: generated by the microcontroller for the I2S transfer.
 3. **SEL**: wired by the user to either **VDD** or **GND** to configure the microphone appropriately.
 4. **DIN**: input to the microcontroller from the microphone\(s\).
 
-It is possible to design your own breakout boards using CAD tools for PCBs \(Printed Circuit Boards\). But for popular components like microphones, it is easy to find breakout boards that have already been designed. [Adafruit](https://www.adafruit.com/category/42) is a great place to find such boards and other cool electronics for personal projects, along with very well explained user guides. We will be using Adafruit's [I2S MEMS Microphone Breakout](https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/overview) in our exercises.
+It is possible to design your own breakout boards using CAD tools for PCBs \(Printed Circuit Boards\). But for popular components like microphones, it is easy to find breakout boards that have already been designed. [Adafruit](https://www.adafruit.com/category/42) is a great place to find such boards and other cool electronics for personal projects, along with very well explained user guides and the [I2S MEMS Microphone Breakout](https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/overview) is the component that perfectly fits our needs.
 

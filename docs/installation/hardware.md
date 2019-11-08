@@ -18,7 +18,7 @@ _Figure: STM32 Nucleo development board._ [Picture source](https://www.st.com/en
 
 ## Microphone <a id="microphone"></a>
 
-The compoent used to capture sound is the [I2S MEMS Microphone Breakout](https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/overview) by Adafruit. The actual microphone on this mini-board produces an _analog signal_ \(continuous in time and amplitude\) but the device also contains an Analog-to-Digital Converter that returns a _digital_ signal \(discrete in time and amplitude\), which is the format we need in order to pass the data to our microcontroller. We will describe the component in more detail in the [next chapter](../passthrough/audio-io/microphone.md), which is devoted to building a _passthrough_ circuit; the configuration, which simply passes the microphone input directly to the output, is the "hello world" equivalent of an embedded audio application.
+The component used to capture sound is the [I2S MEMS Microphone Breakout](https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/overview) by Adafruit. The actual microphone on this mini-board produces an _analog signal_ \(continuous in time and amplitude\) but the device also contains an Analog-to-Digital Converter that returns a _digital_ signal \(discrete in time and amplitude\), which is the format we need in order to pass the data to our microcontroller. We will describe the component in more detail in the [next chapter](../passthrough/audio-io/microphone.md), which is devoted to building a _passthrough_ circuit; the configuration, which simply passes the microphone input directly to the output, is the "hello world" equivalent of an embedded audio application.
 
 ![](../.gitbook/assets/sensors_3421_quarter_orig.jpg)
 

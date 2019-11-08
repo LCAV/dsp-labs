@@ -1,4 +1,4 @@
-# Stereo decoder
+# 2.1.2 Stereo DAC
 
 The microphone we are using measures an _analog_ \(continuous in time and amplitude\) signal and returns a _digital_ \(discrete in time and amplitude\) signal, which can be further processed by our microcontroller. In order to playback or listen to this digital signal, it is necessary to convert it back to an analog signal; this can be done with a DAC \(Digital-to-Analog Converter\). We will be using Adafruit's [I2S Stereo Decoder Breakout](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/overview), which contains a DAC, an audio jack for connecting headphones, and the necessary additional components. In the following subsections, we will explain the important inputs/outputs of the DAC we will be using, the I2S stereo output protocol our application will have to conform to, and a bit about the breakout board from Adafruit.
 
