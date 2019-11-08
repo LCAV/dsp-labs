@@ -10,5 +10,5 @@ Even if you don't have access to the recommended hardware, you will still be abl
 
 We hope you'll find this tutorial instructive and entertaining!
 
-![](.gitbook/assets/intro.jpg)
+![](.gitbook/assets/intro%20%281%29.jpg)
 

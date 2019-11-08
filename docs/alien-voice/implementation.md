@@ -18,7 +18,7 @@ Next, we need to configure the timer from the "Configuration" tab by pressing "T
 
 A pop-up similar to below should appear.
 
-![](../.gitbook/assets/setup_tim2_as_us_timebase_edited-1%20%281%29.png)
+![](../.gitbook/assets/setup_tim2_as_us_timebase_edited-1-1.png)
 
 {% hint style="info" %}
 TASK 4: We ask you to set the "Prescaler" value \(in the figure above\) in order to achieve a $$1\,[\mu s]$$ period for "TIM2", i.e. we want our timer to have a $$1\,[\mu s]$$ resolution.

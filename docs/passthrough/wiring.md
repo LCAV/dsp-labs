@@ -4,7 +4,7 @@ Now that we have initialized the different peripherals that we will use to inter
 
 For this task, we will have to refer to the card provided with the STM32 board \(see below\) and the image of the chip on the "Pinout" tab of our CubeMX project \(further below\).
 
-![](../.gitbook/assets/stm32f072_extensions.png)
+![](../.gitbook/assets/stm32f072_extensions%20%281%29.png)
 
 ![](../.gitbook/assets/pinout_tab.png)
 

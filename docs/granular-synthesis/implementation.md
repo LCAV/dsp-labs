@@ -119,7 +119,7 @@ def build_linear_interp_table(n_samples, down_fact, data_type=np.int16):
 
 Now we should consider what values, such as samples or pointers to lookup tables \(as we saw in the alien voice effect\), need to be shared between consecutive frames, i.e. to notify the next buffer of the current state. A visual of the overlapping tapered grains will help us identify what needs to be "passed" between buffers.
 
-![](../.gitbook/assets/viz_buffer.png)
+![](../.gitbook/assets/viz_buffer%20%281%29.png)
 
 _Figure: Visualizing buffers within overlapping grains._
 

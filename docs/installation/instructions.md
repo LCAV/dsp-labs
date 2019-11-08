@@ -62,7 +62,7 @@ The project should then appear in the left-hand column of the workspace under "P
 
 From the "Project Explorer", open the file `"Src/main.c"` \(see below\). Throughout the file, you should see comments that read `USER CODE BEGIN` and `USER CODE END`; _it is only between these comments that you should write your code!_ All other lines of code have been created by CubeMX according to the configuration we specified before. If you decide to adjust any configuration through CubeMX by editing the IOC file within the _copied_ project inside your workspace, it may modify anything outside of `USER CODE BEGIN` and `USER CODE END`, which is why all your code should be between these two lines.
 
-![](../.gitbook/assets/18_workspace.PNG)
+![](../.gitbook/assets/18_workspace%20%281%29.PNG)
 
 ### Blinking LED
 
@@ -117,13 +117,13 @@ make sure the board is properly plugged in and/or try another port. We noticed s
 
 A view similar to below should then appear. This is the typical "Debug perspective" of Eclipse.
 
-![](../.gitbook/assets/24_resume%20%281%29.png)
+![](../.gitbook/assets/24_resume-1.png)
 
 Your program should be momentarily paused as is the case in the figure above at Line 90. You can continue the program by pressing the _Resume_ button as pointed out above.
 
 You should now observe the "LD2" LED \(see below\) blinking!
 
-![](../.gitbook/assets/24_led_blinking.png)
+![](../.gitbook/assets/24_led_blinking%20%281%29.png)
 
 _Figure: Top view of a NUCLEO-XXXXRX board. Red arrow pointing out approximate location of "LD2" LED._ [Picture source](https://www.st.com/content/ccc/resource/technical/document/data_brief/c8/3c/30/f7/d6/08/4a/26/DM00105918.pdf/files/DM00105918.pdf/jcr:content/translations/en.DM00105918.pdf).
 
@@ -131,7 +131,7 @@ _Figure: Top view of a NUCLEO-XXXXRX board. Red arrow pointing out approximate l
 
 In order to properly stop the program, it is also necessary to disconnect from the board. Both can be done by pressing the _Disconnect_ button on the top toolbar \(see below\).
 
-![](../.gitbook/assets/25_disconnect_1.png)
+![](../.gitbook/assets/25_disconnect_1%20%281%29.png)
 
 Finally, you can switch back to the "normal" perspective by pressing the button to the left of the _bug_ icon in the top-right corner \(see below\).
 

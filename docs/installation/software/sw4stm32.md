@@ -192,9 +192,9 @@ The checksum file will be used to check the download integrity which may take so
 
 3\) Next, you can select which packs to install; leave as is. You will then be asked to confirm your installation path and packs to install. Pressing "Next" will start the installation \(see below\).
 
-![](../../.gitbook/assets/mac_install_6-1%20%281%29.png)
+![](../../.gitbook/assets/mac_install_6-1-1.png)
 
-![](../../.gitbook/assets/mac_install_7-1%20%281%29.png)
+![](../../.gitbook/assets/mac_install_7-1-1.png)
 
 4\) When the installation is done, the progress bars will appear as below. Click "Next" to finish the installation procedure and to proceed to the final pane of the installation wizard \(see below\). Press "Done" and the installation is complete!
 

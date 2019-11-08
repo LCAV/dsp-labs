@@ -61,11 +61,11 @@ Go back to the "Pinout" tab, as seen below.
 
 By clicking on any of the pins, you should be able to see the different functions that particular pin can assume, see below.
 
-![](../.gitbook/assets/firmware_2.png)
+![](../.gitbook/assets/firmware_2%20%281%29.png)
 
 We are interested in using two pins as "GPIO\_Output" \(GPIO stands for "General-Purpose Input/Output"\) in order to output a _HIGH_ or _LOW_ value to the Adafruit breakout boards. Set the pins "PCO" and "PC1" to "GPIO\_Output" \(see below\). _You can reset a pin to having no function by selecting "Reset\_State"._
 
-![](../.gitbook/assets/firmware_3.png)
+![](../.gitbook/assets/firmware_3%20%281%29.png)
 
 Just like giving meaningful names to variables when programming, we would like to give meaningful names to our new GPIO pins. We will rename "PC0" and "PC1" as "MUTE" and "LR\_SEL" respectively. You can rename a pin by right-clicking it and selecting "Enter User Label" \(see below\).
 

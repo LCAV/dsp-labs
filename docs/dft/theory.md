@@ -20,7 +20,7 @@ The proper way to change the pitch while keeping a natural sound is to instead _
 
 In the figure below, we stretch our D4 note from above in order to double its frequency, _i.e._ shift it by an octave to D5.
 
-![](../.gitbook/assets/shift_spectrum%20%281%29.png)
+![](../.gitbook/assets/shift_spectrum-1.png)
 
 _Figure: Spectrum of D4 played by a \(synthesized\) clarinet and its shifted version \(to D5\) by stretching the frequency axis. You can find the WAV file of the shifted note_ [_here_](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/clarinet_D5.wav) _and the script_ [_here_](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/dft_shift_example.py)_._
 

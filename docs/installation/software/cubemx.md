@@ -94,7 +94,7 @@ _Note: the instructions were tested using MacOS Sierra, Version 10.12.6 on Febru
 
 1\) Make sure you have access rights to the directory in which the software would be installed. Double-click \(or launch from a Terminal\) the `"SetupSTM32CubeMX-X.X.X"` Application.
 
-![](../../.gitbook/assets/mac_install_1-1%20%281%29.png)
+![](../../.gitbook/assets/mac_install_1-1-1.png)
 
 _Note: with MacOS Sierra, you may have to dig a bit deeper. See extra steps below._
 

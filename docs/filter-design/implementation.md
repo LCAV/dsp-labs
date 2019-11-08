@@ -70,11 +70,11 @@ TASK 3: In the final `for` loop, update the state variables, that is the previou
 
 Running the incomplete script will yield the following plot, in which only a gain \(less than one\) is applied to the input signal.
 
-![](../.gitbook/assets/direct_form_1_incomplete%20%281%29.png)
+![](../.gitbook/assets/direct_form_1_incomplete-1.png)
 
 If you successfully complete the `process` function, you should obtain the following plot.
 
-![](../.gitbook/assets/direct_form_1_complete%20%281%29.png)
+![](../.gitbook/assets/direct_form_1_complete-1.png)
 
 ## Direct Form 2
 
@@ -165,7 +165,7 @@ Running the incomplete script will yield the following plot, where the output is
 
 If you successfully complete the `process` function, you should obtain the following plot.
 
-![](../.gitbook/assets/direct_form_2_complete%20%281%29.png)
+![](../.gitbook/assets/direct_form_2_complete-1.png)
 
 ## C implementation
 
