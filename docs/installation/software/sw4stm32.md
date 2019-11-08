@@ -4,7 +4,7 @@
 
 _Note: these instruction and images were produced on February 6, 2018 and last verified on July 23, 2018._
 
-The following steps are the same for Windows, Linux, and MacOS as they simply consist of downloading the installation files. For the actual installation, please refer to the corresponding subsection after the following instructions.
+The following steps are the same for Windows, Linux, and MacOS as they simply consist of downloading the installation files. For the actual installation, please refer to the corresponding subsection after the following five steps:
 
 1\) Navigate to the ST [site for the SW4STM32 software](https://www.st.com/en/development-tools/sw4stm32.html).
 

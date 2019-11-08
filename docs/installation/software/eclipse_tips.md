@@ -11,7 +11,7 @@ Below are some shortcuts we find particularly useful. For MacOs, replace `"Ctrl"
 
 ## Debugging
 
-Below are some useful debugging tips:
+Below are some useful debugging tips. Although these may not make a lot of sense upon first reading, just remember that these tips are here for later, when you start coding your applications!
 
 * At one point you might end up with the error presented below.
 
