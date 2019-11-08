@@ -8,12 +8,10 @@ _**Python requirements: Python 3, numpy, scipy.io**_
 
 ## Empty template
 
-We propose the following template for simulating real-time processing in C with Python. Please note the use of block processing and the definition of the variables with the `dtype` argument. You can find this code in the [repository](https://github.com/LCAV/dsp-labs/tree/master/scripts/_templates) in the [`rt_simulated.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_simulated.py) script.
+We propose the following template for simulating real-time processing in C with Python. Please note the use of block processing and the definition of the variables with the `dtype` argument. You can find this code in the [repository](https://github.com/LCAV/dsp-labs) in the [`rt_simulated.py`](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_simulated.py) script.
 
 We recommend cloning/downloading the repository so that you have all the necessary files in place, _i.e._ the `speech.wav` file for the code below and utility functions for the various voice effects we will be implementing.
 
-{% code-tabs %}
-{% code-tabs-item title="rt\_simulated.py" %}
 ```python
 from scipy.io import wavfile
 import numpy as np
@@ -22,7 +20,6 @@ import numpy as np
 
 # parameters
 buffer_len = 256
-
 
 # test signal
 input_wav = "speech.wav"
@@ -77,8 +74,6 @@ for k in range(n_buffers):
 # write to WAV
 wavfile.write("speech_mod.wav", samp_freq, signal_proc)
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
 In the above code, we can observe several key sections:
 
@@ -262,53 +257,4 @@ _Hint: complete the `process` function in the script_ [_`alien_voice_sounddevice
 As before, run your script from the command line to try out your alien voice effect in real-time. Use headphones so that you avoid feedback!
 
 **In the** [**next section**](implementation.md)**, we guide you through implementing the alien voice effect on the microcontroller, as we also setup a timer to benchmark the implementation.**
-
-
-
-\*\*\*\*
-
-## Tasks solutions
-
-{% tabs %}
-{% tab title="Anti-spoiler tab" %}
-Are you sure you are ready to see the solution? ;\)
-{% endtab %}
-
-{% tab title="Task 2" %}
-Here you are asked to simply multiply the input signal by a factor, in this case a sine. Indeed some care has to be given to the scale of the sine as it is stored in an int table, coded from -MAX\_SINE to +MAX\_SINE. Also don't forget to add the GAIN factor, as it can help to keep a consistent level in the headphones.
-
-After the actual processing, the sine pointer is incremented and the input value is stored for the next high pass filter calculation.
-
-There is the complete _process_ function_:_
-
-```c
-# the process function!
-def process(input_buffer, output_buffer, buffer_len):
-
-    global x_prev
-    global sine_pointer
-
-    for n in range(buffer_len):
-
-        # high pass filter
-        if high_pass_on:
-            output_buffer[n] = input_buffer[n] - x_prev
-        else:
-            output_buffer[n] = input_buffer[n]
-
-        # modulation
-        output_buffer[n] = output_buffer[n]*SINE_TABLE[sine_pointer] / MAX_SINE * GAIN
-
-        # update state variables
-        sine_pointer = (sine_pointer+1)%LOOKUP_SIZE
-        x_prev = input_buffer[n]
-```
-{% endtab %}
-
-{% tab title="Task 3" %}
-The process function remains the same as in Task 2, you just have to modify the [template](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_sounddevice_incomplete.py) file that uses the sounddevice library instead of the off-line one. 
-
-You will get a better feeling of the effect and you will ear live the effect of the block processing!
-{% endtab %}
-{% endtabs %}
 

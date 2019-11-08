@@ -10,17 +10,17 @@ The following steps are the same for Windows, Linux, and MacOS as they simply co
 
 2\) At the bottom of the page, you should find a link to download the software. Press the button "Get Software".
 
-![](../../.gitbook/assets/1_get_software.png)
+![](https://github.com/LCAV/dsp-labs/tree/4716f91d18323239f759c649d6c2e80c56a0faba/docs/.gitbook/assets/1_get_software.png)
 
 3\) A License Agreement should pop up. In order to download the software, it is required to accept the agreement.
 
 4\) If you have an ST account and are logged in, the software should download automatically. Otherwise, a pop-up will appear asking for you to make an account. You can make an account by pressing the "Login/Register" button. However, this process will take you to another page and ask you to provide additional details such as "Function", "Company", "Industry", "Country", and "Zip/Postcode". _Alternatively_, you can just enter "First name", "Last name", and "Email" in the pop-up \(see below\). Accept the "Sales Terms & Conditions", "Privacy Policy" and "Terms of Use" and press the "Download" button.
 
-![](../../.gitbook/assets/2_make_account.png)
+![](https://github.com/LCAV/dsp-labs/tree/4716f91d18323239f759c649d6c2e80c56a0faba/docs/.gitbook/assets/2_make_account.png)
 
 5\) You should then receive an email \(see below\) with a link to both validate your email address and start the download. The download should be a ZIP file with a title similar to `"en.stm32cubemx.zip"`. Place the file in a desired location and unzip it.
 
-![](../../.gitbook/assets/3_confirm_download.png)
+![](https://github.com/LCAV/dsp-labs/tree/4716f91d18323239f759c649d6c2e80c56a0faba/docs/.gitbook/assets/3_confirm_download.png)
 
 6\) Open the file called `"Readme.html"`. It should list all supported operating systems \(OS\) and architectures, software requirements, and brief installation instructions, which we will complement with screenshots! You can now proceed to the appropriate subsection for your OS:
 
@@ -94,7 +94,7 @@ _Note: the instructions were tested using MacOS Sierra, Version 10.12.6 on Febru
 
 1\) Make sure you have access rights to the directory in which the software would be installed. Double-click \(or launch from a Terminal\) the `"SetupSTM32CubeMX-X.X.X"` Application.
 
-![](../../.gitbook/assets/mac_install_1-1.png)
+![](../../.gitbook/assets/mac_install_1-1%20%281%29.png)
 
 _Note: with MacOS Sierra, you may have to dig a bit deeper. See extra steps below._
 

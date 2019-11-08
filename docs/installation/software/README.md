@@ -1,18 +1,16 @@
 # 1.2 Software
 
-STMicroelectronics has provided a complete IDE that includes a code generation software. Previously called _System Workbench for STM32_ and _STM32CubeMX_, both software are now integrated in one single software that is called [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html). It is based on Eclipse so you might be familiar with how it looks.
+In the following sections, we walkthrough the installation of the two software tools that will be essential in our workflow:
 
-* [**STM32CubeIDE**](https://www.st.com/en/development-tools/stm32cubeide.html): an Eclipse-based IDE for programming STM32 microcontrollers. See [here](sw4stm32.md) for installation instructions.
+* [**CubeMX**](https://www.st.com/en/development-tools/stm32cubemx.html): a graphical software configuration tool that simplifies the process of generating the C initialization code for STM32 microcontrollers. See [here](cubemx.md) for installation instructions.
 
-![Figure: Screenshot of STM32CubeIDE.](../../.gitbook/assets/screenshot-2019-09-25-at-12.18.18.png)
+![](../../.gitbook/assets/cubemx.png)
 
-\_\_
+_Figure: Screenshot of CubeMX._
 
-* [**CubeMX**](https://www.st.com/en/development-tools/stm32cubemx.html): a graphical software configuration tool, included in STM32CubeIDE, that simplifies the process of generating the C initialization code for STM32 microcontrollers.
+* [**System Workbench for STM32 \(SW4STM32\)**](https://www.st.com/en/development-tools/sw4stm32.html): an Eclipse-based IDE for programming STM32 microcontrollers. See [here](sw4stm32.md) for installation instructions.
 
-![](../../.gitbook/assets/screenshot-2019-09-25-at-17.51.49-1.png)
+![](../../.gitbook/assets/sw4stm32.png)
 
-\_\_
-
-In the following sections, we walkthrough the installation of this IDE.
+_Figure: Screenshot of SW4STM32._
 

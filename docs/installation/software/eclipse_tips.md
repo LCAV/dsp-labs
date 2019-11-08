@@ -33,7 +33,7 @@ Consequently, building the project after renaming the project and performing the
 
 * You can double-click just to the left of a line number to create a breakpoint at a particular line. When running the program in "Debug" mode, the execution will stop at this line and you can resume using one of the buttons on the toolbar.
 
-![](../../.gitbook/assets/24_resume%20%281%29.png)
+![](../../.gitbook/assets/24_resume.png)
 
 * If you right-click a variable, you can select to "Add watch expression", which will let you monitor and edit the value of a certain variable. Just note that they will be visible only when the microcontroller is stopped on a breakpoint or with the pause button.
 

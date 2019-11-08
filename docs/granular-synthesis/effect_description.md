@@ -12,7 +12,7 @@ $$
 
 However, due to our limited sampling frequency the higher frequencies would _wrap around_ to the lower frequencies, i.e. alias. This distortion is what contributes to our alien voice effect, but if $$f_{mod}$$ is too high, intelligibility will be very poor.
 
-It is also possible to alter the pitch without introducing aliasing artefacts that will significantly affect the intelligibility. This can be done by _resampling_ a signal and playing it at the original sampling rate.
+It is also possible to alter the pitch without introducing aliasing artifacts that will significantly affect the intelligibility. This can be done by _resampling_ a signal and playing it at the original sampling rate.
 
 For example, in order to shift the pitch up, we would subsample the original samples so that the original signal is effectively played at a faster rate when the subsampled signal is played at the original rate. Conversely, for shifting the pitch down, we could add extra samples in between the original samples so that the original signal is effectively at a slower rate when played at the original rate.
 
