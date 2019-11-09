@@ -72,5 +72,5 @@ TASK 8: Connect the above four pins from the STM32 board to the appropriate pins
 _Hint: see the_ [_DAC chip explanation_](audio-io/dac.md) _and_ [_Adafruit's site_](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/pinouts) _for more information on wiring the DAC component._
 {% endhint %}
 
-With everything correctly wired up, we can proceed to [coding](coding.md) the passthrough on the SW4STM32 software!
+With everything correctly wired up, we can proceed to coding the passthrough on the SW4STM32 software!
 

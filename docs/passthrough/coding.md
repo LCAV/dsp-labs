@@ -1,19 +1,17 @@
 # 2.4 Coding the passthrough
 
-In this section, we will guide you through the steps to implement a passthrough in the microcontroller. If you have not done so already, please execute the steps in the ["First project" section](../installation/instructions.md), in which you should have copied the blinking LED project before updating the IOC file with CubeMX. From the SW4STM32 software, open the file `"Src/main.c"` in the new project; we will be making all of our modifications here.
+In this section, we will guide you through the steps to implement a passthrough in the microcontroller. From the previous section, you should have copied the blinking LED project before updating the IOC file with CubeMX. From the SW4STM32 software, open the file `"Src/main.c"` in the new project; we will be making all of our modifications here.
 
 ## Muting the DAC <a id="mute_macro"></a>
 
-We will start off by creating _macros_ to change the logical level of the **MUTE** pin. See [here](https://www.cprogramming.com/tutorial/cpreprocessor.html) for more on macros and preprocessor commands \(we will also be defining constants\).
+In programming a microcontroller, it is customary to define preprocessor _macros_ to set the values of reusable constants and to concisely package simple tasks that do not require much logic and flow control and for which, therefore, a function call would be overkill. See [here](https://www.cprogramming.com/tutorial/cpreprocessor.html) for more on macros and preprocessor directives when programming in C.
 
-Macros are usually defined at the top of a `main` program; we will place our macros between the `USER CODE BEGIN Includes` and `USER CODE END Includes` comments.
+We will begin by creating _macros_ to change the logical level of the **MUTE** pin. Macros are usually defined before the  `main` function; we will place our macros between the `USER CODE BEGIN Includes` and `USER CODE END Includes` comments.
 
-As in the blinking LED example, we will be using the same HAL library in order to modify the state of the **MUTE** GPIO pin.
+As for the blinking LED example, we will be using the same HAL library in order to modify the state of the **MUTE** GPIO pin.
 
 {% hint style="info" %}
-TASK 9: Define two macros - `MUTE` and `UNMUTE` - in order to mute/unmute the output. See below for the necessary syntax.
-
-Use syntax like below, replacing `GPIO_PIN_SET_OR_RESET` with the appropriate value.
+TASK 9: Define two macros - `MUTE` and `UNMUTE` - in order to mute/unmute the output using the syntax shown below, that is, replace `GPIO_PIN_SET_OR_RESET` with the appropriate value.
 
 _Hint: you should check the_ [_datasheet of the DAC_](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) _to determine whether you need a HIGH \(_`GPIO_PIN_SET`_\) or LOW \(_`GPIO_PIN_RESET`_\) value to turn on the mute function of the DAC._
 {% endhint %}
@@ -27,12 +25,12 @@ Note how the **MUTE** pin we configured before automatically generated two _cons
 
 If you press "Ctrl" \("Command" on MacOS\) + click on `MUTE_GPIO_Port` or `MUTE_Pin` to see its definition, you should see how the values are defined according to the pin we selected for **MUTE**. In our case, we chose pin **PC0** which means that _Pin 0_ on the _GPIO C_ port will be used. The convenience of the CubeMX software is that we do not need to manually write these definitions for the constants! The same can be observed for **LR\_SEL**.
 
-## Setting microphone as _left_ or _right_ channel <a id="channel_macro"></a>
+## Assigning the microphone to the left or right channel <a id="channel_macro"></a>
 
-We will now define two more macros in order to set the microphone to the left or right channel of the I2S bus, using the **LR\_SEL** pin we defined. As before, you should place these macros between the `USER CODE BEGIN Includes` and `USER CODE END Includes` comments.
+We will now define two more macros in order to assign the microphone to the left or right channel of the I2S bus, using the **LR\_SEL** pin we defined. As before, you should place these macros between the `USER CODE BEGIN Includes` and `USER CODE END Includes` comments.
 
 {% hint style="info" %}
-TASK 10: Define two macros - `SET_MIC_RIGHT` and `SET_MIC_LEFT` - in order to set the microphone to the left or right channel. You will need to use similar commands as for the **MUTE** macros!
+TASK 10: Define two macros - `SET_MIC_RIGHT` and `SET_MIC_LEFT` - in order to assign the microphone to the left or right channel. You will need to use similar commands as for the **MUTE** macros.
 
 _Hint: you should check the_ [_I2S protocol_](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf) _\(and perhaps the_ [_datasheet of the microphone_](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF)_\) to determine whether you need a HIGH or LOW value to set the microphone to the left/right channel._
 {% endhint %}
@@ -43,11 +41,11 @@ The following code should be placed between the `USER CODE BEGIN PV` and `USER C
 
 ### Common DSP parameters
 
-We will now define a few constants which will be useful in coding our application. Before defining them in our code, let's clarify some of the terminology we will be using:
+We will now define a few constants which will be useful in coding our application. Before defining them in our code, let's clarify some of the terminology:
 
-1. _Sample_: A single sample represents the value of a **single** channel at a certain point in time.
-2. _Frame_: A frame consists of exactly one sample per channel.
-3. _Buffer length_: This is a key parameter that often needs to be tuned to one's application. DSP applications are typically performed on multiple frames; this collection of frames is called a _buffer_. A large buffer length \(the number of frames\) allows one to apply more complex processing \(e.g. better frequency resolution by applying a larger FFT\). However, a large buffer length comes with the cost of more _latency_ as we need to wait for more samples for each channel before we can begin processing.
+1. _Sample_:  a sample is a sample, that is, a single discrete-time signal value; for a stereo signa this will be either a left or right channel sample
+2. _Frame_: a frame consists of exactly one sample per channel so, for a stereo signal, a frame will contain two samples
+3. _Buffer length_: a buffer is a collection of frames stored in memory and ready for processing \(or for a DMA transfer\). The lenght of the buffer is a key parameter that needs to be fine-tuned to the type of audio application. In general, the longer the buffer, the fewer DMA transfers per second, which is desirable. Also, for instance, when computing the DFT of an input signal, a large buffer will provide a better frequency resolution. However, a large buffer will also introduce more _latency_ as we need to wait for more samples for each channel before we can begin processing. Low latency is also derirable so we are in a situation of conflicting requirements for which a suitable compromise needs to be determined on a case-by-case basis. See Lecture 2.2.5b in the [second DSP module](https://www.coursera.org/learn/dsp2/) for a refresher on buffering in real-time applications.
 
 Add the following lines to define the frame length \(in terms of samples\) and the buffer length \(in terms of frames\):
 
@@ -62,7 +60,7 @@ As our application is a simple passthrough, which involves no processing, we can
 
 ### Storing samples
 
-Finally, we need to store the incoming samples into an array, and while we receive these new samples we do not want to tamper any samples we might still be processing. The I2S peripheral of our microcontroller has the nice feature of sending _interruptions_ at two critical state of its operation. The first is simply when the buffer is full. However they added a second interruption for when the buffer is half full. More on this is explained [below](coding.md#dma) in the "DMA callback functions" section.
+Again, as explained in Lecture 2.2.5b in the [second DSP module](https://www.coursera.org/learn/dsp2/), for real-time processing we need to use alternating buffers for input and output DMA transfers. The incoming samples will be stored into an array, and the incoming array should not be accessed by our application while the input DMA is in progress. The I2S peripheral of our microcontroller has the nice feature of sending _interruptions_ at two critical state of its operation. The first is simply when the buffer is full. However they added a second interruption for when the buffer is half full. More on this is explained [below](coding.md#dma) in the "DMA callback functions" section.
 
 In this way we will use an array that is _twice_ the size of our application's buffer, i.e. the size of our buffer in terms of samples. With this solution, we can place new samples on one half of the buffer while we simultaneously process samples on the other half of the buffer.
 
