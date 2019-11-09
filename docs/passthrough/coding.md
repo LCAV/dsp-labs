@@ -1,6 +1,6 @@
-# 2.4 Coding passthrough
+# 2.4 Coding the passthrough
 
-In this section, we will guide you through programming the microcontroller in order to implement the passthrough! In the previous section, you should have copied the blinking LED project before updating the IOC file with CubeMX. From the SW4STM32 software, open the file `"Src/main.c"` in the new project; we will be making all of our modifications here.
+In this section, we will guide you through the steps to implement a passthrough in the microcontroller. If you have not done so already, please execute the steps in the ["First project" section](../installation/instructions.md), in which you should have copied the blinking LED project before updating the IOC file with CubeMX. From the SW4STM32 software, open the file `"Src/main.c"` in the new project; we will be making all of our modifications here.
 
 ## Muting the DAC <a id="mute_macro"></a>
 
