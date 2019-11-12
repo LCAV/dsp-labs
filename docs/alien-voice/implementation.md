@@ -1,24 +1,20 @@
 # 3.4 C implementation
 
-Assuming you have successfully implemented a passthrough in the previous guide, we can simply copy and paste this project from within the SW4STM32 software. After pasting it, a pop-up will ask to give a name to the copied project. We recommend choosing a name with the current date and `"alien_voice"` in it. Remember to delete the binary \(ELF\) file of the original project inside the copied project.
+Assuming you have successfully implemented a passthrough in the previous guide, we can simply copy and paste this project from within the STM32CubeIDE software. After pasting it, a pop-up will ask to give a name to the copied project. We recommend choosing a name with the current date and `"alien_voice"` in it. Remember to delete the binary \(ELF\) file of the original project inside the copied project.
 
 ## Setting up timer for benchmarking <a id="timer"></a>
 
-Open the CubeMX software to update the initialization code by opening the IOC file of the copied project.
+Open the CubeMX file by double clicking the .ioc file of the copied project it in the IDE project explorer in order to update the initialization code.
 
-For this exercise, we will only need to add the configuration of a _timer_ \(to benchmark our implementation\) as the rest of the system is already up and running. In order to activate a timer, you need to set a "Clock Source". This is done from the "Pinout" tab on the left-hand column as shown below:
+For this exercise, we will only need to add the configuration of a _timer_ \(to benchmark our implementation\) as the rest of the system is already up and running. In order to activate a timer, you need to set a "Clock Source". Open _TIM2_ in the Timers menu and activate it's clock:
 
-![](../.gitbook/assets/activate_the_clock_for_tim2.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.42.23.png)
 
 _Figure: Set the "Clock Source" to "Internal Clock" in order to enable "TIM2"._
 
-Next, we need to configure the timer from the "Configuration" tab by pressing "TIM2" under "Control" \(see below\).
+Next, we need to configure the timer.
 
-![](../.gitbook/assets/config_tab-1.png)
-
-A pop-up similar to below should appear.
-
-![](../.gitbook/assets/setup_tim2_as_us_timebase_edited-1-1.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.43.06.png)
 
 {% hint style="info" %}
 TASK 4: We ask you to set the "Prescaler" value \(in the figure above\) in order to achieve a $$1\,[\mu s]$$ period for "TIM2", i.e. we want our timer to have a $$1\,[\mu s]$$ resolution.
@@ -26,9 +22,9 @@ TASK 4: We ask you to set the "Prescaler" value \(in the figure above\) in order
 _Hint: Go to the "Clock Configuration" tab \(from the main window pane\) to see what is the frequency of the input clock to "TIM2". From this calculate the prescaler value to increase the timer's period to_ $$1\,[\mu s]$$_._
 {% endhint %}
 
-You can leave the rest of the parameters as is for "TIM2". Finally, you can update the initialization code by pressing the _gear_ button in the toolbar. As before, do not open the project when prompted to do; select "Close".
+You can leave the rest of the parameters as is for "TIM2". Finally, you can update the initialization code by saving the file.
 
-You can now open the SW4STM32 software. In order to use the timer we configured, we will need to define a variable to keep track of the time and a macro to reset the timer. Between the `USER CODE BEGIN PV` and `USER CODE END PV` comments, add the following lines in the `main.c` file.
+In order to use the timer we configured, we will need to define a variable to keep track of the time and a macro to reset the timer. Between the `USER CODE BEGIN PV` and `USER CODE END PV` comments, add the following lines in the `main.c` file.
 
 ```c
 /* USER CODE BEGIN PV */
@@ -111,13 +107,13 @@ _Note: keep in mind the points made about using_ `float` _or_ `int` _variables \
 
 You will notice that we used a `printf` function in order to output text on the debug console. To enable this function you need to make the following changes to your project:
 
-* In the Project Properties \("right-click" project &gt; Properties\), navigate to "C/C++ Build &gt; Settings" on the left-hand side \(see the figure below\). Under "MCU GCC Linker -&gt; Miscellaneous", update the "Linker flags" field with:
+* In the Project Properties \("right-click" project &gt; Properties\), navigate to "C/C++ Build &gt; Settings" on the left-hand side \(see the figure below\). Under "Tools Settings -&gt; MCU GCC Linker -&gt; Miscellaneous", add "Linker flags" field by pressing the "+" button. The necessary flags are the following:
 
   ```text
   -specs=nosys.specs -specs=nano.specs -specs=rdimon.specs -lc -lrdimon
   ```
 
-![](../.gitbook/assets/proj_prop-1.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.46.31.png)
 
 * Add the following function prototype above the `main` function \(e.g. between the `USER CODE BEGIN PFP` and `USER CODE END PFP` comments\):
 
@@ -212,13 +208,7 @@ const int16_t sine_table[SINE_TABLE_SIZE] = {
 
 If you have some extra time, we propose to make a few improvements to the system!
 
-{% hint style="info" %}
-TASK 8: Put the robot voice signal on both output channels.
-
-_Hint: edit the processing function, certainly near the end._
-{% endhint %}
-
-We will now program one of the on-board buttons - the blue button called "B1" - to toggle the alien voice effect. Copy the following code between the `USER CODE BEGIN PV` and `USER CODE END PV` comments.
+First extra feature: will now program one of the on-board buttons - the blue button called "B1" - to toggle the alien voice effect. Copy the following code between the `USER CODE BEGIN PV` and `USER CODE END PV` comments.
 
 ```c
 /* USER CODE BEGIN PV */
@@ -240,7 +230,15 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 }
 ```
 
-In the above code snippet, you will find the state variable we propose for the FX \(effects\) state and the callback that is needed to react to the button. To activate the callback, you need to go into CubeMX and enable "EXTI line 4 to 15" from the Configuration tab under "System &gt; NVIC". Then modify your `process` function using a condition as proposed in the code snippet below.
+In the above code snippet, you will find the state variable we propose for the FX \(effects\) state and the callback that is needed to react to the button. **To activate the callback, you need to go into CubeMX and enable "EXTI line 4 to 15" from the Configuration tab under "System &gt; NVIC".** 
+
+
+
+{% hint style="info" %}
+TASK 8: Modify your `process` function using a condition as proposed in the code snippet below.
+
+_Hint: This will not be enough if you used the optimised version of the process function proposed in task 7, if it is the case, you will also have to test the FX value in the signal initialisation._
+{% endhint %}
 
 ```c
 for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
@@ -264,4 +262,203 @@ for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
 Finally, you can try changing the modulation frequency and creating your lookup tables by running [this Python script](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/compute_sinusoid_lookup.py) for modified values of `f_sine`.
 
 **Congrats on implementing your \(perhaps\) first voice effect! In the** [**next chapter**](../filter-design/)**, we will implement a more sophisticated high-pass filter than the one used here. To this end, we will come across fundamental theory and practical skills in digital filter design.**
+
+## Tasks solutions
+
+{% tabs %}
+{% tab title="Anti-spoiler tab" %}
+Are you sure you are ready to see the solution? ;\)
+{% endtab %}
+
+{% tab title="Task 4" %}
+As proposed in the hint, if you go to the tab _Clock Configuration_ of CubeMX, you will see the following graph:
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.57.46.png)
+
+Note the last block on the right column _APB1 Timer clocks \(MHz\):_ 48. It means that your timer are "run" with a base tick frequency of 48MHz. in order to reduce this to $$1[\mu s]$$or in other word $$1[MHz]$$, you will have to divide it by 48. This number is thus your prescaller. This lead to the following timer configuration:
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.58.09.png)
+
+Note the _Counter Period_, it is the value at where the interrupt is triggered, here the maximum value.
+{% endtab %}
+
+{% tab title="Task 5" %}
+The maximum processing time allowed it an important information for us to know how far we are from our micro-controller's ressource limits. 
+
+We know that the maximum time the micro-controller can take to process the data is the time between two consecutive buffers. The calculation is then just dividing the number of sample in a buffer by the sampling frequency. We add a factor in order to get a int. This will fasten the calculation.
+
+```c
+#define MAX_PROCESS_TIME_ALLOWED_us 	(int32_t)(BUFFER_SIZE*1000000.0/FS)
+```
+{% endtab %}
+
+{% tab title="Task 6" %}
+Here we will use the value calculated in the previous task in order to get a real number reflecting the processing load.
+
+The result is trivial,  you just have to care about variable types.
+
+```c
+// Display the results
+printf("-- Processing time assert -- fs = %ld[Hz]\n", FS);
+
+processing_load = (int8_t) ((float) current_time_us * 100.0	/ (float) MAX_PROCESS_TIME_ALLOWED_us );
+
+if (current_time_us < MAX_PROCESS_TIME_ALLOWED_us) {
+	printf("Processing time shorter than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
+} else {
+	printf("Processing time longer than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
+}
+```
+{% endtab %}
+
+{% tab title="Task 7" %}
+Here comes the moment when you can rely on your former python implementation in order to code the C version of the alien voice. Indeed as we already coded the python version in a block version and very close to C programming, it is just a matter of porting the code.
+
+```c
+/* USER CODE BEGIN 4 */
+
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
+        uint16_t size) {
+
+    int16_t static x_1 = 0;
+    int16_t x[FRAME_PER_BUFFER];
+    int16_t y[FRAME_PER_BUFFER];
+
+#define GAIN 8      // We lose 1us processing time if we use a value that is not a power of 2
+
+    static uint16_t pointer_sine = 0;
+
+    // Take signal from left side
+    for (uint16_t i = 0; i < size; i += 2) {
+        x[i / 2] = bufferInStereo[i];
+    }
+
+    for (uint16_t i = 0; i < FRAME_PER_BUFFER; i++) {
+
+        // High pass filter
+        y[i] = x[i] - x_1;
+
+        // Apply alien voice effect and gain
+        y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+
+        // Update state variables
+        pointer_sine %= SINE_TABLE_SIZE; 
+        x_1 = x[FRAME_PER_BUFFER - 1];
+    }
+
+    // Interleaved left and right
+    for (uint16_t i = 0; i < size; i += 2) {
+        bufferOutStereo[i] = (int16_t) y[i / 2];
+        bufferOutStereo[i + 1] = 0;
+    }
+```
+
+Note that an optimisation could be done. The line _x\_1 = x\[FRAME\_PER\_BUFFER - 1\];_ is executed on every single passage through the _for_ loop. In fact we only need to backup x\_1 \(as a static variable\) during the transition from one buffer to the next. With some modification we can arrive to the following function that will use slightly less of CPU usage:
+
+
+
+```c
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
+		uint16_t size) {
+
+    int16_t static x_1 = 0;
+    int16_t x[FRAME_PER_BUFFER];
+    int16_t y[FRAME_PER_BUFFER];
+
+	static uint16_t pointer_sine = 0;
+
+    #define GAIN 8      // We lose 1us processing time if we use a value that is not a power of 2
+
+	// Take signal from left side
+	for (uint16_t i = 0; i < size; i += 2) {
+		x[i / 2] = bufferInStereo[i];
+	}
+
+	// High pass filtering initialization
+	y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
+	// Signal initialization
+	y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+	pointer_sine %= SINE_TABLE_SIZE;
+
+	for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
+		// High pass filtering
+		y[i] = x[i] - x[i - 1];
+
+		// Robot voice modulation and gain
+		y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+		pointer_sine %= SINE_TABLE_SIZE;
+	}
+
+	// Backup last sample for next buffer -> ONLY ONCE per buffer, otherwise we use x[i-1] that is available "locally"
+	x_1 = x[FRAME_PER_BUFFER - 1];
+
+	// Interleaved left and right
+	for (uint16_t i = 0; i < size; i += 2) {
+		bufferOutStereo[i] = (int16_t) y[i / 2];
+		// Put signal on both side
+		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+	}
+}
+```
+{% endtab %}
+
+{% tab title="Task 8" %}
+The final process function in its optimised form will look like this:
+
+```c
+void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
+		uint16_t size) {
+
+    int16_t static x_1 = 0;
+    int16_t x[FRAME_PER_BUFFER];
+    int16_t y[FRAME_PER_BUFFER];
+
+#define GAIN 8 		// We loose 1us if we use 10 in stead of 8
+
+	static uint16_t pointer_sine = 0;
+
+	// Take signal from left side
+	for (uint16_t i = 0; i < size; i += 2) {
+		x[i / 2] = bufferInStereo[i];
+	}
+
+	// High pass filtering initialization
+	y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
+	
+	// Signal initialization
+	if (FX == FX_ON) {
+		y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+		pointer_sine %= SINE_TABLE_SIZE;
+	} else {
+		// Gain
+		y[0] *= GAIN;
+	}
+		
+	for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
+
+		// High pass filtering
+		y[i] = x[i] - x[i - 1];
+		if (FX == FX_ON) {
+			// Robot voice modulation and gain
+			y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+			pointer_sine %= SINE_TABLE_SIZE;
+		} else {
+			// Gain
+			y[i] *= GAIN;
+		}
+	}
+
+	// Backup last sample for next buffer
+	x_1 = x[FRAME_PER_BUFFER - 1];
+
+	// Interleaved left and right
+	for (uint16_t i = 0; i < size; i += 2) {
+		bufferOutStereo[i] = (int16_t) y[i / 2];
+		// Put signal on both side
+		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+	}
+}
+```
+{% endtab %}
+{% endtabs %}
 

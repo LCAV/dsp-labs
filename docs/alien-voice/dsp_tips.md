@@ -96,7 +96,7 @@ $$
 
 where $$\textrm{LOOKUP_SIZE}$$ is the number of entries in our lookup table. However, the second and subsequent buffers require us to know the current time index. We **cannot** simply multiply the input signal with $$\sin(\omega_{mod} \cdot [n \textrm{ \% LOOKUP_SIZE}]), n \in [0, 127]$$ at each buffer as this would result in multiplying our input signal with a _discontinuous_ estimate of our sinusoid. In the figure below, we can observe how our input signal could be multiplied with a discontinuous estimate of a sinusoid if information is not passed between buffers. Such an operation would lead to _glitches_ in the output audio, which have a very noticeable "clicking" sound.
 
-![](../.gitbook/assets/discontinuous_sine%20%281%29.png)
+![](../.gitbook/assets/discontinuous_sine.png)
 
 _Figure: Discontinuous sinusoid estimate \(blue, right-side up triangles\) across consecutive buffers. For the new buffer, the discontinuous estimate simply starts at the beginning of the lookup table rather than continuing along the lookup table \(green, upside-down triangles\)._
 
@@ -179,7 +179,7 @@ $$
 
 From such an expression, we can create the standard [pole-zero plot](https://en.wikipedia.org/wiki/Pole–zero_plot) as seen below. With such a plot, we can extract a lot of useful information, such as stability and causality.
 
-![](../.gitbook/assets/zplot_high_pass-1%20%281%29.png)
+![](../.gitbook/assets/zplot_high_pass-1.png)
 
 _Figure: Pole-zero plot of our simple high pass filter. Thanks to_ [this software](https://www.dsprelated.com/showcode/244.php) _for the visualization function._
 
@@ -193,7 +193,7 @@ In addition to its simplicity, another good property of this filter is that it h
 
 It is actually more common to plot the frequency response with the x-axis \(frequency\) in log scale, as shown below.
 
-![](../.gitbook/assets/freq_resp_high_pass_log%20%281%29.png)
+![](../.gitbook/assets/freq_resp_high_pass_log.png)
 
 _Figure: Frequency response of our simple high pass filter \(log scale\)._
 
@@ -225,4 +225,36 @@ Timers always have an input clock with one of the timebases of the microcontroll
 ## Gain <a id="gain"></a>
 
 One thing that you might have noticed from the passthrough example is that the output signal is not very loud. To correct this, we will add a small gain to the `process`function by just multiplying the signal with a constant. In order to take advantage of the architecture of the microcontroller's internal multiplier, it is recommended to use factors that are a multiple of 2 as it is faster to compute. In fact a multiplication by 2 is simply a shift to the left in the "binary world"; similar to how a multiplication by 10 in the "decimal world" is simply adding a 0 at the end.
+
+## Tasks solutions
+
+{% tabs %}
+{% tab title="Anti-spoiler tab" %}
+Are you sure you are ready to see the solution? ;\)
+{% endtab %}
+
+{% tab title="Task 1" %}
+When the code is running, you can double click on any line number to add a breakpoint. 
+
+We suggest you to ad a breakpoint at line 430:
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.29.32.png)
+
+If the micro-controller is connected and a debug session is ongoing, you will see a change in the software and the following list:
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.32.28.png)
+
+It is the hierarchy of the function executed by the micro-controller, indeed main\(\) is the root. Please note that the button _Skip All Breakpoints_ should not be activated for the micro-controller to stop at the given line.
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.29.58.png)
+
+It is then possible to right-click in the editor and press _Add Watch Expression_ you can now enter the name of the variable you want to explore and it will show up in the _Expression_ viewer panel. Unfold the array and you should see something close to this:
+
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.27.39.png)
+
+Notice that even if the values are fluctuating, the average is around -1540. This is the offset that we where looking for. It is introduced by the microphone and can be variable from one sample to an other.
+{% endtab %}
+{% endtabs %}
+
+
 

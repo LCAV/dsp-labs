@@ -1,10 +1,12 @@
 # 2.3 Wiring audio I/O
 
+UPDATED BY AH
+
 Now that we have initialized the different peripherals that we will use to interface with the microphone and DAC, we are ready to wire everything up! Make sure that the STM32 board is not powered, i.e. unplugged, while connecting the microphone and DAC breakout boards.
 
 For this task, we will have to refer to the card provided with the STM32 board \(see below\) and the image of the chip on the "Pinout" tab of our CubeMX project \(further below\).
 
-![](../.gitbook/assets/stm32f072_extensions%20%281%29.png)
+![](../.gitbook/assets/stm32f072_extensions.png)
 
 ![](../.gitbook/assets/pinout_tab.png)
 
@@ -72,5 +74,9 @@ TASK 8: Connect the above four pins from the STM32 board to the appropriate pins
 _Hint: see the_ [_DAC chip explanation_](audio-io/dac.md) _and_ [_Adafruit's site_](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/pinouts) _for more information on wiring the DAC component._
 {% endhint %}
 
-With everything correctly wired up, we can proceed to coding the passthrough on the SW4STM32 software!
+With everything correctly wired up, we can proceed to [coding](coding.md) the passthrough on the SW4STM32 software!
+
+## Tasks solutions
+
+Sadly we cannot connect all the wires for you or double check your connections. However we did our best to help you with this wiring by making a step-by-step video accessible at this **address**.
 
