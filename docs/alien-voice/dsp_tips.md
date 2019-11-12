@@ -12,7 +12,7 @@ $$
 \sin x = x - \dfrac{x^3}{3!} + \dfrac{x^5}{5!} - \dfrac{x^7}{7!} + \mathcal{O}(x^9)
 $$
 
-A computationally cheap alternative is to use a [lookup table](https://en.wikipedia.org/wiki/Lookup_table) (LUT). This consists of pre-computing the sinusoid for many evenly distributed values. For our application, we can define the spacing between consecutive values by our sampling frequency.
+A computationally cheap alternative is to use a [lookup table](https://en.wikipedia.org/wiki/Lookup_table) \(LUT\). This consists of pre-computing the sinusoid for many evenly distributed values. For our application, we can define the spacing between consecutive values by our sampling frequency.
 
 Lookup tables are extremely useful in DSP and can even be used to replace/approximate computationally expensive filters. However, they come with the cost of having to store them in memory so this tradeoff should always be carefully considered!
 
@@ -96,7 +96,7 @@ $$
 
 where $$\textrm{LOOKUP_SIZE}$$ is the number of entries in our lookup table. However, the second and subsequent buffers require us to know the current time index. We **cannot** simply multiply the input signal with $$\sin(\omega_{mod} \cdot [n \textrm{ \% LOOKUP_SIZE}]), n \in [0, 127]$$ at each buffer as this would result in multiplying our input signal with a _discontinuous_ estimate of our sinusoid. In the figure below, we can observe how our input signal could be multiplied with a discontinuous estimate of a sinusoid if information is not passed between buffers. Such an operation would lead to _glitches_ in the output audio, which have a very noticeable "clicking" sound.
 
-![](../.gitbook/assets/discontinuous_sine.png)
+![](../.gitbook/assets/discontinuous_sine%20%281%29.png)
 
 _Figure: Discontinuous sinusoid estimate \(blue, right-side up triangles\) across consecutive buffers. For the new buffer, the discontinuous estimate simply starts at the beginning of the lookup table rather than continuing along the lookup table \(green, upside-down triangles\)._
 
@@ -133,16 +133,9 @@ These values that we keep track of in between buffers, such as a pointer to the 
 
 ## Float vs. Int <a id="float"></a>
 
-Operations with `float` variables can take significantly more time than the same operations with `int` variables.
-For our application, we noticed that an implementation with `float` variables can take up to $$35$$% more processing time!
-Therefore, we recommend avoiding `float` variable whenever possible!
+Operations with `float` variables can take significantly more time than the same operations with `int` variables. For our application, we noticed that an implementation with `float` variables can take up to $$35$$% more processing time! Therefore, we recommend avoiding `float` variable whenever possible!
 
-When using integer values though it is not possible, for example, to code a lookup table that goes from $$0$$ to $$1$$ with $$0.1$$ increments 
-or to use filter coefficients with values within $$0$$ and $$1$$. Therefore, to maximize our precision and to minimize the computation cost,
-we will try to use the full range of our integer variables. For example $$65'535$$ in the case of `unsigned int 16`.
-This scaling factor will need to be incorporated whenever using the, e.g. lookup table or filter coefficients.
-With an intelligent use of operation priority \(for example multiply before dividing in order to perform integer arithmetic without losing precision\),
-it will not impact our precision and processing time.
+When using integer values though it is not possible, for example, to code a lookup table that goes from $$0$$ to $$1$$ with $$0.1$$ increments or to use filter coefficients with values within $$0$$ and $$1$$. Therefore, to maximize our precision and to minimize the computation cost, we will try to use the full range of our integer variables. For example $$65'535$$ in the case of `unsigned int 16`. This scaling factor will need to be incorporated whenever using the, e.g. lookup table or filter coefficients. With an intelligent use of operation priority \(for example multiply before dividing in order to perform integer arithmetic without losing precision\), it will not impact our precision and processing time.
 
 More about this tradeoff can be read [here](https://www.embedded.com/design/debug-and-optimization/4440365/Floating-point-data-in-embedded-software) and [here](https://en.wikibooks.org/wiki/Embedded_Systems/Floating_Point_Unit).
 
@@ -186,7 +179,7 @@ $$
 
 From such an expression, we can create the standard [pole-zero plot](https://en.wikipedia.org/wiki/Pole–zero_plot) as seen below. With such a plot, we can extract a lot of useful information, such as stability and causality.
 
-![](../.gitbook/assets/zplot_high_pass.png)
+![](../.gitbook/assets/zplot_high_pass-1%20%281%29.png)
 
 _Figure: Pole-zero plot of our simple high pass filter. Thanks to_ [this software](https://www.dsprelated.com/showcode/244.php) _for the visualization function._
 
@@ -200,7 +193,7 @@ In addition to its simplicity, another good property of this filter is that it h
 
 It is actually more common to plot the frequency response with the x-axis \(frequency\) in log scale, as shown below.
 
-![](../.gitbook/assets/freq_resp_high_pass_log.png)
+![](../.gitbook/assets/freq_resp_high_pass_log%20%281%29.png)
 
 _Figure: Frequency response of our simple high pass filter \(log scale\)._
 

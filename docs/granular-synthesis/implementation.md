@@ -119,7 +119,7 @@ def build_linear_interp_table(n_samples, down_fact, data_type=np.int16):
 
 Now we should consider what values, such as samples or pointers to lookup tables \(as we saw in the alien voice effect\), need to be shared between consecutive frames, i.e. to notify the next buffer of the current state. A visual of the overlapping tapered grains will help us identify what needs to be "passed" between buffers.
 
-![](../.gitbook/assets/viz_buffer.png)
+![](../.gitbook/assets/viz_buffer%20%281%29.png)
 
 _Figure: Visualizing buffers within overlapping grains._
 
@@ -145,7 +145,7 @@ _Hint: due to the resampling operation, the next buffer's grain can only be comp
 
 As we have several operations between our input and output samples, we will need some intermediate vectors to store a couple results. To see this, let's consider the "chain of events" for a single buffer:
 
-1. Concatenate previous raw input samples with currently received samples: 
+1. Concatenate previous raw input samples with currently received samples:
 
    $$
    x_{concat} = [x_{prev}, \text{ } x_{current}].
@@ -171,13 +171,12 @@ For a clean implementation, it is hopefully clear from the description above tha
 
 Now you should have enough information to implement the real-time version of downwards pitch shifting with granular synthesis.
 
-Below, we provide the ***incomplete*** `init` and `process` functions, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_incomplete.py). In this same file, you will also find the code to run granular synthesis on a fixed audio file.
-
+Below, we provide the _**incomplete**_ `init` and `process` functions, which you can find in [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_incomplete.py). In this same file, you will also find the code to run granular synthesis on a fixed audio file.
 
 {% hint style="info" %}
 TASK 3: Complete the code below. The comments that have `TODO` mark where you will need to add code.
 
-_Note: as this script relies on `utils.py` and `speech.wav` being in the correct relative location, it is useful to clone/download [the repository](https://github.com/LCAV/dsp-labs) so that it is indeed so._ 
+_Note: as this script relies on `utils.py` and `speech.wav` being in the correct relative location, it is useful to clone/download_ [_the repository_](https://github.com/LCAV/dsp-labs) _so that it is indeed so._
 {% endhint %}
 
 ```python
@@ -215,7 +214,7 @@ def process(input_buffer, output_buffer, buffer_len):
     # TODO: apply window
     for n in range(GRAIN_LEN_SAMP):
         ...
-    
+
     # TODO: write to output and update state variables
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part
@@ -232,9 +231,8 @@ def process(input_buffer, output_buffer, buffer_len):
 {% hint style="info" %}
 TASK 4: Implement the granular synthesis pitch shifting in real-time using your laptop's soundcard and the [`sounddevice`](https://python-sounddevice.readthedocs.io/en/0.3.11/) module.
 
-_Hint: copy-and-paste your_ `init` _and_ `process` _functions \(once they are working\) into [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_sounddevice_incomplete.py)._
+_Hint: copy-and-paste your_ `init` _and_ `process` _functions \(once they are working\) into_ [_this script_](https://github.com/LCAV/dsp-labs/blob/master/scripts/granular_synthesis/granular_synthesis_sounddevice_incomplete.py)_._
 {% endhint %}
-
 
 **Congrats on implementing granular synthesis pitch shifting! This is not a straightforward task, even in Python. But now that you have this code, the C implemention on the STM board should be much easier.**
 

@@ -1,8 +1,8 @@
-# 2.2 Updating peripherals
+# 2.2 Updating the peripherals
 
-The initialization code we generated in the [blinking LED example](../installation/instructions.md) will need to be updated as it does not perform the setup for the two I2S buses we will need for the microphone and the DAC.
+The initialization code that we generated in the [blinking LED example](../installation/instructions.md) will need to be updated as it does not set up the two I2S buses needed by the microphone and the DAC.
 
-_**But first**_, we will make a copy of our stable project. We want to keep tracks of old projects in order to go back when something is not working anymore. In order to do this, from the "Project Explorer" of the SW4STM32 software, copy and paste the blinking LED project from the previous chapter. When you paste it, a pop-up will ask you the name of the copied project. We recommend choosing a name with the current date and "passthrough" in it. To finish the copying process, make sure that the binary file of the original project is removed by deleting the file: `"NewProjectName/Binaries/OldProjectName.elf"`.
+First_**,**_ we will make a _copy_ of our stable project: we want to keep track of previous working projects so that we can always go back to a reliable configuration when something is not working anymore! In order to do this, from the "Project Explorer" of the SW4STM32 software, copy and paste the blinking LED project from Section 1.3. When you paste it, a pop-up will ask you the name of the copied project. We recommend choosing a name with the current date and the term "passthrough" in it. To finish the copying process, make sure that the binary file of the original project is removed by deleting the file: `"NewProjectName/Binaries/OldProjectName.elf"`.
 
 Now we are ready to update the initialization code. From the CubeMX software, load the IOC file of the new copied project \(which should be in your **SW4STM32 workspace**\). This can be done by going to "File &gt; Load Project" on the toolbar, navigating to the appropriate project, and double-clicking the IOC file.
 
@@ -12,17 +12,19 @@ When the IOC file has successfully loaded, you should see something similar to t
 
 ![](../.gitbook/assets/4_enable_i2s.PNG)
 
-You should see several pins highlighted green. What we have done is enable two I2S buses \(for the microphone and the DAC\), and the highlighted pins are those that will be used to transmit with the I2S protocol. Each bus uses three pins according to the [I2S specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf):
+You should see several pins highlighted green. What we have done is enable two I2S buses \(for the microphone and the DAC\), and the highlighted pins are those that will be used by the I2S protocol. Each bus uses three pins according to the [I2S specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf):
 
-1. Clock \(CK\).
-2. Word select \(WS\).
-3. Serial data \(SD\).
+1. Clock \(**CK**\).
+2. Word select \(**WS**\).
+3. Serial data \(**SD**\).
 
-Click on the "Configuration" tab where we will adjust the I2S and DMA settings. DMA \([direct memory access](https://en.wikipedia.org/wiki/Direct_memory_access)\) is a feature of microcontrollers that allows certain hardware subsystems to access the main system memory independent of the CPU. This allows the CPU to worry about other tasks \(such as processing the audio\) while transferring data in and out of the memory can be handled by other systems.
+Click on the "Configuration" tab where we will adjust the I2S and DMA settings. DMA \([direct memory access](https://en.wikipedia.org/wiki/Direct_memory_access)\) is a feature of microcontrollers that allows external hardware subsystems to access the main system memory independently of the CPU. This frees the CPU from having to deal with data transfers and lets it use its cycles to more interesting tasks such as processing the audio samples.
 
-From the "Configuration" tab you should see a view similar to below.
+From the "Configuration" tab you should see a view similar to this:
 
 ![](../.gitbook/assets/5_config_tab.PNG)
+
+And here is a first task for you:
 
 {% hint style="info" %}
 TASK 1: We would like you to set up I2S1 for the DAC and I2S2 for the microphone. You will have to check the datasheets \([DAC](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) and [microphone](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF)\) in order to find the correct parameters \(sampling frequency, data and frame format\) to set.
@@ -50,10 +52,10 @@ Click on "NVIC" under "System" from the "Configuration" tab of CubeMX. Ensure th
 
 ## Configure GPIO pins <a id="gpio"></a>
 
-The configuration we have done so far would be sufficient in order to create an audio passthrough. However, we will configure two more pins of the microcontroller so that we can programmatically:
+The configuration we have carried out so far would be sufficient in order to create an audio passthrough. However, we will configure two more pins so that we can programmatically:
 
-1. Mute the DAC.
-2. Set the microphone as _left_ or _right_ channel.
+1. Mute the DAC
+2. Set the microphone as the _left_ or _right_ channel.
 
 Go back to the "Pinout" tab, as seen below.
 
@@ -61,11 +63,11 @@ Go back to the "Pinout" tab, as seen below.
 
 By clicking on any of the pins, you should be able to see the different functions that particular pin can assume, see below.
 
-![](../.gitbook/assets/firmware_2.png)
+![](../.gitbook/assets/firmware_2%20%281%29.png)
 
 We are interested in using two pins as "GPIO\_Output" \(GPIO stands for "General-Purpose Input/Output"\) in order to output a _HIGH_ or _LOW_ value to the Adafruit breakout boards. Set the pins "PCO" and "PC1" to "GPIO\_Output" \(see below\). _You can reset a pin to having no function by selecting "Reset\_State"._
 
-![](../.gitbook/assets/firmware_3.png)
+![](../.gitbook/assets/firmware_3%20%281%29.png)
 
 Just like giving meaningful names to variables when programming, we would like to give meaningful names to our new GPIO pins. We will rename "PC0" and "PC1" as "MUTE" and "LR\_SEL" respectively. You can rename a pin by right-clicking it and selecting "Enter User Label" \(see below\).
 

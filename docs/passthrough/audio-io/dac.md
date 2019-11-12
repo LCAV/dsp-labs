@@ -1,10 +1,10 @@
-# Stereo decoder
+# 2.1.2 Stereo DAC
 
-The microphone we are using measures an _analog_ \(continuous in time and amplitude\) signal and returns a _digital_ \(discrete in time and amplitude\) signal, which can be further processed by our microcontroller. In order to playback or listen to this digital signal, it is necessary to convert it back to an analog signal; this can be done with a DAC \(Digital-to-Analog Converter\). We will be using Adafruit's [I2S Stereo Decoder Breakout](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/overview), which contains a DAC, an audio jack for connecting headphones, and the necessary additional components. In the following subsections, we will explain the important inputs/outputs of the DAC we will be using, the I2S stereo output protocol our application will have to conform to, and a bit about the breakout board from Adafruit.
+The microphone we are using measures an _analog_ signal and returns a _digital_ signal, which can be further processed by our microcontroller entirely in the digital domain. In order to playback or listen to this digital signal, it is necessary to convert it back to analog form; this can be done with a DAC \(Digital-to-Analog Converter\). We will be using Adafruit's [I2S Stereo Decoder Breakout](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/overview), which contains a DAC, an audio jack for connecting headphones, and the necessary additional components. In the following subsections, we will explain the important inputs/outputs of the DAC we will be using, the I2S stereo output protocol our application will have to conform to, and a bit about the breakout board from Adafruit.
 
 ## DAC inputs/outputs
 
-The DAC component we will be using is the [UDA1334ATS](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) by NXP. Below is a block diagram of the component.
+The DAC component in the Adafruit breakout is the [UDA1334ATS](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) by NXP, whose block diagram is shown below.
 
 ![](../../.gitbook/assets/block_diagram.png)
 
@@ -12,7 +12,7 @@ _Figure: UDA1334ATS block diagram,_ p. 5 of [datasheet](https://www.nxp.com/docs
 
 A couple interesting things to take note of:
 
-1. The "DIGITAL INTERFACE" block takes as input three signals \(**BCK**, **WS**, **DATAI**\) which are the necessary signals for an I2S transfer. _Note: I2S input is not a necessary feature of DACs; other input formats are also possible!_
+1. The "DIGITAL INTERFACE" block takes an I2S input, and therefore exposes the three lines **BCK**, **WS**, **DATA** that are used in the I2S protocol. _Note: I2S input is not a necessary feature of DACs; other input formats are also possible._
 2. This component has two DACs; one for the left channel \(**VOUTL**\)and another for the right channel \(**VOUTR**\) for stereo output.
 
 All input and output pins are briefly explained in the figure below.
@@ -55,7 +55,7 @@ The UDA1334ATS chip supports word lengths up to 24 bits for the I2S bus. Moreove
 There are also some requirements on the **BCK** and **WS** signals \(p. 9 of [datasheet](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf)\):
 
 1. **BCK** frequency can be at most 64 times the **WS** frequency.
-2. The **WS** signal must change at the negative edge of the **BCK**signal.
+2. The **WS** signal must change at the negative edge of the **BCK** signal.
 
 In the figure below, we have a timing diagram for an I2S input signal. We can see that the second requirement is met. Moreover, we can observe that the Most-Significant Bit \(MSB\) should be the first bit. This is always the case for the I2S bus; we can observe the same property in the microphone timing diagram as well.
 

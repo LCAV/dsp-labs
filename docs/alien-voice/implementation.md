@@ -14,11 +14,11 @@ _Figure: Set the "Clock Source" to "Internal Clock" in order to enable "TIM2"._
 
 Next, we need to configure the timer from the "Configuration" tab by pressing "TIM2" under "Control" \(see below\).
 
-![](../.gitbook/assets/config_tab%20%281%29.png)
+![](../.gitbook/assets/config_tab-1.png)
 
 A pop-up similar to below should appear.
 
-![](../.gitbook/assets/setup_tim2_as_us_timebase_edited%20%281%29.png)
+![](../.gitbook/assets/setup_tim2_as_us_timebase_edited-1-1.png)
 
 {% hint style="info" %}
 TASK 4: We ask you to set the "Prescaler" value \(in the figure above\) in order to achieve a $$1\,[\mu s]$$ period for "TIM2", i.e. we want our timer to have a $$1\,[\mu s]$$ resolution.
@@ -117,7 +117,7 @@ You will notice that we used a `printf` function in order to output text on the 
   -specs=nosys.specs -specs=nano.specs -specs=rdimon.specs -lc -lrdimon
   ```
 
-![](../.gitbook/assets/proj_prop%20%281%29.png)
+![](../.gitbook/assets/proj_prop-1.png)
 
 * Add the following function prototype above the `main` function \(e.g. between the `USER CODE BEGIN PFP` and `USER CODE END PFP` comments\):
 
@@ -263,6 +263,5 @@ for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
 
 Finally, you can try changing the modulation frequency and creating your lookup tables by running [this Python script](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/compute_sinusoid_lookup.py) for modified values of `f_sine`.
 
-**Congrats on implementing your \(perhaps\) first voice effect!
-In the** [**next chapter**](../filter-design/)**, we will implement a more sophisticated high-pass filter than the one
-used here. To this end, we will come across fundamental theory and practical skills in digital filter design.**
+**Congrats on implementing your \(perhaps\) first voice effect! In the** [**next chapter**](../filter-design/)**, we will implement a more sophisticated high-pass filter than the one used here. To this end, we will come across fundamental theory and practical skills in digital filter design.**
+
