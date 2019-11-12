@@ -1,4 +1,4 @@
-# Eclipse tips
+# Useful tips
 
 ## Shortcuts
 
