@@ -2,6 +2,8 @@
 
 ## Open STM32CubeIDE and select a workspace <a id="init_code"></a>
 
+UPDATED BY AH
+
 1\) Open STM32CubeIDE that you just installed in the previous step.
 
 2\) Select a workspace, it is the folder where all project are going to be stored. You can create multiple workspace, for example if you work on different projects.

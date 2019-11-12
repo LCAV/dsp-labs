@@ -2,6 +2,8 @@
 
 ## Shortcuts
 
+UPDATED BY AH
+
 Below are some shortcuts we find particularly useful. For MacOs, replace `"Ctrl"` with `"Command"`.
 
 * `"Ctrl +"` click on function/variable for seeing its definition.

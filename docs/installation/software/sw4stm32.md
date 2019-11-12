@@ -2,6 +2,8 @@
 
 _Note: these instruction and images were produced on October 1, 2019._
 
+UPDATED BY AH
+
 The following steps are the same for Windows, Linux, and MacOS as they simply consist of downloading the installation files. For the actual installation, please refer to the corresponding subsection after the following five steps:
 
 ## Download instructions
