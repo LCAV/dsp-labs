@@ -73,14 +73,15 @@ As we are interested in using the UDA1334ATS component under "audio mode", this 
 
 _Figure: UDA1334ATS audio mode wiring,_ p. 15 of [datasheet](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf).
 
-Moreover, in addition to the capacitors and resistors needed for the UDA1334ATS component, we would also like to listen to the resulting audio output. For this, an audio jack would be ideal so we can conveniently plug in a standard set of headphones.
+In addition to the capacitors and resistors needed for the UDA1334ATS component, we would also like to listen to the resulting audio output with heaphones. For this, an audio jack would be ideal.
 
-Having to wire up all these components on a breadboard and connect them to our microcontroller would be far from ideal. For this reason, we will be using Adafruit's [I2S Stereo Decoder Breakout](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/overview) which contains the UDA1334ATS component, an audio jack, the necessary capacitors and resistors, and all the inter-connections.
+Having to wire up all these components on a breadboard and connect them to our microcontroller would be a bit laborious. For this reason, we will be using Adafruit's [I2S Stereo Decoder Breakout](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/overview) which contains the UDA1334ATS component, an audio jack, the necessary capacitors and resistors, and all the inter-connections.
 
 Using this breakout board has a few other benefits when used in "audio mode", as Adafruit assumes most users will be using it in this mode:
 
-1. **SFOR1**, **SFOR0**, **PLL0**, **SYSCLK/PLL1**, and **DEEM/CLKOUT** of UDA1334ATS are all pulled LOW by the breakout board; so the **SF1**, **SF0**, **PLL**, and **DEEM** pins of the breakboard board do not need to be set for our application as we are interested in "audio mode".
-2. We can provide $$3-5$$V power on the **VIN** and **GND** pins of the breakout board; a built-in regulator will take care of supplying the digital voltage supply \(**VDDD** and **VSSD**\) and the DAC supply voltage \(**VDDA** and **VSSA**\).
+1. **SFOR1**, **SFOR0**, **PLL0**, **SYSCLK/PLL1**, and **DEEM/CLKOUT** of UDA1334ATS are all pulled LOW by the breakout board; so the **SF1**, **SF0**, **PLL**, and **DEEM** pins of the breakout board do not need to be set for our application as we are interested in "audio mode".
+2. We can provide a 3V to 5V power on the **VIN** and **GND** pins of the breakout board; a built-in regulator will take care of supplying the digital voltage supply \(**VDDD** and **VSSD**\) and the DAC supply voltage \(**VDDA** and **VSSA**\).
 3. As an audio jack is already built into the breadboard, we do not need to worry about connecting the **VOUTR**, **VOUTL**, and **Vref\(DAC\)** pins of the UDA1334ATS component. However, we can easily debug these signals from **Lout**, **AGND**, and **Rout** of the breakout board.
-4. Check Adafruit's [website](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/pinouts) for more information on each pin.
+
+Check Adafruit's [website](https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/pinouts) for more information on each pin.
 

@@ -1,28 +1,28 @@
 # 2.2 Updating the peripherals
 
-UPDATED BY AH
+UPDATED BY PP
 
-The initialization code we generated in the [blinking LED example](../installation/instructions.md) will need to be updated as it does not perform the setup for the two I2S buses we will need for the microphone and the DAC.
+The initialization code we generated in the [blinking LED example](../installation/instructions.md) will need to be updated as it does not perform the setup for the two I2S buses that we will need to communicate with the microphone and the DAC.
 
-_**But first**_, we will make a copy of our stable project. We want to keep tracks of old projects in order to go back when something is not working anymore. In order to do this, from the "Project Explorer" of the SW4STM32 software, copy and paste the blinking LED project from the previous chapter. When you paste it, a pop-up will ask you the name of the copied project. We recommend choosing a name with the current date and "passthrough" in it. To finish the copying process, make sure that the binary file of the original project is removed by deleting the file: `"NewProjectName/Binaries/OldProjectName.elf"`.
+First_**,**_ let's make a copy of our working LED blinking project. We want to keep tracks of old projects in order to be able to go back to a known working configuration if something is not functioning anymore. To copy the project use the "Project Explorer" of the SW4STM32 software and a simple copy/paste operation. When you paste the project, a pop-up will ask you the rename the copied project: we recommend choosing a name that includes the current date and the word "passthrough" in it for bookkeeping purposes. To finish the copying process, make sure that the binary file of the original project is removed by deleting the `.elf` file in the `Binaries` folder of the new project.
 
-Now we are ready to update the initialization code. From the CubeMX software, load the IOC file of the new copied project \(which should be in your **SW4STM32 workspace**\). This can be done by going to "File &gt; Load Project" on the toolbar, navigating to the appropriate project, and double-clicking the IOC file.
+Now we are ready to update the initialization code. From the CubeMX software, load the `IOC` file of the new project \(which should be in your **SW4STM32 workspace**\). This can be done by going to "File &gt; Load Project" on the toolbar, navigating to the appropriate project, and double-clicking the `IOC` file.
 
 ## Enable and configure I2S buses <a id="i2s"></a>
 
-When the IOC file has successfully loaded, you should see something similar to the figure below. On the left-hand column, enable **I2S1** and **I2S2** by selecting the "Mode" to be "Half-Duplex Master".
+When the `IOC` file has successfully loaded, you should see something similar to the figure below. On the left-hand column, enable **I2S1** and **I2S2** by selecting the "Mode" to be "Half-Duplex Master".
 
 ![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.49%20%281%29.png)
 
-You should see several pins highlighted green. What we have done is enable two I2S buses \(for the microphone and the DAC\), and the highlighted pins are those that will be used to transmit with the I2S protocol. Each bus uses three pins according to the [I2S specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf):
+You should see several pins highlighted in green: after enabling the two I2S buses \(for the microphone and the DAC\) the interface shows in green the electrical pins in the microcontroller that will be devoted to the signals used in the I2S protocol. Each I2S bus uses three pins according to the [I2S specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf):
 
-1. Clock \(CK\).
-2. Word select \(WS\).
-3. Serial data \(SD\).
+1. Clock \(**CK**\).
+2. Word select \(**WS**\).
+3. Serial data \(**SD**\).
 
-Click on the "Configuration" tab where we will adjust the I2S and DMA settings. DMA \([direct memory access](https://en.wikipedia.org/wiki/Direct_memory_access)\) is a feature of microcontrollers that allows certain hardware subsystems to access the main system memory independent of the CPU. This allows the CPU to worry about other tasks \(such as processing the audio\) while transferring data in and out of the memory can be handled by other systems.
+Click on the "Configuration" tab, where we will adjust the I2S and DMA settings. DMA \([direct memory access](https://en.wikipedia.org/wiki/Direct_memory_access)\) is a feature of microcontrollers that allows certain hardware subsystems to access the main system memory independently of the CPU. This avoids using CPU cycles to handle input/output operations and frees up resources for the actual data processing.
 
-From the "Configuration" tab you should see a view similar to below.
+From the "Configuration" tab you should see a view similar to the one below.
 
 ![](../.gitbook/assets/screenshot-2019-09-25-at-17.53.06.png)
 
@@ -30,6 +30,8 @@ From the "Configuration" tab you should see a view similar to below.
 TASK 1: We would like you to set up I2S1 for the DAC and I2S2 for the microphone. You will have to check the datasheets \([DAC](https://www.nxp.com/docs/en/data-sheet/UDA1334ATS.pdf) and [microphone](https://cdn-shop.adafruit.com/product-files/3421/i2S+Datasheet.PDF)\) in order to find the correct parameters \(sampling frequency, data and frame format\) to set.
 
 Click on "I2S1" under "Multimedia" to adjust its settings. **Under the "Parameter Settings" tab, set the fields under "Generic Parameters" so that I2S1 can be used for the DAC.**
+
+_\(Solutions to tasks are available at the end of the page\)_
 {% endhint %}
 
 Under the "DMA Settings" tab, press "Add". Adjust the settings so that they match the figure below, namely "DMA Request" set to "SPI1\_TX" for the DAC; "Mode" set to "Circular"; and "Data Width" set to "Half Word". Press "Apply" then "Ok" to confirm the changes.
@@ -69,17 +71,17 @@ We are interested in using two pins as "GPIO\_Output" \(GPIO stands for "General
 
 ![](../.gitbook/assets/firmware_3%20%282%29.png)
 
-Just like giving meaningful names to variables when programming, we would like to give meaningful names to our new GPIO pins. We will rename "PC0" and "PC1" as "MUTE" and "LR\_SEL" respectively. You can rename a pin by right-clicking it and selecting "Enter User Label" \(see below\).
+Just as in the case of variables in a program, we should give meaningful names to our GPIO pins. We will rename "PC0" and "PC1" as "MUTE" and "LR\_SEL" respectively. You can rename a pin by right-clicking it and selecting "Enter User Label" \(see below\).
 
 ![](../.gitbook/assets/firmware_4%20%282%29.png)
 
 ## Update initialization code <a id="init_code"></a>
 
-We can now update our source code, it will be done if you save the _.ioc_ file or when changing perspective.
+If you now save the `IOC` file \(or if you change perspective\) the source code will be updated:
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-15.36.36%20%281%29.png)
 
-If you have any of the source files open on SW4STM32, they should update automatically according to any settings you changed from CubeMX. This is why you should not enter any code outside of the `USER CODE BEGIN` and `USER CODE END` comments as it could be replaced by the new configuration code.
+If you have any of the source files open on SW4STM32, they should refresh automatically to reflect the settings you have changed in CubeMX. Remember that this is why you should not add or modify any section in the code outside of the `USER CODE BEGIN` and `USER CODE END` comments; outside of these tags, all code will usually replaced by a change in configuration.
 
 With the peripherals and initialization code updated, we can proceed to [wiring the breakout boards](wiring.md)!
 
