@@ -1,7 +1,5 @@
 # 2.4 Coding the passthrough
 
-UPDATED BY AH
-
 In this section, we will guide you through programming the microcontroller in order to implement the passthrough! In the previous section, you should have copied the blinking LED project before updating the IOC file with CubeMX. From the SW4STM32 software, open the file `"Src/main.c"` in the new project; we will be making all of our modifications here.
 
 ## Muting the DAC <a id="mute_macro"></a>
@@ -45,9 +43,9 @@ We will now define a few constants which will be useful in coding our applicatio
 
 ### Common DSP parameters:
 
-1. _Sample_: a sample is a sample, that is, a single discrete-time signal value; for a stereo signal this will be either a left- or right-channel sample
-2. _Frame_: a frame consists of exactly one sample per channel so, for a stereo signal, a frame will contain two samples
-3. _Buffer length_: a buffer is a collection of frames stored in memory and ready for processing \(or for a DMA transfer\). The lenght of the buffer is a key parameter that needs to be fine-tuned to the type of audio application. In general, the longer the buffer, the fewer DMA transfers per second, which is desirable. Also, for instance, when computing the DFT of an input signal, a large buffer will provide a better frequency resolution. However, a large buffer will also introduce more _latency_ as we need to wait for more samples for each channel before we can begin processing. Low latency is also derirable so we are in a situation of conflicting requirements for which a suitable compromise needs to be determined on a case-by-case basis. See Lecture 2.2.5b in the [second DSP module](https://www.coursera.org/learn/dsp2/) for a refresher on buffering in real-time applications.
+1. _Sample_: a sample is a single discrete-time value; for a stereo signal, a sample can belong either to the left or right channel.
+2. _Frame_: a frame collects all synchronous samples from all channel so, for a stereo signal, a frame will contain two samples, left and right.
+3. _Buffer length_: a buffer is a collection of _frames_, stored in memory and ready for processing \(or ready for a DMA transfer\). The buffer's lenght is a key parameter that needs to be fine-tuned to the demands of a specific audio application. In general, the longer the buffer, the fewer DMA transfers per second, which is desirable. Also, for instance, when computing the DFT of an input signal, a large buffer will provide a better frequency resolution. However, a large buffer will also introduce more _latency_ as we need to wait for more samples for each channel before we can begin processing. Low latency is also desirable so we are in a situation of conflicting requirements for which a suitable compromise needs to be determined on a case-by-case basis. See Lecture 2.2.5b in the [second DSP module](https://www.coursera.org/learn/dsp2/) for a refresher on buffering in real-time applications.
 
 Add the following lines to define the frame length \(in terms of samples\) and the buffer length \(in terms of frames\):
 
@@ -62,9 +60,9 @@ Add the following lines to define the frame length \(in terms of samples\) and t
 
 ### Storing samples
 
-Again, as explained in Lecture 2.2.5b in the [second DSP module](https://www.coursera.org/learn/dsp2/), for real-time processing we need to use alternating buffers for input and output DMA transfers. The incoming samples will be stored into an array and the incoming array should not be accessed by our application while the input DMA is in progress. The I2S peripheral of our microcontroller has the nice feature of sending _interrupts_ at two critical state of its operation. The first is simply when the buffer is full. However they added a second interruption for when the buffer is half full. More on this is explained [below](https://github.com/LCAV/dsp-labs/blob/aec95ceb7a99183934ef33d7aa62988881c20e2a/docs/passthrough/coding.md#dma) in the "DMA callback functions" section.
+Again, as explained in Lecture 2.2.5b in the [second DSP module](https://www.coursera.org/learn/dsp2/), for real-time processing we need to use alternating buffers for input and output DMA transfers. The incoming samples will be stored into an array and the incoming array should _not_ be accessed by our application while the input DMA is in progress. The end of a DMA transfer is usually notified to the microcontroller by an _interrupt_ signal.
 
-In this way we will use an array that is _twice_ the size of our application's buffer, i.e. the size of our buffer in terms of samples. With this solution, we can place new samples on one half of the buffer while we simultaneously process samples on the other half of the buffer.
+The I2S peripheral of our microcontroller, however, conveniently sends _two interrupt_ signals, one when the buffer is half-full and one when the buffer is full. Because of this feature, we can simply use an array that is _twice_ the size of our target application's buffer and let the DMA transfer fill one half of the buffer while we simultaneously process the samples in the other half.
 
 {% hint style="info" %}
 TASK 11: Using the constants defined before - `SAMPLE_PER_FRAME` and `FRAME_PER_BUFFER` - define two more constants for the buffer size and for the size of the double buffer.
