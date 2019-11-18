@@ -7,7 +7,7 @@
   * [1.2 Software](installation/software/README.md)
     * [1.2.1 STM32CubeIDE](installation/software/sw4stm32.md)
     * [1.2.2 Useful tips](installation/software/eclipse_tips.md)
-  * [1.3 First project!](installation/instructions.md)
+  * [1.3 Our first project](installation/instructions.md)
 * [2. AUDIO PASSTHROUGH](passthrough/README.md)
   * [2.1 Audio I/O theory](passthrough/audio-io/README.md)
     * [2.1.1 Digital Microphone](passthrough/audio-io/microphone.md)

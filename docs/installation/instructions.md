@@ -1,8 +1,8 @@
-# 1.3 First project!
+# 1.3 Our first project
 
 ## Open the IDE and select a workspace <a id="init_code"></a>
 
-1\) Open the STM32CubeIDE that you just installed in the previous step.
+1\) Open the STM32CubeIDE that you just installed in the previous section.
 
 2\) Select a workspace, this is going to be the folder where all project are going to be stored. You can create multiple workspaces if you work on different projects.
 
@@ -14,17 +14,17 @@
 
 ## Create a new project <a id="init_code"></a>
 
-The first time you open the software, you will be prompted by the screen shown below. If a pop-up appears, asking if you would like to initialise all peripherals with their default mode, simply press _Yes_.
+The first time you open the software, you will be prompted by the screen shown below. If a pop-up appears, asking if you would like to initialize all peripherals with their default mode, simply press _Yes_.
 
 ![](../.gitbook/assets/screenshot-2019-10-01-at-11.37.05%20%281%29.png)
 
-Press the _Start new STM32 project_ button in order to launch CubeMX and start initialising the project.
+Press the _Start new STM32 project_ button in order to launch CubeMX and start initializing the project.
 
 If you have a workspace that already contains project, the _new project button_ is in the top left corner.
 
 ## Code generation with CubeMX <a id="init_code"></a>
 
-We will be using CubeMX's graphical interface to generate the initialization code for the board and its peripherals.
+We will be using CubeMX's graphical interface to generate the initialization steps for the board and its peripherals.
 
 ### Board selection
 
@@ -32,7 +32,7 @@ When all necessary downloads are completed, you should eventually see something 
 
 ![](../.gitbook/assets/screenshot-2019-09-25-at-15.54.25-2-1%20%281%29.png)
 
-Filter by board on the left column; enter "NUCLEO-F072RB". Double-click the board in the search results. Note that if you are using a different ST board that [fulfills the requirements for our projects](../bom.md), you should select the model you have.
+Filter by board on the left column and look for our board, the "NUCLEO-F072RB". Double-click the board in the search results. Note that if you are using a different ST board that [fulfills the requirements for our projects](../bom.md), you should select the model you have.
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-13.36.57.png)
 
@@ -40,37 +40,43 @@ Chose an appropriated name for the project, including the date, project goal etc
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-13.58.37%20%281%29.png)
 
-When clicking next, You will see a pop-up asking if you want to initialize all _peripherals_ to their default mode. This applies to the external circuits that may have been added to the Nucleo board; this will be relevant later when we add a microphone and an audio output module but in this case we will only use an onboard LED and a button. Press _Yes_ in any case.
+When clicking next, you will see a pop-up asking if you want to initialize all peripherals to their default mode: this applies to the external circuits that may have been added to the Nucleo board. Peripheral initialization will be relevant later, when we add a microphone and an audio output module, but in this case we are only using an onboard LED and a button. Press _Yes_ in any case.
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-13.39.21%20%281%29.png)
 
-When the board has loaded, you should see something similar to below.
+When the board has loaded, you should see something similar to the following screenshot:
 
 ![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.04%20%281%29.png)
 
-Extend the central pane if it was hidden, you will later need to do configuration in this pane.
+Extend the central pane if it was hidden, because it will be needed later!
 
 ![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.19%20%281%29.png)
 
-### Generate initialization code
+### Generate the initialization code
 
-When a Nucleo template is selected and all peripheral initialised with default values, the blue button _B1_ and the LED _LD2_ are already configured. This is sufficient for our first project!
+When a Nucleo template is selected and all peripheral initialized to their default values, the blue button _B1_ and the LED _LD2_ are already configured; this is sufficient for our first project.
 
-We are now ready to generate the initialisation code! Save your project by _Command + S_ or _ctrl + S_, depending on your OS. The project will be automatically generated if a modification was made. At this stage, _CubeMX_ will write down in _C_, using _HAL_ libraries everything that was selected through it's GUI.
+We are now ready to generate the initialization code. Save your project by pressing _CTRL+ S_. The project will be automatically generated if a modification was made. At this stage, _CubeMX_ will generate some C files, using _HAL_ libraries, that encode all the settings that was selected via the GUI.
 
-_HAL_ is short for _Hardware Abstraction Layer_ and it is a library provided by ST to help developers produce _portable_ code, i.e. code that can be used across the whole family of STM32 boards. For more information on HAL, check out [this document](https://www.st.com/content/ccc/resource/technical/document/user_manual/2f/77/25/0f/5c/38/48/80/DM00122015.pdf/files/DM00122015.pdf/jcr:content/translations/en.DM00122015.pdf).
+_HAL_ is short for _Hardware Abstraction Layer_ and it is a set of libraries provided by ST to help developers produce _portable_ code, i.e. code that can be used across the whole family of STM32 boards. For more information on HAL, please refer to [this document](https://www.st.com/content/ccc/resource/technical/document/user_manual/2f/77/25/0f/5c/38/48/80/DM00122015.pdf/files/DM00122015.pdf/jcr:content/translations/en.DM00122015.pdf).
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-14.05.00%20%281%29.png)
 
 ## Project development with SW4STM32 <a id="deploy"></a>
 
-From the "Project Explorer", open the file `"Src/main.c"` \(see below\). Throughout the file, you should see comments that read `USER CODE BEGIN` and `USER CODE END`; _**it is only between these comments that you should write your code!**_ _\*\*\_All other lines of code have been created by \_CubeMX_ according to the configuration we specified before. If you decide to adjust any configuration through _CubeMX_ by editing the IOC file within the _copied_ project inside your workspace, it may modify anything outside of `USER CODE BEGIN` and `USER CODE END`, which is why all your code should be between these two lines.
+From the "Project Explorer", open the file `"Src/main.c"`; this is the code automatically generated by CubeMX and it will look like so:
 
 ![](../.gitbook/assets/18_workspace.PNG)
 
+If you look at the C code, you can notice matched commented lines that read `USER CODE BEGIN` and `USER CODE END`; _**it is only between these tags that you should write your code!**_ 
+
+All other lines of code have been generated automatically by CubeMX according to the configuration we specified via the graphical tool. If you go back and change some of the configuration parameters, CubeMX will overwrite all the code that is not between the `USER CODE` tags!
+
 ### Blinking LED
 
-We will now program the board with a simple example - a blinking LED! Inside the infinite-while loop between the comments `USER CODE BEGIN WHILE` and `USER CODE END WHILE`, add the following lines:
+We will now program the board to perform a simple task - make an onboard LED blink! 
+
+In the code, look for the infinite loop between the comments `USER CODE BEGIN WHILE` and `USER CODE END WHILE`, add the following lines to the body of the loop:
 
 ```c
 /* Infinite loop */
@@ -86,17 +92,17 @@ while (1) {
 /* USER CODE END 3 */
 ```
 
-`HAL_GPIO_TogglePin` and `HAL_Delay` are commands provided by _ST_ for toggling a pin and delaying respectively. You can see a function/variable definition by pressing _Ctrl +_ clicking the function/variable \(_Command_ on MacOS\).
+`HAL_GPIO_TogglePin` and `HAL_Delay` are commands provided by the ST HAL library for toggling the voltage level on a pin and to pause execution, respectively. Remember that you can always look for the definition of a function or of a variable by pressing _Ctrl_  and clicking the function/variable.
 
-The first command toggles the value of the pin corresponding to the LED at pin _LD2_; it turns the LED _on_ for one iteration of the while loop, _off_ for the next iteration, etc. In order to actually observe the LED blinking with the "naked" eye, we must set a delay between each toggle operation. This is what the second command does by placing a delay of 1 second, as the function `HAL_Delay` accepts delays in milliseconds.
+The first command toggles the value of the pin corresponding to the LED at pin _LD2_; this turns the LED _on_ for one iteration of the while loop and _off_ for the next iteration. In order to actually being able to observe the LED blinking we must set a delay between each toggle operation, otherwise the blinking would be too fast to be perceived. This is what the second command accomplishes by placing a delay of 1 second; the argument of the function `HAL_Delay` is indeed in milliseconds.
 
 ### Building the project
 
-Before plugging in the board, let's try building the project. This can be done by pressing the _hammer_ icon on the top toolbar, or by using the shortcut "Ctrl + B" \("Command + B" on MacOS\). Make sure you are building for _Debug_ and for the correct project.
+Before plugging in the board, let's try building the project. This can be done by pressing the _hammer_ icon on the top toolbar, or by using the shortcut Ctrl + B \("Command + B" on MacOS\). Make sure you are building for the _Debug_ target and for the correct project.
 
-In the figure below, we can see two signs of a successful build:
+In the figure below, we can see the two signs of a successful build:
 
-* A "Binaries" folder was created as can be seen in the "Project Explorer" and it contains an ELF file corresponding to our project. It should have the same name as your project. If this does not appear, it may be necessary to refresh the project by right-clicking the project directory and selecting _Refresh_ \(or using the shortcut F5\).
+* A "Binaries" folder was created, as can be seen in the "Project Explorer", and it contains an ELF file corresponding to our project. It should have the same name as your project. If this does not appear, it may be necessary to refresh the project by right-clicking the project directory and selecting _Refresh_ \(or using the shortcut F5\).
 * There are no errors in the "Console" pane.
 
 ![](../.gitbook/assets/19_successful_build%20%281%29.PNG)
@@ -109,7 +115,7 @@ Click on the _bug_ icon from the toolbar and select _Debug As &gt; STM32_ MCU _C
 
 ![](../.gitbook/assets/screenshot-2019-10-07-at-14.52.49.png)
 
-If this is your first time debugging in this workspace, you should see a pop-up similar to below appear. Click "Yes" as this perspective will be very useful, and you can check the box for "Remember my decision" so that this pop-up does not appear again.
+If this is your first time debugging in this workspace, you should see a pop-up similar to the one below appear. Click "Yes" as this perspective will be very useful, and you can check the box for "Remember my decision" so that this pop-up does not appear again.
 
 ![](../.gitbook/assets/22_enter_debug_perspective.PNG)
 
@@ -119,9 +125,9 @@ If something similar to the following error appear:
 "Unplugged target or STLink already in use or STLink USB driver not installed."
 ```
 
-make sure the board is properly plugged in and/or try another port.
+make sure the board is properly plugged in and/or try another USB port.
 
-If the Nucleo's firmware is outdated, you might be requested to update it with the following message:
+If the Nucleo's firmware is outdated, you might be requested to update it by the following po-up:
 
 ![](../.gitbook/assets/screenshot-2019-09-25-at-17.42.06%20%281%29.png)
 
@@ -137,7 +143,7 @@ First press _Open in update mode,_ and then _Upgrade_ the firmware of your Nucle
 
 After the upgrade, you can press again on the bug button to resume debbuging.
 
-A view similar to below should then appear. This is the typical "Debug perspective" of Eclipse.
+A view similar to the one below should then appear. This is the typical "Debug perspective" in Eclipse.
 
 ![](../.gitbook/assets/24_resume%20%282%29.png)
 
@@ -147,9 +153,9 @@ You should now observe the "LD2" LED \(see below\) blinking!
 
 ![](../.gitbook/assets/24_led_blinking%20%282%29.png)
 
-_Figure: Top view of a NUCLEO-XXXXRX board. Red arrow pointing out the location of "LD2" LED._ [Picture source](https://www.st.com/content/ccc/resource/technical/document/data_brief/c8/3c/30/f7/d6/08/4a/26/DM00105918.pdf/files/DM00105918.pdf/jcr:content/translations/en.DM00105918.pdf).
+_Figure: Top view of a NUCLEO board. Red arrow pointing out the location of "LD2" LED._ [Picture source](https://www.st.com/content/ccc/resource/technical/document/data_brief/c8/3c/30/f7/d6/08/4a/26/DM00105918.pdf/files/DM00105918.pdf/jcr:content/translations/en.DM00105918.pdf).
 
-### Terminating program
+### Terminating the program
 
 In order to properly stop the program, it is also necessary to disconnect from the board. Both can be done by pressing the _Disconnect_ button on the top toolbar \(see below\).
 
