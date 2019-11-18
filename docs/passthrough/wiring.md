@@ -1,8 +1,6 @@
 # 2.3 Wiring audio I/O
 
-UPDATED BY AH
-
-Now that we have initialized the different peripherals that we will use to interface with the microphone and DAC, we are ready to wire everything up! Make sure that the STM32 board is not powered, i.e. unplugged, while connecting the microphone and DAC breakout boards.
+Now that we have initialized the different peripherals that we will use to interface with the outside world \(from the point of view of the microcontroller\), we are ready to wire everything up! Make sure that the STM32 board is not powered, i.e. unplugged, while connecting the microphone and DAC breakout boards.
 
 For this task, we will have to refer to the card provided with the STM32 board \(see below\) and the image of the chip on the "Pinout" tab of our CubeMX project \(further below\).
 

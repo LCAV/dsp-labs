@@ -1,7 +1,5 @@
 # 2.2 Updating the peripherals
 
-UPDATED BY PP
-
 The initialization code we generated in the [blinking LED example](../installation/instructions.md) will need to be updated as it does not perform the setup for the two I2S buses that we will need to communicate with the microphone and the DAC.
 
 First_**,**_ let's make a copy of our working LED blinking project. We want to keep tracks of old projects in order to be able to go back to a known working configuration if something is not functioning anymore. To copy the project use the "Project Explorer" of the SW4STM32 software and a simple copy/paste operation. When you paste the project, a pop-up will ask you the rename the copied project: we recommend choosing a name that includes the current date and the word "passthrough" in it for bookkeeping purposes. To finish the copying process, make sure that the binary file of the original project is removed by deleting the `.elf` file in the `Binaries` folder of the new project.
