@@ -1,4 +1,4 @@
-# 2.3 Wiring audio I/O
+# 2.3 Connecting the peripherals
 
 Now that we have initialized the different peripherals that we will use to interface with the outside world \(from the point of view of the microcontroller\), we are ready to wire everything up! Make sure that the STM32 board is not powered, i.e. unplugged, while connecting the microphone and DAC breakout boards.
 

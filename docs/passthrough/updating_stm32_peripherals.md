@@ -1,4 +1,4 @@
-# 2.2 Updating the peripherals
+# 2.2 Setting up the peripherals
 
 The initialization code we generated in the [blinking LED example](../installation/instructions.md) will need to be updated as it does not perform the setup for the two I2S buses that we will need to communicate with the microphone and the DAC.
 
@@ -18,9 +18,7 @@ You should see several pins highlighted in green: after enabling the two I2S bus
 2. Word select \(**WS**\).
 3. Serial data \(**SD**\).
 
-Click on the "Configuration" tab, where we will adjust the I2S and DMA settings. DMA \([direct memory access](https://en.wikipedia.org/wiki/Direct_memory_access)\) is a feature of microcontrollers that allows certain hardware subsystems to access the main system memory independently of the CPU. This avoids using CPU cycles to handle input/output operations and frees up resources for the actual data processing.
-
-From the "Configuration" tab you should see a view similar to the one below.
+Click on the "Configuration" tab, where we will adjust the I2S and [DMA settings](audio-io/#dma-transfers). From the "Configuration" tab you should see a view similar to the one below.
 
 ![](../.gitbook/assets/screenshot-2019-09-25-at-17.53.06.png)
 
