@@ -130,7 +130,7 @@ else:
 
 This code defines a new global variable `NFFT` for the number of frequency bins in the positive half of the spectrum after performing a DFT of length `GRAIN_LEN_SAMP` \(grain length in samples\).
 
-_**Now for the fun part!**_  That is, implementing the pitch shifting and trying it out.
+_**Now for the fun part!**_ That is, implementing the pitch shifting and trying it out.
 
 If we look at the following code snippet from the function `DFT_pshift` of the IPython notebook:
 
@@ -295,7 +295,7 @@ def init():
     global x_overlap, y_overlap
     x_overlap = np.zeros(OVERLAP_LEN, dtype=data_type)
     y_overlap = np.zeros(OVERLAP_LEN, dtype=data_type)
-    
+
     # TODO: create arrays for intermediate values
     global grain, input_concat
     input_concat = np.zeros(GRAIN_LEN_SAMP, dtype=data_type)
@@ -437,7 +437,7 @@ def init():
     global grain, input_concat
     input_concat = np.zeros(GRAIN_LEN_SAMP, dtype=data_type)
     grain = np.zeros(GRAIN_LEN_SAMP, dtype=data_type)
-    
+
 
 
 # the process function!
@@ -463,7 +463,7 @@ def process(input_buffer, output_buffer, buffer_len):
     for n in range(GRAIN_LEN_SAMP):
         grain[n] = int(input_concat_float[n]*MAX_VAL)
 
-    
+
 
     # apply window
     for n in range(GRAIN_LEN_SAMP):
@@ -587,7 +587,7 @@ def process(input_buffer, output_buffer, buffer_len):
     # apply window
     for n in range(GRAIN_LEN_SAMP):
         grain[n] = (WIN[n]/MAX_VAL)*grain[n]
-    
+
     # write to output
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part

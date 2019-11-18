@@ -346,7 +346,7 @@ def process(input_buffer, output_buffer, buffer_len):
     # apply window
     for n in range(GRAIN_LEN_SAMP):
         grain[n] = (WIN[n]/MAX_VAL)*grain[n]
-    
+
     # write to output
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part
@@ -365,8 +365,6 @@ def process(input_buffer, output_buffer, buffer_len):
 {% tab title="Task 4" %}
 Taking the results from the previous task and integrating them in the sounddevice template gives the following code:
 
-{% code-tabs %}
-{% code-tabs-item title="granular\_synthesis\_sounddevice\_complete.py" %}
 ```python
 import numpy as np
 from utils import ms2smp, compute_stride, win_taper, build_linear_interp_table
@@ -443,7 +441,7 @@ def process(input_buffer, output_buffer, buffer_len):
     # apply window
     for n in range(GRAIN_LEN_SAMP):
         grain[n] = (WIN[n]/MAX_VAL)*grain[n]
-    
+
     # write to output
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part
@@ -480,11 +478,7 @@ try:
 except KeyboardInterrupt:
     parser.exit('\nInterrupted by user')
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
-{% code-tabs %}
-{% code-tabs-item title="utily.py" %}
 ```python
 import numpy as np
 
@@ -524,8 +518,6 @@ def win_taper(grain_len_samp, grain_over,
     max_val = np.iinfo(data_type).max
     return (win*max_val).astype(data_type)
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 {% endtab %}
 {% endtabs %}
 

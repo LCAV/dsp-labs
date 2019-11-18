@@ -1,4 +1,4 @@
-# 2.2 Updating peripherals
+# 2.2 Updating the peripherals
 
 UPDATED BY AH
 
@@ -12,7 +12,7 @@ Now we are ready to update the initialization code. From the CubeMX software, lo
 
 When the IOC file has successfully loaded, you should see something similar to the figure below. On the left-hand column, enable **I2S1** and **I2S2** by selecting the "Mode" to be "Half-Duplex Master".
 
-![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.49.png)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.51.49%20%281%29.png)
 
 You should see several pins highlighted green. What we have done is enable two I2S buses \(for the microphone and the DAC\), and the highlighted pins are those that will be used to transmit with the I2S protocol. Each bus uses three pins according to the [I2S specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf):
 
@@ -44,7 +44,7 @@ _Hint: make sure that the DAC and the microphone have the same "Selected Audio F
 
 Under the "DMA Settings" tab, press "Add". Adjust the settings so that they match the figure below, namely "DMA Request" set to "SPI2\_RX" for the microphone; "Mode" set to "Circular"; and "Data Width" set to "Half Word". Press "Apply" then "Ok" to confirm the changes.
 
-![](../.gitbook/assets/screenshot-2019-09-25-at-17.54.24.png)
+![](../.gitbook/assets/screenshot-2019-09-25-at-17.54.24%20%281%29.png)
 
 Click on "NVIC" under "System" from the "Configuration" tab of CubeMX. Ensure that the interrupts are enabled for the selected DMA channels, as below.
 
@@ -59,25 +59,25 @@ The configuration we have done so far would be sufficient in order to create an 
 
 Go back to the "Pinout" tab, as seen below.
 
-![](../.gitbook/assets/firmware_1.png)
+![](../.gitbook/assets/firmware_1%20%281%29.png)
 
 By clicking on any of the pins, you should be able to see the different functions that particular pin can assume, see below.
 
-![](../.gitbook/assets/firmware_2.png)
+![](../.gitbook/assets/firmware_2%20%282%29.png)
 
 We are interested in using two pins as "GPIO\_Output" \(GPIO stands for "General-Purpose Input/Output"\) in order to output a _HIGH_ or _LOW_ value to the Adafruit breakout boards. Set the pins "PCO" and "PC1" to "GPIO\_Output" \(see below\). _You can reset a pin to having no function by selecting "Reset\_State"._
 
-![](../.gitbook/assets/firmware_3.png)
+![](../.gitbook/assets/firmware_3%20%282%29.png)
 
 Just like giving meaningful names to variables when programming, we would like to give meaningful names to our new GPIO pins. We will rename "PC0" and "PC1" as "MUTE" and "LR\_SEL" respectively. You can rename a pin by right-clicking it and selecting "Enter User Label" \(see below\).
 
-![](../.gitbook/assets/firmware_4.png)
+![](../.gitbook/assets/firmware_4%20%282%29.png)
 
 ## Update initialization code <a id="init_code"></a>
 
 We can now update our source code, it will be done if you save the _.ioc_ file or when changing perspective.
 
-![](../.gitbook/assets/screenshot-2019-10-07-at-15.36.36.png)
+![](../.gitbook/assets/screenshot-2019-10-07-at-15.36.36%20%281%29.png)
 
 If you have any of the source files open on SW4STM32, they should update automatically according to any settings you changed from CubeMX. This is why you should not enter any code outside of the `USER CODE BEGIN` and `USER CODE END` comments as it could be replaced by the new configuration code.
 

@@ -8,7 +8,7 @@ Spectrally, a pitched sound possesses a _**harmonic**_ structure, that is, as we
 
 Below is the spectrum of a \(synthesized\) clarinet playing the note D4 \($$293.6$$ Hz\). The spectrum shows the typical pattern of woodwinds, where only the even-numbered partials have significant energy.
 
-![](../.gitbook/assets/clarinet_spectrum-1.png)
+![](../.gitbook/assets/clarinet_spectrum-1%20%281%29.png)
 
 _Figure: Spectrum of D4 played by a \(synthesized\) clarinet. You can find the WAV file_ [_here_](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/clarinet_D4.wav)_._
 
@@ -20,7 +20,7 @@ The proper way to change the pitch while keeping a natural sound is to instead _
 
 In the figure below, we stretch our D4 note from above in order to double its frequency, _i.e._ shift it by an octave to D5.
 
-![](../.gitbook/assets/shift_spectrum.png)
+![](../.gitbook/assets/shift_spectrum%20%281%29.png)
 
 _Figure: Spectrum of D4 played by a \(synthesized\) clarinet and its shifted version \(to D5\) by stretching the frequency axis. You can find the WAV file of the shifted note_ [_here_](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/clarinet_D5.wav) _and the script_ [_here_](https://github.com/LCAV/dsp-labs/tree/master/scripts/dft/dft_shift_example.py)_._
 

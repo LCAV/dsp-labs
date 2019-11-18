@@ -243,7 +243,7 @@ def process(input_buffer, output_buffer, buffer_len):
     # apply window
     for n in range(GRAIN_LEN_SAMP):
         grain[n] = (WIN[n]/MAX_VAL)*grain[n]
-    
+
     # write to output
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part
@@ -256,8 +256,6 @@ def process(input_buffer, output_buffer, buffer_len):
         else:
             x_overlap[n-STRIDE] = input_buffer[n-OVERLAP_LEN] 
             y_overlap[n-STRIDE] = grain[n]
-
-
 ```
 {% endtab %}
 
@@ -386,7 +384,7 @@ def process(input_buffer, output_buffer, buffer_len):
     # apply window
     for n in range(GRAIN_LEN_SAMP):
         grain[n] = (WIN[n]/MAX_VAL)*grain[n]
-    
+
     # write to output
     for n in range(GRAIN_LEN_SAMP):
         # overlapping part

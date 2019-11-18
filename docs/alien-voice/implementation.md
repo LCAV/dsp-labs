@@ -230,9 +230,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 }
 ```
 
-In the above code snippet, you will find the state variable we propose for the FX \(effects\) state and the callback that is needed to react to the button. **To activate the callback, you need to go into CubeMX and enable "EXTI line 4 to 15" from the Configuration tab under "System &gt; NVIC".** 
-
-
+In the above code snippet, you will find the state variable we propose for the FX \(effects\) state and the callback that is needed to react to the button. **To activate the callback, you need to go into CubeMX and enable "EXTI line 4 to 15" from the Configuration tab under "System &gt; NVIC".**
 
 {% hint style="info" %}
 TASK 8: Modify your `process` function using a condition as proposed in the code snippet below.
@@ -273,40 +271,40 @@ Are you sure you are ready to see the solution? ;\)
 {% tab title="Task 4" %}
 As proposed in the hint, if you go to the tab _Clock Configuration_ of CubeMX, you will see the following graph:
 
-![](../.gitbook/assets/screenshot-2019-10-10-at-16.57.46.png)
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.57.46%20%281%29.png)
 
 Note the last block on the right column _APB1 Timer clocks \(MHz\):_ 48. It means that your timer are "run" with a base tick frequency of 48MHz. in order to reduce this to $$1[\mu s]$$or in other word $$1[MHz]$$, you will have to divide it by 48. This number is thus your prescaller. This lead to the following timer configuration:
 
-![](../.gitbook/assets/screenshot-2019-10-10-at-16.58.09.png)
+![](../.gitbook/assets/screenshot-2019-10-10-at-16.58.09%20%281%29.png)
 
 Note the _Counter Period_, it is the value at where the interrupt is triggered, here the maximum value.
 {% endtab %}
 
 {% tab title="Task 5" %}
-The maximum processing time allowed it an important information for us to know how far we are from our micro-controller's ressource limits. 
+The maximum processing time allowed it an important information for us to know how far we are from our micro-controller's ressource limits.
 
 We know that the maximum time the micro-controller can take to process the data is the time between two consecutive buffers. The calculation is then just dividing the number of sample in a buffer by the sampling frequency. We add a factor in order to get a int. This will fasten the calculation.
 
 ```c
-#define MAX_PROCESS_TIME_ALLOWED_us 	(int32_t)(BUFFER_SIZE*1000000.0/FS)
+#define MAX_PROCESS_TIME_ALLOWED_us     (int32_t)(BUFFER_SIZE*1000000.0/FS)
 ```
 {% endtab %}
 
 {% tab title="Task 6" %}
 Here we will use the value calculated in the previous task in order to get a real number reflecting the processing load.
 
-The result is trivial,  you just have to care about variable types.
+The result is trivial, you just have to care about variable types.
 
 ```c
 // Display the results
 printf("-- Processing time assert -- fs = %ld[Hz]\n", FS);
 
-processing_load = (int8_t) ((float) current_time_us * 100.0	/ (float) MAX_PROCESS_TIME_ALLOWED_us );
+processing_load = (int8_t) ((float) current_time_us * 100.0    / (float) MAX_PROCESS_TIME_ALLOWED_us );
 
 if (current_time_us < MAX_PROCESS_TIME_ALLOWED_us) {
-	printf("Processing time shorter than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
+    printf("Processing time shorter than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
 } else {
-	printf("Processing time longer than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
+    printf("Processing time longer than sampling limit: t = %ld [us], BUFFER_SIZE/fs = %ld [us] (%i%%) \n", current_time_us, MAX_PROCESS_TIME_ALLOWED_us, processing_load);
 }
 ```
 {% endtab %}
@@ -355,49 +353,47 @@ void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
 
 Note that an optimisation could be done. The line _x\_1 = x\[FRAME\_PER\_BUFFER - 1\];_ is executed on every single passage through the _for_ loop. In fact we only need to backup x\_1 \(as a static variable\) during the transition from one buffer to the next. With some modification we can arrive to the following function that will use slightly less of CPU usage:
 
-
-
 ```c
 void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
-		uint16_t size) {
+        uint16_t size) {
 
     int16_t static x_1 = 0;
     int16_t x[FRAME_PER_BUFFER];
     int16_t y[FRAME_PER_BUFFER];
 
-	static uint16_t pointer_sine = 0;
+    static uint16_t pointer_sine = 0;
 
     #define GAIN 8      // We lose 1us processing time if we use a value that is not a power of 2
 
-	// Take signal from left side
-	for (uint16_t i = 0; i < size; i += 2) {
-		x[i / 2] = bufferInStereo[i];
-	}
+    // Take signal from left side
+    for (uint16_t i = 0; i < size; i += 2) {
+        x[i / 2] = bufferInStereo[i];
+    }
 
-	// High pass filtering initialization
-	y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
-	// Signal initialization
-	y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
-	pointer_sine %= SINE_TABLE_SIZE;
+    // High pass filtering initialization
+    y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
+    // Signal initialization
+    y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+    pointer_sine %= SINE_TABLE_SIZE;
 
-	for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
-		// High pass filtering
-		y[i] = x[i] - x[i - 1];
+    for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
+        // High pass filtering
+        y[i] = x[i] - x[i - 1];
 
-		// Robot voice modulation and gain
-		y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
-		pointer_sine %= SINE_TABLE_SIZE;
-	}
+        // Robot voice modulation and gain
+        y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+        pointer_sine %= SINE_TABLE_SIZE;
+    }
 
-	// Backup last sample for next buffer -> ONLY ONCE per buffer, otherwise we use x[i-1] that is available "locally"
-	x_1 = x[FRAME_PER_BUFFER - 1];
+    // Backup last sample for next buffer -> ONLY ONCE per buffer, otherwise we use x[i-1] that is available "locally"
+    x_1 = x[FRAME_PER_BUFFER - 1];
 
-	// Interleaved left and right
-	for (uint16_t i = 0; i < size; i += 2) {
-		bufferOutStereo[i] = (int16_t) y[i / 2];
-		// Put signal on both side
-		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
-	}
+    // Interleaved left and right
+    for (uint16_t i = 0; i < size; i += 2) {
+        bufferOutStereo[i] = (int16_t) y[i / 2];
+        // Put signal on both side
+        bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+    }
 }
 ```
 {% endtab %}
@@ -407,56 +403,56 @@ The final process function in its optimised form will look like this:
 
 ```c
 void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo,
-		uint16_t size) {
+        uint16_t size) {
 
     int16_t static x_1 = 0;
     int16_t x[FRAME_PER_BUFFER];
     int16_t y[FRAME_PER_BUFFER];
 
-#define GAIN 8 		// We loose 1us if we use 10 in stead of 8
+#define GAIN 8         // We loose 1us if we use 10 in stead of 8
 
-	static uint16_t pointer_sine = 0;
+    static uint16_t pointer_sine = 0;
 
-	// Take signal from left side
-	for (uint16_t i = 0; i < size; i += 2) {
-		x[i / 2] = bufferInStereo[i];
-	}
+    // Take signal from left side
+    for (uint16_t i = 0; i < size; i += 2) {
+        x[i / 2] = bufferInStereo[i];
+    }
 
-	// High pass filtering initialization
-	y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
-	
-	// Signal initialization
-	if (FX == FX_ON) {
-		y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
-		pointer_sine %= SINE_TABLE_SIZE;
-	} else {
-		// Gain
-		y[0] *= GAIN;
-	}
-		
-	for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
+    // High pass filtering initialization
+    y[0] = x[0] - x_1; // deal with the first value, backuped from previous buffer
 
-		// High pass filtering
-		y[i] = x[i] - x[i - 1];
-		if (FX == FX_ON) {
-			// Robot voice modulation and gain
-			y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
-			pointer_sine %= SINE_TABLE_SIZE;
-		} else {
-			// Gain
-			y[i] *= GAIN;
-		}
-	}
+    // Signal initialization
+    if (FX == FX_ON) {
+        y[0] = (y[0] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+        pointer_sine %= SINE_TABLE_SIZE;
+    } else {
+        // Gain
+        y[0] *= GAIN;
+    }
 
-	// Backup last sample for next buffer
-	x_1 = x[FRAME_PER_BUFFER - 1];
+    for (uint16_t i = 1; i < FRAME_PER_BUFFER; i++) {
 
-	// Interleaved left and right
-	for (uint16_t i = 0; i < size; i += 2) {
-		bufferOutStereo[i] = (int16_t) y[i / 2];
-		// Put signal on both side
-		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
-	}
+        // High pass filtering
+        y[i] = x[i] - x[i - 1];
+        if (FX == FX_ON) {
+            // Robot voice modulation and gain
+            y[i] = (y[i] * sine_table[pointer_sine++]) * GAIN / SIN_MAX;
+            pointer_sine %= SINE_TABLE_SIZE;
+        } else {
+            // Gain
+            y[i] *= GAIN;
+        }
+    }
+
+    // Backup last sample for next buffer
+    x_1 = x[FRAME_PER_BUFFER - 1];
+
+    // Interleaved left and right
+    for (uint16_t i = 0; i < size; i += 2) {
+        bufferOutStereo[i] = (int16_t) y[i / 2];
+        // Put signal on both side
+        bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+    }
 }
 ```
 {% endtab %}

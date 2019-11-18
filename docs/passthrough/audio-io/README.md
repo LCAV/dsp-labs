@@ -18,6 +18,7 @@ We will look at the details in the next section but, for now, notice the followi
 2. the beginning of a word is signaled by a state _transition_ in the word select signal   
 3. words are sent starting from the most significant bit \(MSB\)
 4. in this example words are 32-bit long; however only 18 bits are actually used for the data. Bits 19 to 24 are set to zero and from the 25th to the 32nd clock cycle the data signal is set to _tri-state_, which is a high impedance mode that essentially removes an output port from the circuit in order to avoid a _short circuit_. See [here](https://en.wikipedia.org/wiki/Three-state_logic) for more information on tri-state.
+5. words are started either on the _rising_ or on the _falling_ edge of the **WS** signal, depending on the configuration of the DAC. In the above figure, words are started on the falling edge: the output is kept on tri-state after the rising edge at the end of the diagram and until the next falling edge of **WS**. This is to allow for two DACs to operate in parallel when building a stereo system, with the **WS** signal selecting one out of the two possible channels for data transmission.
 
 More information about the I2S bus specification can be read [here](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf).
 

@@ -12,8 +12,8 @@ We propose the following template for simulating real-time processing in C with 
 
 We recommend cloning/downloading the repository so that you have all the necessary files in place, _i.e._ the `speech.wav` file for the code below and utility functions for the various voice effects we will be implementing.
 
-{% code-tabs %}
-{% code-tabs-item title="rt\_simulated.py" %}
+{% tabs %}
+{% tab title="rt\_simulated.py" %}
 ```python
 from scipy.io import wavfile
 import numpy as np
@@ -77,8 +77,8 @@ for k in range(n_buffers):
 # write to WAV
 wavfile.write("speech_mod.wav", samp_freq, signal_proc)
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
 In the above code, we can observe several key sections:
 
@@ -263,8 +263,6 @@ As before, run your script from the command line to try out your alien voice eff
 
 **In the** [**next section**](implementation.md)**, we guide you through implementing the alien voice effect on the microcontroller, as we also setup a timer to benchmark the implementation.**
 
-
-
 \*\*\*\*
 
 ## Tasks solutions
@@ -306,7 +304,7 @@ def process(input_buffer, output_buffer, buffer_len):
 {% endtab %}
 
 {% tab title="Task 3" %}
-The process function remains the same as in Task 2, you just have to modify the [template](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_sounddevice_incomplete.py) file that uses the sounddevice library instead of the off-line one. 
+The process function remains the same as in Task 2, you just have to modify the [template](https://github.com/LCAV/dsp-labs/blob/master/scripts/alien_voice/alien_voice_sounddevice_incomplete.py) file that uses the sounddevice library instead of the off-line one.
 
 You will get a better feeling of the effect and you will ear live the effect of the block processing!
 {% endtab %}

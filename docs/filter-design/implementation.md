@@ -14,7 +14,7 @@ $$
 
 The corresponding block diagram is shown below.
 
-![](../.gitbook/assets/biquad_direct_1_wiki-1.png)
+![](../.gitbook/assets/biquad_direct_1_wiki-1%20%281%29.png)
 
 _Figure: Block diagram of biquad, Direct Form 1._ [Source](https://en.wikipedia.org/wiki/Digital_biquad_filter#/media/File:Biquad_filter_DF-I.svg).
 
@@ -70,11 +70,11 @@ TASK 3: In the final `for` loop, update the state variables, that is the previou
 
 Running the incomplete script will yield the following plot, in which only a gain \(less than one\) is applied to the input signal.
 
-![](../.gitbook/assets/direct_form_1_incomplete-1.png)
+![](../.gitbook/assets/direct_form_1_incomplete-1%20%282%29.png)
 
 If you successfully complete the `process` function, you should obtain the following plot.
 
-![](../.gitbook/assets/direct_form_1_complete.png)
+![](../.gitbook/assets/direct_form_1_complete%20%281%29.png)
 
 ## Direct Form 2
 
@@ -94,7 +94,7 @@ $$
 
 The corresponding block diagram is shown below.
 
-![](../.gitbook/assets/biquad_direct_2_wiki-1.png)
+![](../.gitbook/assets/biquad_direct_2_wiki-1%20%281%29.png)
 
 _Figure: Block diagram of biquad, Direct Form 2._ [Source](https://en.wikipedia.org/wiki/Digital_biquad_filter#/media/File:Biquad_filter_DF-II.svg).
 
@@ -165,7 +165,7 @@ Running the incomplete script will yield the following plot, where the output is
 
 If you successfully complete the `process` function, you should obtain the following plot.
 
-![](../.gitbook/assets/direct_form_2_complete.png)
+![](../.gitbook/assets/direct_form_2_complete%20%281%29.png)
 
 ## C implementation
 
@@ -184,8 +184,6 @@ int16_t y_old[num_coefs] = {0, 0, 0};
 int16_t ix = 0;
 int16_t iy = 0;
 ```
-
-
 
 {% hint style="info" %}
 TASK 7: Try your biquad filter implementation with the [`sounddevice` template](https://github.com/LCAV/dsp-labs/blob/master/scripts/_templates/rt_sounddevice.py) and then implement it in C on the microcontroller!
@@ -212,17 +210,17 @@ You need to implement the filter as presented in the figure for the direct form.
 def process(input_buffer, output_buffer, buffer_len):
     # specify global variables modified here
     global y, x
-    
+
     # process one sample at a time
     for n in range(buffer_len):
-    
+
         # apply input gain
         x[0] = int(GAIN * input_buffer[n])
-    
+
         # compute filter output
         output_buffer[n] = int(b_coef[0] * x[0] / HALF_MAX_VAL)
         for i in range(1, N_COEF):
-    
+
             output_buffer[n] += int((b_coef[i] * x[i] / HALF_MAX_VAL) - (a_coef[i] * y[i] / HALF_MAX_VAL))
 ```
 {% endtab %}
@@ -235,19 +233,19 @@ In this task you just have to update the value of the state variables. An other 
 def process(input_buffer, output_buffer, buffer_len):
     # specify global variables modified here
     global y, x
-    
+
     # process one sample at a time
     for n in range(buffer_len):
-    
+
         # apply input gain
         x[0] = int(GAIN * input_buffer[n])
-    
+
         # compute filter output
         output_buffer[n] = int(b_coef[0] * x[0] / HALF_MAX_VAL)
         for i in range(1, N_COEF):
-    
+
             output_buffer[n] += int((b_coef[i] * x[i] / HALF_MAX_VAL) - (a_coef[i] * y[i] / HALF_MAX_VAL))
-    
+
         # update state variables
         y[0] = output_buffer[n]
         for i in reversed(range(1, N_COEF)):
@@ -275,8 +273,6 @@ def process(input_buffer, output_buffer, buffer_len):
         # compute contribution from state variables
         for i in range(1, N_COEF):
             w[0] -= int(a_coef[i]/HALF_MAX_VAL*w[i])
-
-
 ```
 {% endtab %}
 
@@ -347,48 +343,45 @@ We propose you a _C_ version of the direct form 1 of the filter. There is some v
 // the process function!
 void inline process(int16_t *bufferInStereo, int16_t *bufferOutStereo, uint16_t size) {
 
-	int16_t x[FRAME_PER_BUFFER];
-	int16_t y[FRAME_PER_BUFFER];
-	int32_t ACC;
+    int16_t x[FRAME_PER_BUFFER];
+    int16_t y[FRAME_PER_BUFFER];
+    int32_t ACC;
 
-	for(int i = 0; i<FRAME_PER_BUFFER;i++){
-		y[i] = 0;
-	}
+    for(int i = 0; i<FRAME_PER_BUFFER;i++){
+        y[i] = 0;
+    }
 
-#define GAIN 8 		// We loose 1us if we use 10 in stead of 8
+#define GAIN 8         // We loose 1us if we use 10 in stead of 8
 
-	// Take signal from left side
-	for (uint16_t i = 0; i < size; i += 2) {
-		x[i / 2] = bufferInStereo[i];
-	}
+    // Take signal from left side
+    for (uint16_t i = 0; i < size; i += 2) {
+        x[i / 2] = bufferInStereo[i];
+    }
 
-	// High pass filtering
-	for (uint i = 0; i < FRAME_PER_BUFFER; i++) {
+    // High pass filtering
+    for (uint i = 0; i < FRAME_PER_BUFFER; i++) {
 
-		x_old[ix++] = x[i];
-		ix %= num_coefs;
+        x_old[ix++] = x[i];
+        ix %= num_coefs;
 
-		ACC = 0;
-		for(int j = 0; j < num_coefs; j++){
-			ACC += ((int32_t)x_old[(ix+j) % num_coefs] * coefs_b[num_coefs-j-1]) / half_MAX_INT16;
-			ACC += ((int32_t)y_old[(iy+j+1) % num_coefs] * coefs_a[num_coefs-j-1]) / half_MAX_INT16;
-		}
-		y[i] = y_old[iy++] = (int32_t) ACC;
-		iy %= num_coefs;
-		y[i] *= GAIN;
-	}
+        ACC = 0;
+        for(int j = 0; j < num_coefs; j++){
+            ACC += ((int32_t)x_old[(ix+j) % num_coefs] * coefs_b[num_coefs-j-1]) / half_MAX_INT16;
+            ACC += ((int32_t)y_old[(iy+j+1) % num_coefs] * coefs_a[num_coefs-j-1]) / half_MAX_INT16;
+        }
+        y[i] = y_old[iy++] = (int32_t) ACC;
+        iy %= num_coefs;
+        y[i] *= GAIN;
+    }
 
-	// Interleaved left and right
-	for (uint16_t i = 0; i < size; i += 2) {
-		bufferOutStereo[i] = (int16_t) y[i / 2];
-		// Put signal on both side
-		bufferOutStereo[i + 1] = (int16_t) y[i / 2];
-	}
+    // Interleaved left and right
+    for (uint16_t i = 0; i < size; i += 2) {
+        bufferOutStereo[i] = (int16_t) y[i / 2];
+        // Put signal on both side
+        bufferOutStereo[i + 1] = (int16_t) y[i / 2];
+    }
 }
-
 ```
 {% endtab %}
 {% endtabs %}
-
-
 

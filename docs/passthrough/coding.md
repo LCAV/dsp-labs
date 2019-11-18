@@ -1,4 +1,4 @@
-# 2.4 Coding passthrough
+# 2.4 Coding the passthrough
 
 UPDATED BY AH
 

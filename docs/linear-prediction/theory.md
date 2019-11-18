@@ -12,7 +12,7 @@ In the figure above, generated with [this script](https://github.com/LCAV/dsp-la
 
 A common model for speech production is that of a **source** followed by a **resonator**. The _source_ can be a pitched sound produced by the vocal cords, or a noise-like excitation produced by a flow of air. The _resonator_ is the transfer function of the speech apparatus \(_e.g._ mouth and head\), which is independent of the source. Think of when you whisper: you are replacing the pitched excitation with air "noise" but you preserve the resonances of normal speech. A schematic view of the model is shown below.
 
-![](../.gitbook/assets/lpc.jpg)
+![](../.gitbook/assets/lpc%20%281%29.jpg)
 
 Mathematically, we can express the speech production mechanism in the $$Z$$-domain by:
 
@@ -55,7 +55,7 @@ $$
 
 where $$m$$ is the absolute difference between the row and column indices of $$R$$. This matrix $$R$$ has a Toeplitz structure, yielding the following system of equations \(known as [Yule-Walker](https://en.wikipedia.org/wiki/Autoregressive_model#Yule%E2%80%93Walker_equations)\) in order to minimize the energy of $$e[n]$$:
 
-![](../.gitbook/assets/equation_system.png)
+![](../.gitbook/assets/equation_system%20%281%29.png)
 
 The above system of equations can be solved for the filter coefficients $$a_k$$ by using the [Levinson-Durbin](https://en.wikipedia.org/wiki/Levinson_recursion) algorithm.
 
@@ -70,7 +70,7 @@ In order to preserve the energy envelope with the granular synthesis effect, we 
 
 With this procedure, we can see below that the pitch-shifted $$\tilde{x}[n]$$ has a more similar energy envelope to that of the original input samples. The figure below is generated with [this script](https://github.com/LCAV/dsp-labs/blob/master/scripts/linear_prediction/compare_spectrum_lpc.py).
 
-![](../.gitbook/assets/energy_gs_lpc.png)
+![](../.gitbook/assets/energy_gs_lpc%20%281%29.png)
 
 If you want to learn more about LPC coefficients, we recommended checking the [Wikipedia page](https://en.wikipedia.org/wiki/Linear_predictive_coding) and [this website](https://www.dsprelated.com/freebooks/pasp/Linear_Predictive_Coding_Speech.html).
 

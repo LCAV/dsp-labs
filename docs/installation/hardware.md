@@ -6,7 +6,7 @@ In this section, we introduce the different hardware components that will be use
 * [Microphone](hardware.md#microphone)
 * [DAC + audio jack](hardware.md#dac_jack)
 
-Both the microphone and the DAC will rely on the I2S bus \(Inter-IC Sound\) for audio transfers. This is a 3-line serial bus consisting of a data line for two time-multiplexed channels, a word select line, and a clock line. More information about the I2S bus specification can be found [here](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf).
+Both the microphone and the DAC will rely on the I2S bus \(Inter-IC Sound\) for audio transfers. This is a 3-line serial bus consisting of a data line for two time-multiplexed channels, a word select line, and a clock line; we will describe the protocol in [Section 2.1](../passthrough/audio-io/) and more information about the I2S bus specification can be found [here](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf).
 
 ## Microcontroller <a id="microcontroller"></a>
 

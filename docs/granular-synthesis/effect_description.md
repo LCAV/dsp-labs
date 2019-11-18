@@ -38,19 +38,19 @@ To this end, we will be using the idea of [granular synthesis](https://en.wikipe
 
 For example, we can artificially double the length of our signal, by taking grains of 32 ms and concatenating them one after the other. This doubling can be seen in the figure below where it is applied to a simple sinusoid signal.
 
-![](../.gitbook/assets/doubling_discontinuity.png)
+![](../.gitbook/assets/doubling_discontinuity%20%281%29.png)
 
 _Figure: Doubling signal with grain length of 32 ms \(without windowing\). Red-dotted line indicate the boundary between the same grain that is doubled. Green-dotted lines indicate the beginning of a new grain._
 
 At the intersection between doubled grains \(red-dotted line\) in the figure above, we can observe an undesired discontinuity. To deal with this discontinuity, we need to _crossfade_ between grains by applying a _tapered_ window that rounds off to zero at the beginning and the end of each grain. An example window is shown below.
 
-![](../.gitbook/assets/taper_window.png)
+![](../.gitbook/assets/taper_window%20%281%29.png)
 
 _Figure: Tapering window to crossfade between grains._
 
 Now we need to align/overlap the grains so that the sum of their tapered windows adds to 1 as shown in the figure below.
 
-![](../.gitbook/assets/windows_overlap.png)
+![](../.gitbook/assets/windows_overlap%20%282%29.png)
 
 Now when we double grains, we will have to overlap them by a certain amount as seen in the figure above. We will refer to the length between the beginning of one tapered window to the beginning of another tapered window as the _**stride**_. Moreover, the stride will be our frame length \(number of samples per channel to process per buffer\) when we apply our algorithm in real-time. Let's apply this tapered window on our sinusoid from before to make sure it removes the discontinuities.
 
