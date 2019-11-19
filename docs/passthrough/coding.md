@@ -14,7 +14,7 @@ Macros are usually defined before the `main` function; we will place our macros 
 
 As an example, we will begin by creating _macros_ to change the logical level of the **MUTE** pin. 
 
-As in the blinking LED example, we will be using the same HAL library in order to modify the state of the **MUTE** GPIO pin.
+As in the blinking LED example, we will be using HAL library calls in order to modify the state of the **MUTE** GPIO pin.
 
 {% hint style="info" %}
 TASK 9: Define two macros - `MUTE` and `UNMUTE` - in order to mute/unmute the output. See below for the necessary syntax.
@@ -31,11 +31,13 @@ _Hint: you should check the_ [_datasheet of the DAC_](https://www.nxp.com/docs/e
 
 Note how the **MUTE** pin we configured before automatically generated two _constants_ called `MUTE_GPIO_Port` and `MUTE_Pin`, which is why we suggested giving meaningful names to pins configured with the CubeMX tool.
 
-If you press "Ctrl" \("Command" on MacOS\) + click on `MUTE_GPIO_Port` or `MUTE_Pin` to see its definition, you should see how the values are defined according to the pin we selected for **MUTE**. In our case, we chose pin **PC0** which means that _Pin 0_ on the _GPIO C_ port will be used. The convenience of the CubeMX software is that we do not need to manually write these definitions for the constants! The same can be observed for **LR\_SEL**.
+If you press "Ctrl" \("Command" on MacOS\) + click on `MUTE_GPIO_Port` or `MUTE_Pin` to see its definition, you should see how the values are defined according to the pin we selected for **MUTE**. In our case, we chose pin **PC0** which means that _Pin 0_ on the _GPIO C_ port will be used. The convenience of the CubeMX software is that we do not need to manually write these definitions for the constants! The same can be said for **LR\_SEL**.
+
+## Setting microphone as _left_ or _right_ channel <a id="channel_macro"></a>
 
 ### **The Channel Select macro**
 
-We will now define two more macros in order to assign the microphone to the left or right channel of the I2S bus, using the **LR\_SEL** pin we defined. As before, you should place these macros between the `USER CODE BEGIN Includes` and `USER CODE END Includes` comments.
+We will now define two more macros in order to assign the MEMS microphone to the left or right channel of the I2S bus, using the **LR\_SEL** pin we defined previously. As before, you should place these macros between the `USER CODE BEGIN Includes` and `USER CODE END Includes` comments.
 
 {% hint style="info" %}
 TASK 10: Define two macros - `SET_MIC_RIGHT` and `SET_MIC_LEFT` - in order to set the microphone to the left or right channel. You will need to use similar commands as for the **MUTE** macros!
@@ -46,6 +48,8 @@ _Hint: you should check the_ [_I2S protocol_](https://www.sparkfun.com/datasheet
 ## 2.4.2 Private variables \(aka Constants\) <a id="constants"></a>
 
 In most applications we will need to set some numerical constants that define key parameters used in the application. These definitions are also preprocessing macros and they are usually grouped together at the beginning of the code between the `USER CODE BEGIN PV` and `USER CODE END PV` comment tags. 
+
+We will now define a few constants which will be useful in coding our application. Before defining them in our code, let's clarify some of the terminology:
 
 Before we show some examples, here are some useful definitions:
 

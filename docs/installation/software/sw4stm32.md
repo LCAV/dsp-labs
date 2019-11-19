@@ -2,13 +2,13 @@
 
 _Note: these instruction and images were produced on October 1, 2019._
 
-The following steps are the same for Windows, Linux, and MacOS and they simply consist of downloading the installation files. For the actual installation, please refer to the corresponding subsection after the following five steps:
+The following steps are the same for Windows, Linux, and MacOS and they simply consist of downloading the installation files. 
 
 ## Download instructions
 
 The following steps are the same for Windows, Linux, and MacOS as they simply consist of downloading the installation files. Please refer to the distributor website for detailed installation instructions. Please refer to the corresponding subsection after the following instructions for our additional remarks.
 
-![](../../.gitbook/assets/1_get_software-1-1.PNG)
+1\) Go on  [ST official download page](https://www.st.com/en/development-tools/stm32cubeide.html) with your favourite browser.
 
 2\) Select the download link according to your operating system.
 
