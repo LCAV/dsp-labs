@@ -124,7 +124,7 @@ void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
 }
 
 void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
-    process(&dataIn[BUFFER_SIZE], &dataOut[BUFFER_SIZE], BUFFER_SIZE);
+    process(dataIn + BUFFER_SIZE, dataOut + BUFFER_SIZE, BUFFER_SIZE);
 }
 ```
 
